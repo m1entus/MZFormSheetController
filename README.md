@@ -22,6 +22,14 @@ UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:
 
 This will display view controller inside form sheet container. 
 
+If you want to dismiss form sheet controller, you can use category on UIViewController to provide access to the formSheetController.
+
+``` objective-c
+[self dismissFormSheetControllerWithCompletionHandler:^(MZFormSheetController *formSheetController) {
+    //do sth
+}];
+```
+
 ## Transitions
 
 MZFormSheetController has predefined couple transitions.
@@ -48,6 +56,41 @@ You can create your own transition by subclassing MZFormSheetController.
  */
 - (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
 - (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
+
+For example, transition from right side
+
+- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+{
+    CGRect formSheetRect = self.presentedFSViewController.view.frame;
+    CGRect originalFormSheetRect = formSheetRect;
+    formSheetRect.origin.x = self.view.bounds.size.width;
+    self.presentedFSViewController.view.frame = formSheetRect;
+    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                     animations:^{
+                         self.presentedFSViewController.view.frame = originalFormSheetRect;
+                     }
+                     completion:^(BOOL finished) {
+                         if (completionBlock) {
+                             completionBlock();
+                         }
+                     }];
+}
+- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+{
+    CGRect formSheetRect = self.presentedFSViewController.view.frame;
+    formSheetRect.origin.x = self.view.bounds.size.width;
+    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.presentedFSViewController.view.frame = formSheetRect;
+                     }
+                     completion:^(BOOL finished) {
+                         if (completionBlock) {
+                             completionBlock();
+                         }
+                     }];
+}
 
 ```
 
