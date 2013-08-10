@@ -4,8 +4,10 @@ MZFormSheetController
 MZFormSheetController provides an alternative to the native iOS UIModalPresentationFormSheet, adding support for iPhone and additional opportunities to setup controller size and feel form sheet. 
 
 
-[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/animation.gif)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/animation.gif)
+[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)
+[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)
+[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen3.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)
 
 ## How To Use
 
@@ -92,6 +94,47 @@ For example, transition from right side
                      }];
 }
 
+```
+
+## Full screen modal view controllers
+
+It is possible to full screen present modal view controllers over the form sheet.
+
+``` objective-c
+UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
+UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
+
+[self presentFormSheetWithViewController:vc completionHandler:^(MZFormSheetController *formSheetController) {
+
+    [formSheetController presentViewController:modal animated:YES completion:^{
+
+    }];
+    
+}];
+```
+
+## Custom compose view controllers
+
+You can easly create your own custom compose view controllers on storyboard, and present it.
+
+``` objective-c
+UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"facebook"];
+
+MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+formSheet.shouldDismissOnBackgroundViewTap = YES;
+formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
+formSheet.cornerRadius = 8.0;
+formSheet.portraitTopInset = 6.0;
+formSheet.landscapeTopInset = 6.0;
+formSheet.presentedFormSheetSize = CGSizeMake(320, 200);
+
+__weak MZFormSheetController *weakFormSheet = formSheet;
+
+formSheet.willPresentCompletionHandler = ^{
+    weakFormSheet.presentedFSViewController.view.autoresizingMask = weakFormSheet.presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
+};
+
+[formSheet presentWithCompletionHandler:nil];
 ```
 
 ## Appearance
@@ -213,5 +256,6 @@ MZFormSheetController uses ARC.
 
 ## Contact
 
-[Michal Zaborowski](http://github.com/m1entus) 
+[Michal Zaborowski](http://github.com/m1entus)
+[Twitter](https://twitter.com/iMientus) 
 

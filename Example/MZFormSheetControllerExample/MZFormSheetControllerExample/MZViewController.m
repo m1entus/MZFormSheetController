@@ -134,6 +134,27 @@
     }];
 }
 
+- (void)presentFacebookCompose
+{
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"facebook"];
+    
+    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
+    formSheet.cornerRadius = 8.0;
+    formSheet.portraitTopInset = 6.0;
+    formSheet.landscapeTopInset = 6.0;
+    formSheet.presentedFormSheetSize = CGSizeMake(320, 200);
+    
+    __weak MZFormSheetController *weakFormSheet = formSheet;
+    
+    formSheet.willPresentCompletionHandler = ^{
+        weakFormSheet.presentedFSViewController.view.autoresizingMask = weakFormSheet.presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
+    };
+    
+    [formSheet presentWithCompletionHandler:nil];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.row) {
@@ -147,6 +168,7 @@
         case 7: [self formSheetNavigationController]; break;
         case 8: [self formSheetTabBarController]; break;
         case 9: [self presentModalOnTopOfSheet]; break;
+        case 10: [self presentFacebookCompose]; break;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

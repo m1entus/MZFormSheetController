@@ -195,6 +195,24 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="Jct-0F-6MS" style="IBUITableViewCellStyleDefault" id="bU6-6d-cVt">
+                                        <rect key="frame" x="0.0" y="440" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="present facebook compose" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jct-0F-6MS">
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Oblique" family="Avenir" pointSize="20"/>
+                                                    <color key="textColor" red="0.40392160420000001" green="0.40784317260000003" blue="0.4156863093" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -350,7 +368,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kwe-pG-lsr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1660" y="406"/>
+            <point key="canvasLocation" x="2186" y="406"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="HrN-nL-c0g">
@@ -365,7 +383,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hMe-g3-V6M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1126" y="406"/>
+            <point key="canvasLocation" x="1652" y="406"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="fWB-gB-V6G">
@@ -413,7 +431,86 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JUM-pH-1eR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1666" y="1064"/>
+            <point key="canvasLocation" x="2192" y="1064"/>
+        </scene>
+        <!--Facebook Compose View Controller - Facebook-->
+        <scene sceneID="xYF-Ou-Xgo">
+            <objects>
+                <viewController storyboardIdentifier="" id="Aak-96-rFw" customClass="MZFacebookComposeViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H2b-gb-8Id">
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="IN1-FY-Cwh" customClass="DEFacebookSheetCardView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="302"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" id="RUF-C2-QPb" userLabel="Text View Container">
+                                        <rect key="frame" x="-10" y="0.0" width="332" height="134"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" id="4RC-nE-759" customClass="DEFacebookTextView">
+                                                <rect key="frame" x="0.0" y="0.0" width="245" height="134"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="emailAddress"/>
+                                            </textView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="3.png" id="yKd-nI-rEA" userLabel="Attachment 3 Image">
+                                                <rect key="frame" x="254" y="20" width="71" height="71"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="DEFacebookAttachmentFrame.png" id="fWA-K3-6Wb" userLabel="Attachment 3 Frame">
+                                                <rect key="frame" x="248" y="16" width="84" height="79"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="2.png" id="bf9-B3-kUL" userLabel="Attachment 2 Image">
+                                                <rect key="frame" x="249" y="24" width="71" height="71"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="DEFacebookAttachmentFrame.png" id="hHW-n2-T82" userLabel="Attachment 2 Frame">
+                                                <rect key="frame" x="243" y="20" width="84" height="79"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" image="3.png" id="xUR-la-gLO" userLabel="Attachment 1 Image">
+                                                <rect key="frame" x="244" y="28" width="71" height="71"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" image="DEFacebookAttachmentFrame.png" id="u5e-G5-A9T" userLabel="Attachment 1 Frame">
+                                                <rect key="frame" x="238" y="24" width="84" height="79"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="DEFacebookPaperClip.png" id="bNW-X9-08s">
+                                                <rect key="frame" x="253" y="33" width="79" height="34"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
+                                            </imageView>
+                                        </subviews>
+                                    </view>
+                                    <imageView hidden="YES" opaque="NO" multipleTouchEnabled="YES" contentMode="center" image="DEFacebookCardHeaderLine.png" id="QHq-Oa-0Iw">
+                                        <rect key="frame" x="0.0" y="42" width="312" height="3"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Facebook" id="EeD-fp-a4G">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="X89-rD-bzX">
+                            <connections>
+                                <action selector="close:" destination="Aak-96-rFw" id="iRB-dr-hxl"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="jWx-Fi-ddO">
+                            <connections>
+                                <action selector="close:" destination="Aak-96-rFw" id="zlN-h8-z8P"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kzi-dA-nuX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="717" y="979"/>
         </scene>
         <!--Modal View Controller-->
         <scene sceneID="5KZ-CS-bV0">
@@ -440,7 +537,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3pO-bf-CTv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="613" y="1047"/>
+            <point key="canvasLocation" x="1139" y="1047"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="MPz-mr-KhD">
@@ -460,7 +557,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dll-sT-0sz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1132" y="1390"/>
+            <point key="canvasLocation" x="1658" y="1390"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iKx-S2-48a">
@@ -480,32 +577,57 @@
             </objects>
             <point key="canvasLocation" x="204" y="128"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="cFb-ly-8QS">
+            <objects>
+                <navigationController storyboardIdentifier="facebook" id="VRc-C6-01w" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gqj-kk-MB4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Aak-96-rFw" kind="relationship" relationship="rootViewController" id="vel-yU-o4p"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bgR-6r-hnx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="191" y="979"/>
+        </scene>
     </scenes>
     <resources>
         <image name="1.png" width="148" height="83"/>
         <image name="2.png" width="155" height="85"/>
         <image name="3.png" width="148" height="76"/>
+        <image name="DEFacebookAttachmentFrame.png" width="84" height="79"/>
+        <image name="DEFacebookCardHeaderLine.png" width="600" height="3"/>
+        <image name="DEFacebookPaperClip.png" width="78" height="34"/>
         <image name="closeButton.png" width="16" height="16"/>
     </resources>
     <classes>
+        <class className="DEFacebookSheetCardView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DEFacebookSheetCardView.h"/>
+        </class>
+        <class className="DEFacebookTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DEFacebookTextView.h"/>
+        </class>
+        <class className="MZFacebookComposeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MZFacebookComposeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="close:"/>
+                <relationship kind="outlet" name="cancelButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="postButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
         <class className="MZModalViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MZModalViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="modal:"/>
-            </relationships>
         </class>
         <class className="MZNavViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MZNavViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="close:"/>
-            </relationships>
         </class>
         <class className="MZSampleViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MZSampleViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="close:"/>
-                <relationship kind="action" name="modal:"/>
-            </relationships>
         </class>
         <class className="MZViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MZViewController.h"/>
