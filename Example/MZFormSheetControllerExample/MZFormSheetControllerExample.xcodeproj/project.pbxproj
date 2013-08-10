@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		06965FA517B62B39003F7274 /* MZModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06965FA417B62B39003F7274 /* MZModalViewController.m */; };
 		06A70E5917B546AE001A0AED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A70E5817B546AE001A0AED /* UIKit.framework */; };
 		06A70E5B17B546AE001A0AED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A70E5A17B546AE001A0AED /* Foundation.framework */; };
 		06A70E5D17B546AE001A0AED /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A70E5C17B546AE001A0AED /* CoreGraphics.framework */; };
@@ -34,6 +35,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06965FA317B62B39003F7274 /* MZModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZModalViewController.h; sourceTree = "<group>"; };
+		06965FA417B62B39003F7274 /* MZModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZModalViewController.m; sourceTree = "<group>"; };
 		06A70E5517B546AE001A0AED /* MZFormSheetControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MZFormSheetControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		06A70E5817B546AE001A0AED /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		06A70E5A17B546AE001A0AED /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -130,6 +133,8 @@
 				06F6C65817B56887002A90B6 /* MZCustomFormSheetController.h */,
 				06F6C65917B56887002A90B6 /* MZCustomFormSheetController.m */,
 				06F6C65B17B56ABF002A90B6 /* Resources */,
+				06965FA317B62B39003F7274 /* MZModalViewController.h */,
+				06965FA417B62B39003F7274 /* MZModalViewController.m */,
 			);
 			path = MZFormSheetControllerExample;
 			sourceTree = "<group>";
@@ -254,6 +259,7 @@
 				06A70E8617B54A84001A0AED /* MZSampleViewController.m in Sources */,
 				06A70E8917B54D60001A0AED /* MZNavViewController.m in Sources */,
 				06F6C65A17B56887002A90B6 /* MZCustomFormSheetController.m in Sources */,
+				06965FA517B62B39003F7274 /* MZModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

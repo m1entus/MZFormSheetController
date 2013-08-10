@@ -120,6 +120,20 @@
     }];
 }
 
+- (void)presentModalOnTopOfSheet
+{
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
+    UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
+    
+    [self presentFormSheetWithViewController:vc completionHandler:^(MZFormSheetController *formSheetController) {
+
+        [formSheetController presentViewController:modal animated:YES completion:^{
+
+        }];
+        
+    }];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.row) {
@@ -132,6 +146,7 @@
         case 6: [self formSheetTopInset]; break;
         case 7: [self formSheetNavigationController]; break;
         case 8: [self formSheetTabBarController]; break;
+        case 9: [self presentModalOnTopOfSheet]; break;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
