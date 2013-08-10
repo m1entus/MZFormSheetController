@@ -6,8 +6,7 @@ MZFormSheetController provides an alternative to the native iOS UIModalPresentat
 
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/animation.gif)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/animation.gif)
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)
-[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)
-[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen3.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)
+[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen3.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen3.png)
 
 ## How To Use
 
@@ -40,6 +39,10 @@ MZFormSheetController has predefined couple transitions.
 typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleSlideFromTop = 0,
     MZFormSheetTransitionStyleSlideFromBottom,
+    MZFormSheetTransitionStyleSlideFromLeft,
+    MZFormSheetTransitionStyleSlideFromRight,
+    MZFormSheetTransitionStyleSlideAndBounceFromLeft,
+    MZFormSheetTransitionStyleSlideAndBounceFromRight,
     MZFormSheetTransitionStyleFade,
     MZFormSheetTransitionStyleBounce,
     MZFormSheetTransitionStyleDropDown,
@@ -56,8 +59,8 @@ You can create your own transition by subclassing MZFormSheetController.
  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
  When animation is finished you should must call super method or completionBlock to keep view life cycle.
  */
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
+- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock;
+- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock;
 
 For example, transition from right side
 
@@ -65,6 +68,7 @@ For example, transition from right side
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     CGRect originalFormSheetRect = formSheetRect;
+    originalFormSheetRect.origin.x = self.view.frame.size.width - formSheetRect.size.width - 10;
     formSheetRect.origin.x = self.view.bounds.size.width;
     self.presentedFSViewController.view.frame = formSheetRect;
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
@@ -92,6 +96,15 @@ For example, transition from right side
                              completionBlock();
                          }
                      }];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.transitionStyle = MZFormSheetTransitionStyleCustom;
+    self.presentedFSViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 }
 
 ```
@@ -128,10 +141,9 @@ formSheet.portraitTopInset = 6.0;
 formSheet.landscapeTopInset = 6.0;
 formSheet.presentedFormSheetSize = CGSizeMake(320, 200);
 
-__weak MZFormSheetController *weakFormSheet = formSheet;
-
-formSheet.willPresentCompletionHandler = ^{
-    weakFormSheet.presentedFSViewController.view.autoresizingMask = weakFormSheet.presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
+    
+formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController){
+    presentedFSViewController.view.autoresizingMask = presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
 };
 
 [formSheet presentWithCompletionHandler:nil];
@@ -219,6 +231,11 @@ extern NSString *const MZFormSheetDidPresentNotification;
 extern NSString *const MZFormSheetDidDismissNotification;
 ```
 
+# Supported interface orientations
+
+MZFormSheetController support all interface orientations.
+If you want to resize form sheet controller during orientation change you can use autoresizeMask property. 
+
 # Others
 
 ``` objective-c
@@ -257,5 +274,6 @@ MZFormSheetController uses ARC.
 ## Contact
 
 [Michal Zaborowski](http://github.com/m1entus)
+
 [Twitter](https://twitter.com/iMientus) 
 

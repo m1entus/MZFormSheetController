@@ -30,6 +30,10 @@ extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
 typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleSlideFromTop = 0,
     MZFormSheetTransitionStyleSlideFromBottom,
+    MZFormSheetTransitionStyleSlideFromLeft,
+    MZFormSheetTransitionStyleSlideFromRight,
+    MZFormSheetTransitionStyleSlideAndBounceFromLeft,
+    MZFormSheetTransitionStyleSlideAndBounceFromRight,
     MZFormSheetTransitionStyleFade,
     MZFormSheetTransitionStyleBounce,
     MZFormSheetTransitionStyleDropDown,
@@ -52,7 +56,7 @@ extern NSString *const MZFormSheetDidDismissNotification;
 
 @class MZFormSheetController;
 
-typedef void(^MZFormSheetCompletionHandler)();
+typedef void(^MZFormSheetCompletionHandler)(UIViewController *presentedFSViewController);
 typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 
@@ -141,8 +145,8 @@ typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *f
  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
  When animation is finished you should must call super method or completionBlock to keep view life cycle.
  */
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
+- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock;
+- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock;
 
 /**
  Initializes and returns a newly created form sheet controller.

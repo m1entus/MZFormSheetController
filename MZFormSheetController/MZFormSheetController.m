@@ -244,7 +244,7 @@ static BOOL instanceOfFormSheetAnimating;
     [self setupPresentedFSViewControllerFrame];
     
     if (self.willPresentCompletionHandler) {
-        self.willPresentCompletionHandler();
+        self.willPresentCompletionHandler(self.presentedFSViewController);
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetWillPresentNotification object:self userInfo:nil];
     
@@ -252,7 +252,7 @@ static BOOL instanceOfFormSheetAnimating;
         [MZFormSheetController setAnimating:NO];
         
         if (self.didPresentCompletionHandler) {
-            self.didPresentCompletionHandler();
+            self.didPresentCompletionHandler(self.presentedFSViewController);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
         
@@ -267,7 +267,7 @@ static BOOL instanceOfFormSheetAnimating;
     }
     
     if (self.willDismissCompletionHandler) {
-        self.willDismissCompletionHandler();
+        self.willDismissCompletionHandler(self.presentedFSViewController);
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetWillDismissNotification object:self userInfo:nil];
     
@@ -285,7 +285,7 @@ static BOOL instanceOfFormSheetAnimating;
         [MZFormSheetController setAnimating:NO];
         
         if (self.didDismissCompletionHandler) {
-            self.didDismissCompletionHandler();
+            self.didDismissCompletionHandler(self.presentedFSViewController);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidDismissNotification object:self userInfo:nil];
         
@@ -355,6 +355,66 @@ static BOOL instanceOfFormSheetAnimating;
                                      completionBlock();
                                  }
                              }];
+        }break;
+            
+        case MZFormSheetTransitionStyleSlideFromRight:
+        {
+            CGRect formSheetRect = self.presentedFSViewController.view.frame;
+            CGRect originalFormSheetRect = formSheetRect;
+            formSheetRect.origin.x = self.view.bounds.size.width;
+            self.presentedFSViewController.view.frame = formSheetRect;
+            [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                             animations:^{
+                                 self.presentedFSViewController.view.frame = originalFormSheetRect;
+                             }
+                             completion:^(BOOL finished) {
+                                 if (completionBlock) {
+                                     completionBlock();
+                                 }
+                             }];
+        }break;
+            
+        case MZFormSheetTransitionStyleSlideFromLeft:
+        {
+            CGRect formSheetRect = self.presentedFSViewController.view.frame;
+            CGRect originalFormSheetRect = formSheetRect;
+            formSheetRect.origin.x = -self.view.bounds.size.width;
+            self.presentedFSViewController.view.frame = formSheetRect;
+            [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                             animations:^{
+                                 self.presentedFSViewController.view.frame = originalFormSheetRect;
+                             }
+                             completion:^(BOOL finished) {
+                                 if (completionBlock) {
+                                     completionBlock();
+                                 }
+                             }];
+        }break;
+            
+        case MZFormSheetTransitionStyleSlideAndBounceFromLeft:
+        {
+            CGFloat x = self.presentedFSViewController.view.center.x;
+            CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+            animation.values = @[@(x - self.view.bounds.size.width), @(x + 20), @(x - 10), @(x)];
+            animation.keyTimes = @[@(0), @(0.5), @(0.75), @(1)];
+            animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            animation.duration = MZFormSheetControllerDefaultTransitionDropDownDuration;
+            animation.delegate = self;
+            [animation setValue:completionBlock forKey:@"completionHandler"];
+            [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bounceLeft"];
+        }break;
+        
+        case MZFormSheetTransitionStyleSlideAndBounceFromRight:
+        {
+            CGFloat x = self.presentedFSViewController.view.center.x;
+            CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"position.x"];
+            animation.values = @[@(x + self.view.bounds.size.width), @(x - 20), @(x + 10), @(x)];
+            animation.keyTimes = @[@(0), @(0.5), @(0.75), @(1)];
+            animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+            animation.duration = MZFormSheetControllerDefaultTransitionDropDownDuration;
+            animation.delegate = self;
+            [animation setValue:completionBlock forKey:@"completionHandler"];
+            [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bounceRight"];
         }break;
         
         case MZFormSheetTransitionStyleFade:
@@ -446,6 +506,38 @@ static BOOL instanceOfFormSheetAnimating;
                              }];
         }break;
             
+        case MZFormSheetTransitionStyleSlideAndBounceFromRight:
+        case MZFormSheetTransitionStyleSlideFromRight:
+        {
+            CGRect formSheetRect = self.presentedFSViewController.view.frame;
+            formSheetRect.origin.x = self.view.bounds.size.width;
+            [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                             animations:^{
+                                 self.presentedFSViewController.view.frame = formSheetRect;
+                             }
+                             completion:^(BOOL finished) {
+                                 if (completionBlock) {
+                                     completionBlock();
+                                 }
+                             }];
+        }break;
+            
+        case MZFormSheetTransitionStyleSlideAndBounceFromLeft:
+        case MZFormSheetTransitionStyleSlideFromLeft:
+        {
+            CGRect formSheetRect = self.presentedFSViewController.view.frame;
+            formSheetRect.origin.x = -self.view.bounds.size.width;
+            [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                             animations:^{
+                                 self.presentedFSViewController.view.frame = formSheetRect;
+                             }
+                             completion:^(BOOL finished) {
+                                 if (completionBlock) {
+                                     completionBlock();
+                                 }
+                             }];
+        }break;
+            
         case MZFormSheetTransitionStyleFade:
         {
             [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
@@ -507,13 +599,13 @@ static BOOL instanceOfFormSheetAnimating;
     }
 }
 
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock
 {
     if (completionBlock) {
         completionBlock();
     }
 }
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock
 {
     if (completionBlock) {
         completionBlock();
@@ -668,7 +760,7 @@ static const char* formSheetControllerKey = "MZFormSheetController";
     self.formSheetController = formSheet;
     viewController.formSheetController = formSheet;
 
-    [formSheet presentWithCompletionHandler:^{
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
             completionHandler(formSheet);
         }
@@ -685,7 +777,7 @@ static const char* formSheetControllerKey = "MZFormSheetController";
         formSheetController = [[MZFormSheetController sharedQueue] lastObject];
     }
     
-    [formSheetController dismissWithCompletionHandler:^{
+    [formSheetController dismissWithCompletionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
             completionHandler(formSheetController);
         }

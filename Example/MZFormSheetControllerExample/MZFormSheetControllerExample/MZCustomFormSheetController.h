@@ -10,8 +10,8 @@
 
 @interface MZCustomFormSheetController : MZFormSheetController
 
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock;
+- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock;
+- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock;
 
 
 @end

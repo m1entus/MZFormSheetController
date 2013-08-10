@@ -14,10 +14,11 @@
 
 @implementation MZCustomFormSheetController
 
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     CGRect originalFormSheetRect = formSheetRect;
+    originalFormSheetRect.origin.x = self.view.frame.size.width - formSheetRect.size.width - 10;
     formSheetRect.origin.x = self.view.bounds.size.width;
     self.presentedFSViewController.view.frame = formSheetRect;
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
@@ -30,7 +31,7 @@
                          }
                      }];
 }
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     formSheetRect.origin.x = self.view.bounds.size.width;
@@ -53,6 +54,7 @@
 	// Do any additional setup after loading the view.
     
     self.transitionStyle = MZFormSheetTransitionStyleCustom;
+    self.presentedFSViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 }
 
 

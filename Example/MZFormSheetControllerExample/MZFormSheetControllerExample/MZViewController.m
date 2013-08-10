@@ -38,8 +38,8 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
-    [formSheet presentWithCompletionHandler:^{
-       //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+      // do sth
     }];
 }
 
@@ -48,8 +48,8 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
-    [formSheet presentWithCompletionHandler:^{
-        //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
 }
 
@@ -57,8 +57,8 @@
 {
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZCustomFormSheetController *customFormSheet = [[MZCustomFormSheetController alloc] initWithViewController:vc];
-    [customFormSheet presentWithCompletionHandler:^{
-        
+    [customFormSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
 }
 
@@ -69,8 +69,8 @@
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     
-    [formSheet presentWithCompletionHandler:^{
-        //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
     
     formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location)
@@ -84,8 +84,8 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(320, 220) viewController:vc];
     formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
-    [formSheet presentWithCompletionHandler:^{
-        //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
 }
 
@@ -95,8 +95,8 @@
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.landscapeTopInset = 0;
     formSheet.portraitTopInset = 0;
-    [formSheet presentWithCompletionHandler:^{
-        //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
 }
 
@@ -105,8 +105,8 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    [formSheet presentWithCompletionHandler:^{
-        //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
 }
 
@@ -115,8 +115,8 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"tab"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    [formSheet presentWithCompletionHandler:^{
-        //do sth
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        // do sth
     }];
 }
 
@@ -146,11 +146,23 @@
     formSheet.landscapeTopInset = 6.0;
     formSheet.presentedFormSheetSize = CGSizeMake(320, 200);
     
-    __weak MZFormSheetController *weakFormSheet = formSheet;
-    
-    formSheet.willPresentCompletionHandler = ^{
-        weakFormSheet.presentedFSViewController.view.autoresizingMask = weakFormSheet.presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
+    formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController){
+        presentedFSViewController.view.autoresizingMask = presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
     };
+    
+    [formSheet presentWithCompletionHandler:nil];
+}
+
+- (void)fromRightAndBounce
+{
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
+    
+    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideAndBounceFromRight;
+    formSheet.cornerRadius = 8.0;
+    formSheet.landscapeTopInset = 6.0;
+    formSheet.presentedFormSheetSize = CGSizeMake(280, 200);
     
     [formSheet presentWithCompletionHandler:nil];
 }
@@ -169,6 +181,7 @@
         case 8: [self formSheetTabBarController]; break;
         case 9: [self presentModalOnTopOfSheet]; break;
         case 10: [self presentFacebookCompose]; break;
+        case 11: [self fromRightAndBounce]; break;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
