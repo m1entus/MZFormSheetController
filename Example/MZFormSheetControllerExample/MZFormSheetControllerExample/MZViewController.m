@@ -161,8 +161,8 @@
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideAndBounceFromRight;
     formSheet.cornerRadius = 8.0;
-    formSheet.landscapeTopInset = 6.0;
-    formSheet.presentedFormSheetSize = CGSizeMake(280, 200);
+    formSheet.portraitTopInset = 54.0;
+    formSheet.presentedFormSheetSize = CGSizeMake(280, 180);
     
     [formSheet presentWithCompletionHandler:nil];
 }

@@ -64,7 +64,7 @@ You can create your own transition by subclassing MZFormSheetController.
 
 For example, transition from right side
 
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     CGRect originalFormSheetRect = formSheetRect;
@@ -81,7 +81,7 @@ For example, transition from right side
                          }
                      }];
 }
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetCompletionHandler)completionBlock
+- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     formSheetRect.origin.x = self.view.bounds.size.width;
@@ -152,6 +152,17 @@ formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewCont
 ## Appearance
 
 ``` objective-c
+typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
+    MZFormSheetBackgroundStyleTransparent = 0,
+    MZFormSheetBackgroundStyleSolid,
+};
+
+/**
+ Background view style.
+ By default, this is MZFormSheetBackgroundStyleSolid.
+ */
+@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle; 
+
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
  By default, this is 66.0

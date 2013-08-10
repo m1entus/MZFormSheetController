@@ -57,18 +57,20 @@ static BOOL instanceOfFormSheetAnimating;
 #pragma mark - MZFormSheetBackgroundWindow
 
 @interface MZFormSheetBackgroundWindow : UIWindow
+@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle;
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated;
++ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style;
 + (void)hideBackgroundWindowAnimated:(BOOL)animated;
 
 @end
 
 @implementation MZFormSheetBackgroundWindow
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated
++ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style
 {
     if (!instanceOfFormSheetBackgroundWindow) {
         instanceOfFormSheetBackgroundWindow = [[MZFormSheetBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        instanceOfFormSheetBackgroundWindow.backgroundStyle = style;
         [instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
         instanceOfFormSheetBackgroundWindow.alpha = 0;
         if (animated) {
@@ -112,9 +114,11 @@ static BOOL instanceOfFormSheetAnimating;
 
 - (void)drawRect:(CGRect)rect
 {
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [[UIColor colorWithWhite:0 alpha:0.5] set];
-    CGContextFillRect(context, self.bounds);
+    if (self.backgroundStyle == MZFormSheetBackgroundStyleSolid) {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        [[UIColor colorWithWhite:0 alpha:0.5] set];
+        CGContextFillRect(context, self.bounds);
+    }
 }
 
 @end
@@ -200,6 +204,7 @@ static BOOL instanceOfFormSheetAnimating;
         self.presentedFSViewController = presentedFormSheetViewController;
         self.presentedFormSheetSize = CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight);
         
+        _backgroundStyle = MZFormSheetBackgroundStyleSolid;
         _cornerRadius = MZFormSheetPresentedControllerCornerRadius;
         _shadowOpacity = MZFormSheetPresentedControllerShadowOpacity;
         _shadowRadius = MZFormSheetPresentedControllerShadowRadius;
@@ -237,7 +242,7 @@ static BOOL instanceOfFormSheetAnimating;
 
     [MZFormSheetController setAnimating:YES];
     
-    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:YES];
+    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:YES withStyle:self.backgroundStyle];
     
     [self.formSheetWindow makeKeyAndVisible];
     

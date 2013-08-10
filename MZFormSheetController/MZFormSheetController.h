@@ -27,6 +27,11 @@
 
 extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
 
+typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
+    MZFormSheetBackgroundStyleTransparent = 0,
+    MZFormSheetBackgroundStyleSolid,
+};
+
 typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleSlideFromTop = 0,
     MZFormSheetTransitionStyleSlideFromBottom,
@@ -63,15 +68,21 @@ typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *f
 @interface MZFormSheetController : UIViewController
 
 /**
- The view controller that is presented by this form sheet controller
+ The view controller that is presented by this form sheet controller.
  */
 @property (nonatomic, readonly, strong) UIViewController *presentedFSViewController;
 
 /**
- The transition style to use when presenting the receiver
- By default, this is MZFormSheetTransitionStyleSlideFromTop
+ The transition style to use when presenting the receiver.
+ By default, this is MZFormSheetTransitionStyleSlideFromTop.
  */
 @property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle;
+
+/**
+ Background view style.
+ By default, this is MZFormSheetBackgroundStyleSolid.
+ */
+@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle; 
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
@@ -94,7 +105,7 @@ typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *f
 @property (nonatomic, copy) MZFormSheetCompletionHandler didDismissCompletionHandler;
 
 /**
- The handler to call when user tap on background view
+ The handler to call when user tap on background view.
  */
 @property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 
