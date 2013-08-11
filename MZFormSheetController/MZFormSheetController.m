@@ -173,7 +173,7 @@ static BOOL instanceOfFormSheetAnimating;
 }
 
 - (void)setShadowOpacity:(CGFloat)shadowOpacity
-{  
+{
     if (_shadowOpacity != shadowOpacity) {
         _shadowOpacity = shadowOpacity;
         self.view.layer.shadowOpacity = _shadowOpacity;
@@ -185,7 +185,7 @@ static BOOL instanceOfFormSheetAnimating;
     if (_shadowRadius != shadowRadius) {
         _shadowRadius = shadowRadius;
         self.view.layer.shadowRadius = _shadowRadius;
-    }   
+    }
 }
 
 - (void)setCornerRadius:(CGFloat)cornerRadius
@@ -206,7 +206,7 @@ static BOOL instanceOfFormSheetAnimating;
         window.opaque = NO;
         window.windowLevel = UIWindowLevelFormSheet;
         window.rootViewController = self;
-        self.formSheetWindow = window;
+        _formSheetWindow = window;
     }
     
     return _formSheetWindow;
@@ -235,7 +235,7 @@ static BOOL instanceOfFormSheetAnimating;
     if (self = [self initWithViewController:presentedFormSheetViewController]) {
         if (!CGSizeEqualToSize(formSheetSize, CGSizeZero)) {
             self.presentedFormSheetSize = formSheetSize;
-        } 
+        }
     }
     return self;
 }
@@ -246,16 +246,12 @@ static BOOL instanceOfFormSheetAnimating;
     NSAssert(self.presentedFSViewController, @"MZFormSheetController must have at least one view controller.");
     NSAssert(![MZFormSheetController isAnimating], @"Attempting to begin a form sheet transition from to while a transition is already in progress. Wait for didPresentCompletionHandler/didDismissCompletionHandler to know the current transition has completed");
     
-    if (completionHandler) {
-        self.didPresentCompletionHandler = completionHandler;
-    }
-    
     self.applicationKeyWindow = [UIApplication sharedApplication].keyWindow;
     
     if (![[MZFormSheetController sharedQueue] containsObject:self]) {
         [[MZFormSheetController sharedQueue] addObject:self];
     }
-
+    
     [MZFormSheetController setAnimating:YES];
     
     [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:YES withStyle:self.backgroundStyle];
@@ -277,16 +273,16 @@ static BOOL instanceOfFormSheetAnimating;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
         
+        if (completionHandler) {
+            completionHandler(self.presentedFSViewController);
+        }
+        
     }];
     
 }
 
 - (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
 {
-    if (completionHandler) {
-        self.didDismissCompletionHandler = completionHandler;
-    }
-    
     if (self.willDismissCompletionHandler) {
         self.willDismissCompletionHandler(self.presentedFSViewController);
     }
@@ -299,10 +295,8 @@ static BOOL instanceOfFormSheetAnimating;
     if ([MZFormSheetController sharedQueue].count == 0) {
         [MZFormSheetBackgroundWindow hideBackgroundWindowAnimated:YES];
     }
-    
+
     [self transitionOutWithCompletionBlock:^{
-        [self cleanup];
-        
         [MZFormSheetController setAnimating:NO];
         
         if (self.didDismissCompletionHandler) {
@@ -310,6 +304,10 @@ static BOOL instanceOfFormSheetAnimating;
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidDismissNotification object:self userInfo:nil];
         
+        if (completionHandler) {
+            completionHandler(self.presentedFSViewController);
+        }
+        [self cleanup];
     }];
     
     [self.applicationKeyWindow makeKeyWindow];
@@ -424,7 +422,7 @@ static BOOL instanceOfFormSheetAnimating;
             [animation setValue:completionBlock forKey:@"completionHandler"];
             [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bounceLeft"];
         }break;
-        
+            
         case MZFormSheetTransitionStyleSlideAndBounceFromRight:
         {
             CGFloat x = self.presentedFSViewController.view.center.x;
@@ -437,7 +435,7 @@ static BOOL instanceOfFormSheetAnimating;
             [animation setValue:completionBlock forKey:@"completionHandler"];
             [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bounceRight"];
         }break;
-        
+            
         case MZFormSheetTransitionStyleFade:
         {
             self.presentedFSViewController.view.alpha = 0;
@@ -482,7 +480,7 @@ static BOOL instanceOfFormSheetAnimating;
             [self customTransitionEntryWithCompletionBlock:completionBlock];
             
         }break;
-        
+            
         case MZFormSheetTransitionStyleNone:
         default:{
             if (completionBlock) {
@@ -604,7 +602,7 @@ static BOOL instanceOfFormSheetAnimating;
                                  }
                              }];
         }break;
-        
+            
         case MZFormSheetTransitionStyleCustom:
         {
             [self customTransitionOutWithCompletionBlock:completionBlock];
@@ -671,12 +669,12 @@ static BOOL instanceOfFormSheetAnimating;
     self.view.frame = self.presentedFSViewController.view.frame;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleTapGestureRecognizer:)];
+                                                                                 action:@selector(handleTapGestureRecognizer:)];
     tapGesture.delegate = self;
     [self.formSheetWindow addGestureRecognizer:tapGesture];
     
     [self.view addSubview:self.presentedFSViewController.view];
-
+    
 }
 
 - (void)setupPresentedFSViewControllerFrame
@@ -780,7 +778,7 @@ static BOOL instanceOfFormSheetAnimating;
 
 #pragma mark - UIViewController (MZFormSheet)
 
-static const char* formSheetControllerKey = "MZFormSheetController";
+static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
 
 @implementation UIViewController (MZFormSheet)
 @dynamic formSheetController;
@@ -789,12 +787,12 @@ static const char* formSheetControllerKey = "MZFormSheetController";
 
 - (MZFormSheetController *)formSheetController
 {
-    return objc_getAssociatedObject(self, formSheetControllerKey);
+    return objc_getAssociatedObject(self, MZFormSheetControllerAssociatedKey);
 }
 
 - (void)setFormSheetController:(MZFormSheetController *)formSheetController
 {
-    objc_setAssociatedObject(self, formSheetControllerKey, formSheetController, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, MZFormSheetControllerAssociatedKey, formSheetController, OBJC_ASSOCIATION_ASSIGN);
 }
 
 #pragma mark - Public
@@ -804,7 +802,7 @@ static const char* formSheetControllerKey = "MZFormSheetController";
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:viewController];
     self.formSheetController = formSheet;
     viewController.formSheetController = formSheet;
-
+    
     [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
             completionHandler(formSheet);
