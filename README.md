@@ -66,9 +66,13 @@ For example, transition from right side
 
 - (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock
 {
+    // It is very important to use self.view.bounds not self.view.frame !!!
+    // When you rotate your device, the device is not changing its screen size.
+    // It is staying the same, however the view is changing. So this is why you would want to use bounds.
+    
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     CGRect originalFormSheetRect = formSheetRect;
-    originalFormSheetRect.origin.x = self.view.frame.size.width - formSheetRect.size.width - 10;
+    originalFormSheetRect.origin.x = self.view.bounds.size.width - formSheetRect.size.width - 10;
     formSheetRect.origin.x = self.view.bounds.size.width;
     self.presentedFSViewController.view.frame = formSheetRect;
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
@@ -261,6 +265,10 @@ If you want to resize form sheet controller during orientation change you can us
  */
 @property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 ```
+
+## Autolayout
+
+MZFormSheetController supports autolayout.
 
 ## Requirements
 

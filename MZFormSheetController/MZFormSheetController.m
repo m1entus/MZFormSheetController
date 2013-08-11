@@ -136,6 +136,14 @@ static BOOL instanceOfFormSheetAnimating;
 
 #pragma mark - Class methods
 
++ (BOOL)isAutoLayoutAvailable
+{
+    if (NSClassFromString(@"NSLayoutConstraint")) {
+        return YES;
+    }
+    return NO;
+}
+
 + (void)setAnimating:(BOOL)animating
 {
     instanceOfFormSheetAnimating = animating;
@@ -155,6 +163,14 @@ static BOOL instanceOfFormSheetAnimating;
 }
 
 #pragma mark - Setters
+
+- (BOOL)viewUsingAutolayout
+{
+    if (self.view.constraints.count > 0) {
+        return YES;
+    }
+    return NO;
+}
 
 - (void)setShadowOpacity:(CGFloat)shadowOpacity
 {  
@@ -656,6 +672,7 @@ static BOOL instanceOfFormSheetAnimating;
     [self.formSheetWindow addGestureRecognizer:tapGesture];
     
     [self.view addSubview:self.presentedFSViewController.view];
+
 }
 
 - (void)setupPresentedFSViewControllerFrame
@@ -703,12 +720,31 @@ static BOOL instanceOfFormSheetAnimating;
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
+    // Fix navigation bar height (minibar for landscape) when view controller will rotate (AutoLayout)
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]] && [MZFormSheetController isAutoLayoutAvailable] && [self viewUsingAutolayout]) {
+        UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+        [navigationController.navigationBar sizeToFit];
+    }
+    
     [self setupPresentedFSViewControllerFrame];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    
     [self resetTransition];
+    
+    // Fix navigation bar height (minibar for landscape) when view controller will rotate (non-AutoLayout)
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        if (!([MZFormSheetController isAutoLayoutAvailable] && [self viewUsingAutolayout])) {
+            UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+            [navigationController.navigationBar performSelector:@selector(sizeToFit) withObject:nil afterDelay:(0.5f * duration)];
+        }
+    }
+    
 }
 
 - (NSUInteger)supportedInterfaceOrientations

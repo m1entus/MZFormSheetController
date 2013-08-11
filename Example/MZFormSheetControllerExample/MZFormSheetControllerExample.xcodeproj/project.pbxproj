@@ -38,6 +38,7 @@
 		0660CEBC17B65F8B0070B936 /* MZFacebookComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0660CE9F17B65F8B0070B936 /* MZFacebookComposeViewController.m */; };
 		0660CEC117B65FC00070B936 /* UIApplication+DEFacebookComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0660CEBE17B65FC00070B936 /* UIApplication+DEFacebookComposeViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0660CEC217B65FC00070B936 /* UIDevice+DEFacebookComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0660CEC017B65FC00070B936 /* UIDevice+DEFacebookComposeViewController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0662978717B7DCE3000DA2F2 /* iPhone_autolayout.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0662978617B7DCE3000DA2F2 /* iPhone_autolayout.storyboard */; };
 		06965FA517B62B39003F7274 /* MZModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06965FA417B62B39003F7274 /* MZModalViewController.m */; };
 		06A70E5917B546AE001A0AED /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A70E5817B546AE001A0AED /* UIKit.framework */; };
 		06A70E5B17B546AE001A0AED /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A70E5A17B546AE001A0AED /* Foundation.framework */; };
@@ -104,6 +105,7 @@
 		0660CEBE17B65FC00070B936 /* UIApplication+DEFacebookComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+DEFacebookComposeViewController.m"; path = "MZFormSheetControllerExample/FacebookCompose/UIApplication+DEFacebookComposeViewController.m"; sourceTree = SOURCE_ROOT; };
 		0660CEBF17B65FC00070B936 /* UIDevice+DEFacebookComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+DEFacebookComposeViewController.h"; path = "MZFormSheetControllerExample/FacebookCompose/UIDevice+DEFacebookComposeViewController.h"; sourceTree = SOURCE_ROOT; };
 		0660CEC017B65FC00070B936 /* UIDevice+DEFacebookComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+DEFacebookComposeViewController.m"; path = "MZFormSheetControllerExample/FacebookCompose/UIDevice+DEFacebookComposeViewController.m"; sourceTree = SOURCE_ROOT; };
+		0662978617B7DCE3000DA2F2 /* iPhone_autolayout.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhone_autolayout.storyboard; sourceTree = "<group>"; };
 		06965FA317B62B39003F7274 /* MZModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZModalViewController.h; sourceTree = "<group>"; };
 		06965FA417B62B39003F7274 /* MZModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZModalViewController.m; sourceTree = "<group>"; };
 		06A70E5517B546AE001A0AED /* MZFormSheetControllerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MZFormSheetControllerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -245,6 +247,7 @@
 			children = (
 				06A70E6717B546AE001A0AED /* MZAppDelegate.h */,
 				06A70E6817B546AE001A0AED /* MZAppDelegate.m */,
+				0662978617B7DCE3000DA2F2 /* iPhone_autolayout.storyboard */,
 				06A70E7017B546AE001A0AED /* MainStoryboard_iPhone.storyboard */,
 				06A70E7317B546AE001A0AED /* MainStoryboard_iPad.storyboard */,
 				06A70E7617B546AE001A0AED /* MZViewController.h */,
@@ -391,6 +394,7 @@
 				0660CEB517B65F8B0070B936 /* NavBarLandscape1.png in Resources */,
 				0660CEB617B65F8B0070B936 /* NavBarLandscape@2x.png in Resources */,
 				0660CEB717B65F8B0070B936 /* NavBarLandscape@2x1.png in Resources */,
+				0662978717B7DCE3000DA2F2 /* iPhone_autolayout.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
