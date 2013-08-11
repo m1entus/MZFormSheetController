@@ -231,6 +231,27 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="iQy-7w-AWX" style="IBUITableViewCellStyleDefault" id="pPN-t2-b9R">
+                                        <rect key="frame" x="0.0" y="528" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Custom form sheet segue" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iQy-7w-AWX">
+                                                    <rect key="frame" x="10" y="0.0" width="300" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" name="Avenir-Oblique" family="Avenir" pointSize="20"/>
+                                                    <color key="textColor" red="0.40392160420000001" green="0.40784317260000003" blue="0.4156863093" alpha="1" colorSpace="deviceRGB"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <segue destination="fGV-P1-Wmk" kind="custom" customClass="MZFormSheetSegue" id="Fuq-wf-3hL"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -623,6 +644,37 @@
         <image name="DEFacebookPaperClip.png" width="78" height="34"/>
         <image name="closeButton.png" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="DEFacebookSheetCardView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DEFacebookSheetCardView.h"/>
+        </class>
+        <class className="DEFacebookTextView" superclassName="UITextView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DEFacebookTextView.h"/>
+        </class>
+        <class className="MZFacebookComposeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MZFacebookComposeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="close:"/>
+                <relationship kind="outlet" name="cancelButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="postButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="MZModalViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MZModalViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="modal:"/>
+            </relationships>
+        </class>
+        <class className="MZNavViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MZNavViewController.h"/>
+        </class>
+        <class className="MZSampleViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MZSampleViewController.h"/>
+        </class>
+        <class className="MZViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MZViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

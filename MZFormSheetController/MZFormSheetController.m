@@ -656,6 +656,10 @@ static BOOL instanceOfFormSheetAnimating;
 {
     self.presentedFSViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     
+    if ([MZFormSheetController isAutoLayoutAvailable]) {
+        self.view.translatesAutoresizingMaskIntoConstraints = YES;
+    }
+    
     self.presentedFSViewController.view.frame = CGRectMake(0, 0, self.presentedFormSheetSize.width, self.presentedFormSheetSize.height);
     self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), self.presentedFSViewController.view.center.y);
     self.presentedFSViewController.view.layer.cornerRadius = self.cornerRadius;
