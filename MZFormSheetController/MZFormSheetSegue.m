@@ -28,7 +28,7 @@
 
 @implementation MZFormSheetSegue
 
--(void) perform
+- (void)perform
 {
     UIViewController *sourceViewController = [self sourceViewController];
     UIViewController *destinationViewController = [self destinationViewController];

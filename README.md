@@ -286,6 +286,8 @@ I would like also thanks to Daryl Ginn who inspired me with his [settings popup 
 
 MZFormSheetController supports storyboard.
 
+MZFormSheetSegue is a custom storyboard segue which use default MZFormSheetController settings.
+
 ## ARC
 
 MZFormSheetController uses ARC.
