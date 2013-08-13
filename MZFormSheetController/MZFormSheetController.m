@@ -37,13 +37,15 @@ CGFloat const MZFormSheetControllerDefaultLandscapeTopInset = 6.0;
 CGFloat const MZFormSheetControllerDefaultWidth = 284.0;
 CGFloat const MZFormSheetControllerDefaultHeight = 284.0;
 
+CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
+
 CGFloat const MZFormSheetControllerDefaultAnimationDuration = 0.3;
 CGFloat const MZFormSheetControllerDefaultTransitionBounceDuration = 0.5;
 CGFloat const MZFormSheetControllerDefaultTransitionDropDownDuration = 0.4;
 
-CGFloat const MZFormSheetPresentedControllerCornerRadius = 6.0;
-CGFloat const MZFormSheetPresentedControllerShadowRadius = 6.0;
-CGFloat const MZFormSheetPresentedControllerShadowOpacity = 0.5;
+CGFloat const MZFormSheetPresentedControllerDefaultCornerRadius = 6.0;
+CGFloat const MZFormSheetPresentedControllerDefaultShadowRadius = 6.0;
+CGFloat const MZFormSheetPresentedControllerDefaultShadowOpacity = 0.5;
 
 UIWindowLevel const UIWindowLevelFormSheet = 1996.0;  // don't overlap system's alert
 UIWindowLevel const UIWindowLevelFormSheetBackground = 1995.0; // below the alert window
@@ -58,19 +60,21 @@ static BOOL instanceOfFormSheetAnimating;
 
 @interface MZFormSheetBackgroundWindow : UIWindow
 @property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle;
+@property (nonatomic, assign) CGFloat opacity;
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style;
++ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style opacity:(CGFloat)opacity;
 + (void)hideBackgroundWindowAnimated:(BOOL)animated;
 
 @end
 
 @implementation MZFormSheetBackgroundWindow
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style
++ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style opacity:(CGFloat)opacity
 {
     if (!instanceOfFormSheetBackgroundWindow) {
         instanceOfFormSheetBackgroundWindow = [[MZFormSheetBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         instanceOfFormSheetBackgroundWindow.backgroundStyle = style;
+        instanceOfFormSheetBackgroundWindow.opacity = opacity;
         [instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
         instanceOfFormSheetBackgroundWindow.alpha = 0;
         if (animated) {
@@ -116,7 +120,7 @@ static BOOL instanceOfFormSheetAnimating;
 {
     if (self.backgroundStyle == MZFormSheetBackgroundStyleSolid) {
         CGContextRef context = UIGraphicsGetCurrentContext();
-        [[UIColor colorWithWhite:0 alpha:0.5] set];
+        [[UIColor colorWithWhite:0 alpha:self.opacity] set];
         CGContextFillRect(context, self.bounds);
     }
 }
@@ -221,9 +225,10 @@ static BOOL instanceOfFormSheetAnimating;
         self.presentedFormSheetSize = CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight);
         
         _backgroundStyle = MZFormSheetBackgroundStyleSolid;
-        _cornerRadius = MZFormSheetPresentedControllerCornerRadius;
-        _shadowOpacity = MZFormSheetPresentedControllerShadowOpacity;
-        _shadowRadius = MZFormSheetPresentedControllerShadowRadius;
+        _backgroundOpacity = MZFormSheetControllerDefaultBackgroundOpacity;
+        _cornerRadius = MZFormSheetPresentedControllerDefaultCornerRadius;
+        _shadowOpacity = MZFormSheetPresentedControllerDefaultShadowOpacity;
+        _shadowRadius = MZFormSheetPresentedControllerDefaultShadowRadius;
         _portraitTopInset = MZFormSheetControllerDefaultPortraitTopInset;
         _landscapeTopInset = MZFormSheetControllerDefaultLandscapeTopInset;
     }
@@ -254,7 +259,7 @@ static BOOL instanceOfFormSheetAnimating;
     
     [MZFormSheetController setAnimating:YES];
     
-    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:YES withStyle:self.backgroundStyle];
+    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:YES withStyle:self.backgroundStyle opacity:self.backgroundOpacity];
     
     [self.formSheetWindow makeKeyAndVisible];
     

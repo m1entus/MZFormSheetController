@@ -82,7 +82,13 @@ typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *f
  Background view style.
  By default, this is MZFormSheetBackgroundStyleSolid.
  */
-@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle; 
+@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle;
+
+/**
+ The opacity of the background view.
+ By default, this is 0.5
+ */
+@property (nonatomic, assign) CGFloat backgroundOpacity;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
