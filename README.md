@@ -6,6 +6,7 @@ MZFormSheetController provides an alternative to the native iOS UIModalPresentat
 
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/animation.gif)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/animation.gif)
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)
+[![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen2.png)
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen3.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen3.png)
 
 ## How To Use
