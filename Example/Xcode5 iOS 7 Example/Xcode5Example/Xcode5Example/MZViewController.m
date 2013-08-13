@@ -36,7 +36,7 @@
     formSheet.backgroundOpacity = 0.2;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
-        sender.hidden = YES;
+
     }];
 }
 

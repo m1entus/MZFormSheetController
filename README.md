@@ -169,6 +169,12 @@ typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
 @property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle; 
 
 /**
+ The opacity of the background view.
+ By default, this is 0.5
+ */
+@property (nonatomic, assign) CGFloat backgroundOpacity;
+
+/**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
  By default, this is 66.0
  */
