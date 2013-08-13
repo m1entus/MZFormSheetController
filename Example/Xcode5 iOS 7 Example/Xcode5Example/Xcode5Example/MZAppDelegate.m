@@ -10,8 +10,33 @@
 
 @implementation MZAppDelegate
 
+
+- (UIImage *)imageWithColor:(UIColor *)color andSize:(CGSize)size
+{
+    UIImage *img = nil;
+    
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context,
+                                   color.CGColor);
+    CGContextFillRect(context, rect);
+    
+    img = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return img;
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[UINavigationBar appearance] setBackgroundImage:[self imageWithColor:[UIColor whiteColor] andSize:CGSizeMake(1, 1)] forBarMetrics:UIBarMetricsDefault];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys: [UIColor blackColor], NSForegroundColorAttributeName
+                                                          ,nil] forState:UIControlStateNormal];
+    
+    
     // Override point for customization after application launch.
     return YES;
 }

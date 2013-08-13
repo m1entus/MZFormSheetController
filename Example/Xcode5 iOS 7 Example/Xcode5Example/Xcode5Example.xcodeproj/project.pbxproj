@@ -22,6 +22,9 @@
 		D217499A17BA244F00F07567 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497917BA244F00F07567 /* UIKit.framework */; };
 		D21749A217BA244F00F07567 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D21749A017BA244F00F07567 /* InfoPlist.strings */; };
 		D21749A417BA244F00F07567 /* Xcode5ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D21749A317BA244F00F07567 /* Xcode5ExampleTests.m */; };
+		D21749B217BA248700F07567 /* MZFormSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = D21749AF17BA248700F07567 /* MZFormSheetController.m */; };
+		D21749B317BA248700F07567 /* MZFormSheetSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = D21749B117BA248700F07567 /* MZFormSheetSegue.m */; };
+		D21749B617BA24A300F07567 /* MZModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D21749B517BA24A300F07567 /* MZModalViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +58,12 @@
 		D217499F17BA244F00F07567 /* Xcode5ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Xcode5ExampleTests-Info.plist"; sourceTree = "<group>"; };
 		D21749A117BA244F00F07567 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D21749A317BA244F00F07567 /* Xcode5ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Xcode5ExampleTests.m; sourceTree = "<group>"; };
+		D21749AE17BA248700F07567 /* MZFormSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetController.h; path = ../../../MZFormSheetController/MZFormSheetController.h; sourceTree = "<group>"; };
+		D21749AF17BA248700F07567 /* MZFormSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetController.m; path = ../../../MZFormSheetController/MZFormSheetController.m; sourceTree = "<group>"; };
+		D21749B017BA248700F07567 /* MZFormSheetSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetSegue.h; path = ../../../MZFormSheetController/MZFormSheetSegue.h; sourceTree = "<group>"; };
+		D21749B117BA248700F07567 /* MZFormSheetSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetSegue.m; path = ../../../MZFormSheetController/MZFormSheetSegue.m; sourceTree = "<group>"; };
+		D21749B417BA24A300F07567 /* MZModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZModalViewController.h; sourceTree = "<group>"; };
+		D21749B517BA24A300F07567 /* MZModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZModalViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +93,7 @@
 		D217496917BA244F00F07567 = {
 			isa = PBXGroup;
 			children = (
+				D21749AD17BA247800F07567 /* Source */,
 				D217497B17BA244F00F07567 /* Xcode5Example */,
 				D217499D17BA244F00F07567 /* Xcode5ExampleTests */,
 				D217497417BA244F00F07567 /* Frameworks */,
@@ -122,6 +132,8 @@
 				D217498E17BA244F00F07567 /* MZViewController.m */,
 				D217499017BA244F00F07567 /* Images.xcassets */,
 				D217497C17BA244F00F07567 /* Supporting Files */,
+				D21749B417BA24A300F07567 /* MZModalViewController.h */,
+				D21749B517BA24A300F07567 /* MZModalViewController.m */,
 			);
 			path = Xcode5Example;
 			sourceTree = "<group>";
@@ -153,6 +165,17 @@
 				D21749A017BA244F00F07567 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D21749AD17BA247800F07567 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D21749AE17BA248700F07567 /* MZFormSheetController.h */,
+				D21749AF17BA248700F07567 /* MZFormSheetController.m */,
+				D21749B017BA248700F07567 /* MZFormSheetSegue.h */,
+				D21749B117BA248700F07567 /* MZFormSheetSegue.m */,
+			);
+			name = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,6 +226,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Michał Zaborowski";
 				TargetAttributes = {
+					D217497117BA244F00F07567 = {
+						DevelopmentTeam = 356DUATZR3;
+					};
 					D217499517BA244F00F07567 = {
 						TestTargetID = D217497117BA244F00F07567;
 					};
@@ -254,8 +280,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D21749B317BA248700F07567 /* MZFormSheetSegue.m in Sources */,
 				D217498F17BA244F00F07567 /* MZViewController.m in Sources */,
 				D217498217BA244F00F07567 /* main.m in Sources */,
+				D21749B617BA24A300F07567 /* MZModalViewController.m in Sources */,
+				D21749B217BA248700F07567 /* MZFormSheetController.m in Sources */,
 				D217498617BA244F00F07567 /* MZAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,10 +418,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Xcode5Example/Xcode5Example-Prefix.pch";
 				INFOPLIST_FILE = "Xcode5Example/Xcode5Example-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -402,10 +434,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Xcode5Example/Xcode5Example-Prefix.pch";
 				INFOPLIST_FILE = "Xcode5Example/Xcode5Example-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -469,6 +504,7 @@
 				D21749A917BA244F00F07567 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D21749AA17BA244F00F07567 /* Build configuration list for PBXNativeTarget "Xcode5ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -477,6 +513,7 @@
 				D21749AC17BA244F00F07567 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

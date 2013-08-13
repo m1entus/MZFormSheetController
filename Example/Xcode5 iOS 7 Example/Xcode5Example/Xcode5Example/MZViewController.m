@@ -7,6 +7,7 @@
 //
 
 #import "MZViewController.h"
+#import "MZFormSheetController.h"
 
 @interface MZViewController ()
 
@@ -17,13 +18,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	
+    
+
 }
 
-- (void)didReceiveMemoryWarning
+- (IBAction)showFormSheet:(UIButton *)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
+    
+    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+    formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
+    formSheet.shadowRadius = 2.0;
+    formSheet.shadowOpacity = 0.3;
+    formSheet.landscapeTopInset = 20;
+    formSheet.backgroundStyle = MZFormSheetBackgroundStyleTransparent;
+    formSheet.shouldDismissOnBackgroundViewTap = YES;
+    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
+        sender.hidden = YES;
+    }];
 }
 
 @end
