@@ -56,6 +56,77 @@ static MZFormSheetBackgroundWindow *instanceOfFormSheetBackgroundWindow;
 static NSMutableArray *instanceOfSharedQueue;
 static BOOL instanceOfFormSheetAnimating;
 
+static NSMutableDictionary *instanceOfDictionaryClasses = nil;
+
+#pragma mark - MZFormSheetAppearance proxy
+
+@interface MZFormSheetAppearance : NSObject
+@property (strong, nonatomic) Class mainClass;
+@property (strong, nonatomic) NSMutableArray *invocations;
+@end
+
+@implementation MZFormSheetAppearance
+
+// this method return the same object instance for each different class
++ (id)appearanceForClass:(Class)thisClass
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (!instanceOfDictionaryClasses)
+            instanceOfDictionaryClasses = [[NSMutableDictionary alloc] init];
+    });
+
+    if (![instanceOfDictionaryClasses objectForKey:NSStringFromClass(thisClass)])
+    {
+        id thisAppearance = [[self alloc] initWithClass:thisClass];
+        [instanceOfDictionaryClasses setObject:thisAppearance forKey:NSStringFromClass(thisClass)];
+        return thisAppearance;
+    }
+    else
+        return [instanceOfDictionaryClasses objectForKey:NSStringFromClass(thisClass)];
+}
+
+- (id)initWithClass:(Class)thisClass
+{
+    if (self = [super init]) {
+        self.mainClass = thisClass;
+        self.invocations = [NSMutableArray array];
+    }
+    return self;
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation;
+{
+    [self.invocations addObject:anInvocation];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+{
+    return [self.mainClass instanceMethodSignatureForSelector:aSelector];
+}
+
+- (void) startForwardingInternal:(id)sender {
+    for (NSInvocation *invocation in self.invocations) {
+        [invocation setTarget:sender];
+        [invocation invoke];
+    }
+}
+
+- (void)startForwarding:(id)sender
+{
+    [self startForwardingInternal:sender];
+    
+    // We now need to also set the properties of the superclass
+    Class sc = [sender superclass];
+    
+    while ([sc isSubclassOfClass:[MZFormSheetController class]]) {
+        [(MZFormSheetAppearance *)[MZFormSheetAppearance appearanceForClass:sc] startForwardingInternal:sender];
+        sc = [sc superclass];
+    }
+}
+
+@end
+
 #pragma mark - MZFormSheetBackgroundWindow
 
 @interface MZFormSheetBackgroundWindow : UIWindow
@@ -140,6 +211,32 @@ static BOOL instanceOfFormSheetAnimating;
 
 #pragma mark - Class methods
 
++ (id)appearance
+{
+    return [MZFormSheetAppearance appearanceForClass:[self class]];
+}
+
++ (id)appearanceWhenContainedIn:(Class <UIAppearanceContainer>)ContainerClass, ... NS_REQUIRES_NIL_TERMINATION
+{
+    return nil;
+}
+
++ (void)load
+{
+    @autoreleasepool {
+        id appearance = [[self class] appearance];
+        
+        [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
+        [appearance setBackgroundStyle:MZFormSheetBackgroundStyleSolid];
+        [appearance setBackgroundOpacity:MZFormSheetControllerDefaultBackgroundOpacity];
+        [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
+        [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
+        [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
+        [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
+        [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
+    }
+}
+
 + (BOOL)isAutoLayoutAvailable
 {
     if (NSClassFromString(@"NSLayoutConstraint")) {
@@ -156,6 +253,11 @@ static BOOL instanceOfFormSheetAnimating;
 + (BOOL)isAnimating
 {
     return instanceOfFormSheetAnimating;
+}
+
++ (NSArray *)formSheetControllersStack
+{
+    return [instanceOfSharedQueue copy];
 }
 
 + (NSMutableArray *)sharedQueue
@@ -222,15 +324,9 @@ static BOOL instanceOfFormSheetAnimating;
 {
     if (self = [super init]) {
         self.presentedFSViewController = presentedFormSheetViewController;
-        self.presentedFormSheetSize = CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight);
         
-        _backgroundStyle = MZFormSheetBackgroundStyleSolid;
-        _backgroundOpacity = MZFormSheetControllerDefaultBackgroundOpacity;
-        _cornerRadius = MZFormSheetPresentedControllerDefaultCornerRadius;
-        _shadowOpacity = MZFormSheetPresentedControllerDefaultShadowOpacity;
-        _shadowRadius = MZFormSheetPresentedControllerDefaultShadowRadius;
-        _portraitTopInset = MZFormSheetControllerDefaultPortraitTopInset;
-        _landscapeTopInset = MZFormSheetControllerDefaultLandscapeTopInset;
+        id appearance = [[self class] appearance];
+        [appearance startForwarding:self];
     }
     return self;
 }
@@ -483,7 +579,7 @@ static BOOL instanceOfFormSheetAnimating;
             animation.duration = MZFormSheetControllerDefaultTransitionBounceDuration;
             animation.delegate = self;
             [animation setValue:completionBlock forKey:@"completionHandler"];
-            [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bouce"];
+            [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bounce"];
         }break;
             
         case MZFormSheetTransitionStyleDropDown:
@@ -703,7 +799,9 @@ static BOOL instanceOfFormSheetAnimating;
 
 - (void)setupPresentedFSViewControllerFrame
 {
-    if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+    if (self.centerFormSheetVertically) {
+        self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
+    } else if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.portraitTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);
     } else {
         self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.landscapeTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);

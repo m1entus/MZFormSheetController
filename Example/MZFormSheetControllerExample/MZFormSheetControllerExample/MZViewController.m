@@ -20,7 +20,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-   
 }
 
 - (void)transitionFromTop
@@ -38,6 +37,7 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
+    formSheet.centerFormSheetVertically = YES;
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         
     }];

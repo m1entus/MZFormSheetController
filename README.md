@@ -17,8 +17,8 @@ Let's start with a simple example
 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
 
 // present form sheet with view controller
-[self presentFormSheetWithViewController:vc completionHandler:^(MZFormSheetController *formSheetController) {
-    //Do something in completionHandler
+[self presentFormSheetWithViewController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+   //do sth
 }];
 ```
 
@@ -27,8 +27,8 @@ This will display view controller inside form sheet container.
 If you want to dismiss form sheet controller, you can use category on UIViewController to provide access to the formSheetController.
 
 ``` objective-c
-[self dismissFormSheetControllerWithCompletionHandler:^(MZFormSheetController *formSheetController) {
-    //do sth
+[self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+    // do sth
 }];
 ```
 
@@ -60,12 +60,12 @@ You can create your own transition by subclassing MZFormSheetController.
  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
  When animation is finished you should must call super method or completionBlock to keep view life cycle.
  */
-- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock;
-- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock;
+- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
+- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
 
 For example, transition from right side
 
-- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock
+- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     // It is very important to use self.view.bounds not self.view.frame !!!
     // When you rotate your device, the device is not changing its screen size.
@@ -86,7 +86,7 @@ For example, transition from right side
                          }
                      }];
 }
-- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock
+- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     formSheetRect.origin.x = self.view.bounds.size.width;
@@ -122,13 +122,14 @@ It is possible to full screen present modal view controllers over the form sheet
 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
 UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
 
-[self presentFormSheetWithViewController:vc completionHandler:^(MZFormSheetController *formSheetController) {
+[self presentFormSheetWithViewController:vc animated:YES transitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromLeft completionHandler:^(MZFormSheetController *formSheetController) {
 
     [formSheetController presentViewController:modal animated:YES completion:^{
 
     }];
     
 }];
+
 ```
 
 ## Custom compose view controllers
@@ -151,10 +152,22 @@ formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewCont
     presentedFSViewController.view.autoresizingMask = presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
 };
 
-[formSheet presentWithCompletionHandler:nil];
+[formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+        
+}];
 ```
 
 ## Appearance
+
+MZFormSheetController supports appearance proxy.
+
+``` objective-c
+id appearance = [MZFormSheetController appearance];
+
+[appearance setBackgroundOpacity:0.2];
+[appearance setCornerRadius:4];
+[appearance setShadowOpacity:0.4];
+```
 
 ``` objective-c
 typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
@@ -166,49 +179,56 @@ typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
  Background view style.
  By default, this is MZFormSheetBackgroundStyleSolid.
  */
-@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle; 
+@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle UI_APPEARANCE_SELECTOR;
 
 /**
  The opacity of the background view.
  By default, this is 0.5
  */
-@property (nonatomic, assign) CGFloat backgroundOpacity;
+@property (nonatomic, assign) CGFloat backgroundOpacity UI_APPEARANCE_SELECTOR;
+
+/**
+ Center form sheet vertically.
+ By default, this is NO
+ */
+@property (nonatomic, assign) BOOL centerFormSheetVertically UI_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
  By default, this is 66.0
  */
-@property (nonatomic, assign) CGFloat landscapeTopInset;
+@property (nonatomic, assign) CGFloat landscapeTopInset UI_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in portrait orientation.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat portraitTopInset;
+@property (nonatomic, assign) CGFloat portraitTopInset UI_APPEARANCE_SELECTOR;
 
 /**
  The radius to use when drawing rounded corners for the layer’s presented form sheet view background.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
 
 /**
  The blur radius (in points) used to render the layer’s shadow.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat shadowRadius;
+@property (nonatomic, assign) CGFloat shadowRadius UI_APPEARANCE_SELECTOR;
 
 /**
  The opacity of the layer’s shadow.
  By default, this is 0.5
  */
-@property (nonatomic, assign) CGFloat shadowOpacity;
+@property (nonatomic, assign) CGFloat shadowOpacity UI_APPEARANCE_SELECTOR;
 
 /**
  Size for presented form sheet controller
  By default, this is CGSizeMake(284.0,284.0)
  */
-@property (nonatomic, assign) CGSize presentedFormSheetSize;
+@property (nonatomic, assign) CGSize presentedFormSheetSize UI_APPEARANCE_SELECTOR;
+
 ```
 
 ## Completion Blocks
@@ -265,7 +285,7 @@ If you want to resize form sheet controller during orientation change you can us
  Returns whether the form sheet controller should dismiss after background view tap.
  By default, this is NO
  */
-@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap;
+@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap UI_APPEARANCE_SELECTOR;
 
 /**
  The handler to call when user tap on background view

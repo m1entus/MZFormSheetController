@@ -72,7 +72,11 @@ typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
 
-@interface MZFormSheetController : UIViewController
+@interface MZFormSheetController : UIViewController <UIAppearance>
+/**
+ Return copy of formSheetController stack, last object (form sheet controller) is at the top
+ */
++ (NSArray *)formSheetControllersStack;
 
 /**
  The view controller that is presented by this form sheet controller.
@@ -83,19 +87,19 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  The transition style to use when presenting the receiver.
  By default, this is MZFormSheetTransitionStyleSlideFromTop.
  */
-@property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle;
+@property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle UI_APPEARANCE_SELECTOR;
 
 /**
  Background view style.
  By default, this is MZFormSheetBackgroundStyleSolid.
  */
-@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle;
+@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle UI_APPEARANCE_SELECTOR;
 
 /**
  The opacity of the background view.
  By default, this is 0.5
  */
-@property (nonatomic, assign) CGFloat backgroundOpacity;
+@property (nonatomic, assign) CGFloat backgroundOpacity UI_APPEARANCE_SELECTOR;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
@@ -123,46 +127,52 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 
 /**
+ Center form sheet vertically.
+ By default, this is NO
+ */
+@property (nonatomic, assign) BOOL centerFormSheetVertically UI_APPEARANCE_SELECTOR;
+
+/**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
  By default, this is 66.0
  */
-@property (nonatomic, assign) CGFloat landscapeTopInset;
+@property (nonatomic, assign) CGFloat landscapeTopInset UI_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in portrait orientation.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat portraitTopInset;
+@property (nonatomic, assign) CGFloat portraitTopInset UI_APPEARANCE_SELECTOR;
 
 /**
  The radius to use when drawing rounded corners for the layer’s presented form sheet view background.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
 
 /**
  The blur radius (in points) used to render the layer’s shadow.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat shadowRadius;
+@property (nonatomic, assign) CGFloat shadowRadius UI_APPEARANCE_SELECTOR;
 
 /**
  The opacity of the layer’s shadow.
  By default, this is 0.5
  */
-@property (nonatomic, assign) CGFloat shadowOpacity;
+@property (nonatomic, assign) CGFloat shadowOpacity UI_APPEARANCE_SELECTOR;
 
 /**
  Size for presented form sheet controller
  By default, this is CGSizeMake(284.0,284.0)
  */
-@property (nonatomic, assign) CGSize presentedFormSheetSize;
+@property (nonatomic, assign) CGSize presentedFormSheetSize UI_APPEARANCE_SELECTOR;
 
 /**
  Returns whether the form sheet controller should dismiss after background view tap.
  By default, this is NO
  */
-@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap;
+@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap UI_APPEARANCE_SELECTOR;
 
 /**
  Subclasses may override to add custom transition animation.
@@ -213,7 +223,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  Category on UIViewController to provide access to the formSheetController.
  */
 @interface UIViewController (MZFormSheet)
-@property(nonatomic, readonly) MZFormSheetController *formSheetController;
+@property (nonatomic, readonly) MZFormSheetController *formSheetController;
 
 /**
  Presents a form sheet controller.
