@@ -50,6 +50,8 @@ CGFloat const MZFormSheetPresentedControllerDefaultShadowOpacity = 0.5;
 UIWindowLevel const UIWindowLevelFormSheet = 1996.0;  // don't overlap system's alert
 UIWindowLevel const UIWindowLevelFormSheetBackground = 1995.0; // below the alert window
 
+static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
+
 @class MZFormSheetBackgroundWindow;
 
 static MZFormSheetBackgroundWindow *instanceOfFormSheetBackgroundWindow;
@@ -57,6 +59,22 @@ static NSMutableArray *instanceOfSharedQueue;
 static BOOL instanceOfFormSheetAnimating;
 
 static NSMutableDictionary *instanceOfDictionaryClasses = nil;
+
+#pragma mark - UIViewController (OBJC_ASSOCIATION)
+
+@implementation UIViewController (OBJC_ASSOCIATION)
+
+- (MZFormSheetController *)formSheetController
+{
+    return objc_getAssociatedObject(self, MZFormSheetControllerAssociatedKey);
+}
+
+- (void)setFormSheetController:(MZFormSheetController *)formSheetController
+{
+    objc_setAssociatedObject(self, MZFormSheetControllerAssociatedKey, formSheetController, OBJC_ASSOCIATION_ASSIGN);
+}
+
+@end
 
 #pragma mark - MZFormSheetAppearance proxy
 
@@ -372,6 +390,8 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
             self.didPresentCompletionHandler(self.presentedFSViewController);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
+        
+        [self.presentedFSViewController setFormSheetController:self];
         
         if (completionHandler) {
             completionHandler(self.presentedFSViewController);
@@ -900,22 +920,8 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 #pragma mark - UIViewController (MZFormSheet)
 
-static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
-
 @implementation UIViewController (MZFormSheet)
 @dynamic formSheetController;
-
-#pragma mark - objc_associations
-
-- (MZFormSheetController *)formSheetController
-{
-    return objc_getAssociatedObject(self, MZFormSheetControllerAssociatedKey);
-}
-
-- (void)setFormSheetController:(MZFormSheetController *)formSheetController
-{
-    objc_setAssociatedObject(self, MZFormSheetControllerAssociatedKey, formSheetController, OBJC_ASSOCIATION_ASSIGN);
-}
 
 #pragma mark - Public
 
