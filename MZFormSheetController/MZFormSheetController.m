@@ -386,12 +386,12 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
         
+        [self.presentedFSViewController setFormSheetController:self];
+        
         if (self.didPresentCompletionHandler) {
             self.didPresentCompletionHandler(self.presentedFSViewController);
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
-        
-        [self.presentedFSViewController setFormSheetController:self];
         
         if (completionHandler) {
             completionHandler(self.presentedFSViewController);
