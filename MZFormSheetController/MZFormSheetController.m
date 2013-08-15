@@ -245,8 +245,7 @@ static BOOL instanceOfFormSheetAnimating;
     return self;
 }
 
-
-- (void)presentWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
+- (void)presentAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler
 {
     NSAssert(self.presentedFSViewController, @"MZFormSheetController must have at least one view controller.");
     NSAssert(![MZFormSheetController isAnimating], @"Attempting to begin a form sheet transition from to while a transition is already in progress. Wait for didPresentCompletionHandler/didDismissCompletionHandler to know the current transition has completed");
@@ -259,7 +258,7 @@ static BOOL instanceOfFormSheetAnimating;
     
     [MZFormSheetController setAnimating:YES];
     
-    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:YES withStyle:self.backgroundStyle opacity:self.backgroundOpacity];
+    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:animated withStyle:self.backgroundStyle opacity:self.backgroundOpacity];
     
     [self.formSheetWindow makeKeyAndVisible];
     
@@ -270,7 +269,7 @@ static BOOL instanceOfFormSheetAnimating;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetWillPresentNotification object:self userInfo:nil];
     
-    [self transitionEntryWithCompletionBlock:^{
+    MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
         
         if (self.didPresentCompletionHandler) {
@@ -281,12 +280,22 @@ static BOOL instanceOfFormSheetAnimating;
         if (completionHandler) {
             completionHandler(self.presentedFSViewController);
         }
-        
-    }];
+    };
+    
+    if (animated) {
+        [self transitionEntryWithCompletionBlock:transitionCompletionHandler];
+    } else {
+        transitionCompletionHandler();
+    }
     
 }
 
-- (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
+- (void)presentWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
+{
+    [self presentAnimated:YES completionHandler:completionHandler];
+}
+
+- (void)dismissAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler
 {
     if (self.willDismissCompletionHandler) {
         self.willDismissCompletionHandler(self.presentedFSViewController);
@@ -298,10 +307,10 @@ static BOOL instanceOfFormSheetAnimating;
     [[MZFormSheetController sharedQueue] removeObject:self];
     
     if ([MZFormSheetController sharedQueue].count == 0) {
-        [MZFormSheetBackgroundWindow hideBackgroundWindowAnimated:YES];
+        [MZFormSheetBackgroundWindow hideBackgroundWindowAnimated:animated];
     }
-
-    [self transitionOutWithCompletionBlock:^{
+    
+    MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
         
         if (self.didDismissCompletionHandler) {
@@ -313,11 +322,21 @@ static BOOL instanceOfFormSheetAnimating;
             completionHandler(self.presentedFSViewController);
         }
         [self cleanup];
-    }];
+    };
+    
+    if (animated) {
+        [self transitionOutWithCompletionBlock:transitionCompletionHandler];
+    } else {
+        transitionCompletionHandler();
+    }
     
     [self.applicationKeyWindow makeKeyWindow];
     self.applicationKeyWindow.hidden = NO;
-    
+}
+
+- (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
+{
+    [self dismissFormSheetControllerAnimated:YES completionHandler:completionHandler];
 }
 
 //  Created by Kevin Cao on 13/4/29.
@@ -344,7 +363,7 @@ static BOOL instanceOfFormSheetAnimating;
 
 #pragma mark - Transitions
 
-- (void)transitionEntryWithCompletionBlock:(void(^)())completionBlock
+- (void)transitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     switch (self.transitionStyle) {
         case MZFormSheetTransitionStyleSlideFromTop:
@@ -495,7 +514,7 @@ static BOOL instanceOfFormSheetAnimating;
     }
 }
 
-- (void)transitionOutWithCompletionBlock:(void(^)())completionBlock
+- (void)transitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     switch (self.transitionStyle) {
         case MZFormSheetTransitionStyleSlideFromTop:
@@ -623,13 +642,13 @@ static BOOL instanceOfFormSheetAnimating;
     }
 }
 
-- (void)customTransitionEntryWithCompletionBlock:(void(^)())completionBlock
+- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     if (completionBlock) {
         completionBlock();
     }
 }
-- (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock
+- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     if (completionBlock) {
         completionBlock();
@@ -711,7 +730,7 @@ static BOOL instanceOfFormSheetAnimating;
             self.didTapOnBackgroundViewCompletionHandler(location);
         }
         if (self.shouldDismissOnBackgroundViewTap) {
-            [self dismissWithCompletionHandler:nil];
+            [self dismissAnimated:YES completionHandler:nil];
         }
     }
 }
@@ -802,20 +821,30 @@ static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAs
 
 #pragma mark - Public
 
-- (void)presentFormSheetWithViewController:(UIViewController *)viewController completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+- (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:viewController];
     self.formSheetController = formSheet;
     viewController.formSheetController = formSheet;
     
-    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController){
+    [formSheet presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
             completionHandler(formSheet);
         }
     }];
 }
 
-- (void)dismissFormSheetControllerWithCompletionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+- (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self presentFormSheetWithViewController:viewController animated:animated transitionStyle:MZFormSheetTransitionStyleSlideFromTop completionHandler:completionHandler];
+}
+
+- (void)presentFormSheetWithViewController:(UIViewController *)viewController completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self presentFormSheetWithViewController:viewController animated:YES completionHandler:completionHandler];
+}
+
+- (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     MZFormSheetController *formSheetController = nil;
     
@@ -825,11 +854,16 @@ static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAs
         formSheetController = [[MZFormSheetController sharedQueue] lastObject];
     }
     
-    [formSheetController dismissWithCompletionHandler:^(UIViewController *presentedFSViewController){
+    [formSheetController dismissAnimated:animated completionHandler:^(UIViewController *presentedFSViewController) {
         if (completionHandler) {
             completionHandler(formSheetController);
         }
     }];
+}
+
+- (void)dismissFormSheetControllerWithCompletionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self dismissFormSheetControllerAnimated:YES completionHandler:completionHandler];
 }
 
 @end

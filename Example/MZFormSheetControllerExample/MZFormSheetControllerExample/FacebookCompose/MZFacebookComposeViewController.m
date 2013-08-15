@@ -49,7 +49,7 @@
     [super viewDidUnload];
 }
 - (IBAction)close:(id)sender {
-    [self dismissFormSheetControllerWithCompletionHandler:^(MZFormSheetController *formSheetController) {
+    [self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
         
     }];
 }

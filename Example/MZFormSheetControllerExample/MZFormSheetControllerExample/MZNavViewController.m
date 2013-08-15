@@ -24,8 +24,8 @@
     return self;
 }
 - (IBAction)close:(id)sender {
-    [self dismissFormSheetControllerWithCompletionHandler:^(MZFormSheetController *formSheetController) {
-        // do sth
+    [self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+        
     }];
 }
 
