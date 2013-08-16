@@ -72,11 +72,21 @@ typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
 
+@interface MZFormSheetManager : NSObject
++ (instancetype)sharedManager;
+@property (strong, nonatomic) Class formSheetControllerClass;
+@end
+
 @interface MZFormSheetController : UIViewController <UIAppearance>
 /**
  Return copy of formSheetController stack, last object (form sheet controller) is at the top
  */
 + (NSArray *)formSheetControllersStack;
+
+/**
+ Return the shared manager that handle basic configurations
+ */
++ (MZFormSheetManager *)manager;
 
 /**
  The view controller that is presented by this form sheet controller.
