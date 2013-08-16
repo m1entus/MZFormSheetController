@@ -216,6 +216,32 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 @end
 
+#pragma mark - MZFormSheetManager
+
+@implementation MZFormSheetManager
+
++ (instancetype)sharedManager {
+    static MZFormSheetManager *_sharedManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedManager = [[MZFormSheetManager alloc] init];
+    });
+    
+    return _sharedManager;
+}
+
+- (Class)defaultFormSheetControllerClass
+{
+    Class cls = [self formSheetControllerClass];
+    if (cls == nil) {
+        return [MZFormSheetController class];
+    }
+    
+    return cls;
+}
+
+@end
+
 #pragma mark - MZFormSheetController
 
 @interface MZFormSheetController () <UIGestureRecognizerDelegate>
@@ -927,7 +953,8 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
-    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:viewController];
+    Class formSheetClass = [[MZFormSheetManager sharedManager] defaultFormSheetControllerClass];
+    MZFormSheetController *formSheet = [[formSheetClass alloc] initWithViewController:viewController];
     self.formSheetController = formSheet;
     viewController.formSheetController = formSheet;
     
