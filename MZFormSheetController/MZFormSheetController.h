@@ -90,16 +90,10 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle UI_APPEARANCE_SELECTOR;
 
 /**
- Background view style.
- By default, this is MZFormSheetBackgroundStyleSolid.
+ The background color of the background view.
+ By default, this is a black at with a 0.5 alpha component
  */
-@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle UI_APPEARANCE_SELECTOR;
-
-/**
- The opacity of the background view.
- By default, this is 0.5
- */
-@property (nonatomic, assign) CGFloat backgroundOpacity UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.

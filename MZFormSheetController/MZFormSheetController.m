@@ -147,22 +147,19 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 #pragma mark - MZFormSheetBackgroundWindow
 
 @interface MZFormSheetBackgroundWindow : UIWindow
-@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle;
-@property (nonatomic, assign) CGFloat opacity;
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style opacity:(CGFloat)opacity;
++ (void)showBackgroundWindowAnimated:(BOOL)animated withBackgroundColor:(UIColor *)backgroundColor;
 + (void)hideBackgroundWindowAnimated:(BOOL)animated;
 
 @end
 
 @implementation MZFormSheetBackgroundWindow
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated withStyle:(MZFormSheetBackgroundStyle)style opacity:(CGFloat)opacity
++ (void)showBackgroundWindowAnimated:(BOOL)animated withBackgroundColor:(UIColor *)backgroundColor
 {
     if (!instanceOfFormSheetBackgroundWindow) {
         instanceOfFormSheetBackgroundWindow = [[MZFormSheetBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        instanceOfFormSheetBackgroundWindow.backgroundStyle = style;
-        instanceOfFormSheetBackgroundWindow.opacity = opacity;
+        instanceOfFormSheetBackgroundWindow.backgroundColor = backgroundColor;
         [instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
         instanceOfFormSheetBackgroundWindow.alpha = 0;
         if (animated) {
@@ -204,15 +201,6 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     return self;
 }
 
-- (void)drawRect:(CGRect)rect
-{
-    if (self.backgroundStyle == MZFormSheetBackgroundStyleSolid) {
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        [[UIColor colorWithWhite:0 alpha:self.opacity] set];
-        CGContextFillRect(context, self.bounds);
-    }
-}
-
 @end
 
 #pragma mark - MZFormSheetController
@@ -244,8 +232,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
         id appearance = [[self class] appearance];
         
         [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
-        [appearance setBackgroundStyle:MZFormSheetBackgroundStyleSolid];
-        [appearance setBackgroundOpacity:MZFormSheetControllerDefaultBackgroundOpacity];
+        [appearance setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
         [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
         [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
         [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
@@ -368,7 +355,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     
     [MZFormSheetController setAnimating:YES];
     
-    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:animated withStyle:self.backgroundStyle opacity:self.backgroundOpacity];
+    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:animated withBackgroundColor:self.backgroundColor];
     
     [self.formSheetWindow makeKeyAndVisible];
     
