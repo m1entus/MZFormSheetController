@@ -353,7 +353,14 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 - (instancetype)initWithViewController:(UIViewController *)presentedFormSheetViewController
 {
     if (self = [super init]) {
+        
+        // viewDidLoad is called
         self.presentedFSViewController = presentedFormSheetViewController;
+        
+        id appearance = [[self class] appearance];
+        [appearance startForwarding:self];
+        
+        [self setupFormSheetViewController];
     }
     return self;
 }
@@ -363,6 +370,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     if (self = [self initWithViewController:presentedFormSheetViewController]) {
         if (!CGSizeEqualToSize(formSheetSize, CGSizeZero)) {
             self.presentedFormSheetSize = formSheetSize;
+            [self setupFormSheetViewController];
         }
     }
     return self;
@@ -816,14 +824,6 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     self.view.layer.shadowRadius = self.shadowRadius;
     self.view.layer.shadowOpacity = self.shadowOpacity;
     self.view.frame = self.presentedFSViewController.view.frame;
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                 action:@selector(handleTapGestureRecognizer:)];
-    tapGesture.delegate = self;
-    [self.formSheetWindow addGestureRecognizer:tapGesture];
-    
-    [self.view addSubview:self.presentedFSViewController.view];
-    
 }
 
 - (void)setupPresentedFSViewControllerFrame
@@ -868,10 +868,12 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 {
     [super viewDidLoad];
     
-    id appearance = [[self class] appearance];
-    [appearance startForwarding:self];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(handleTapGestureRecognizer:)];
+    tapGesture.delegate = self;
+    [self.formSheetWindow addGestureRecognizer:tapGesture];
     
-    [self setupFormSheetViewController];
+    [self.view addSubview:self.presentedFSViewController.view];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
