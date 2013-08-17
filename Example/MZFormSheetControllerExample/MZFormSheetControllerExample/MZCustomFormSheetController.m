@@ -51,7 +51,6 @@
                                         [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
                                         [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
     bounceAnimation.delegate = self;
-    [bounceAnimation setValue:completionBlock forKey:@"completionHandler"];
     [self.presentedFSViewController.view.layer addAnimation:bounceAnimation forKey:@"bounce"];
 }
 

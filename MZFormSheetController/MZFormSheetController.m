@@ -132,14 +132,20 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 - (void)startForwarding:(id)sender
 {
+    NSMutableArray *classes = [NSMutableArray array];
+    
     // We now need to first set the properties of the superclass    
-    for (Class superClass = [sender superclass];
-         [superClass isSubclassOfClass:[MZFormSheetController class]];
-         superClass = [superClass superclass]) {
-        [(MZFormSheetAppearance *)[MZFormSheetAppearance appearanceForClass:superClass] startForwardingInternal:sender];
+    for (Class class = [sender class];
+         [class isSubclassOfClass:[MZFormSheetController class]] || class == [MZFormSheetController class];
+         class = [class superclass]) {
+        [classes addObject:class];
     }
     
-    [self startForwardingInternal:sender];
+    NSEnumerator *reverseClasses = [classes reverseObjectEnumerator];
+    
+    for (Class class in reverseClasses) {
+        [(MZFormSheetAppearance *)[MZFormSheetAppearance appearanceForClass:class] startForwardingInternal:sender];
+    }
 }
 
 @end
@@ -185,22 +191,25 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 + (void)showBackgroundWindowAnimated:(BOOL)animated
 {
-    [[MZFormSheetBackgroundWindow sharedWindow] makeKeyAndVisible];
-    
-    [MZFormSheetBackgroundWindow sharedWindow].alpha = 0;
-    
-    if (![MZFormSheetBackgroundWindow sharedWindow].backgroundColor) {
-        [MZFormSheetBackgroundWindow sharedWindow].backgroundColor = [[[self class] appearance] backgroundColor];
-    } 
-    
-    if (animated) {
-        [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
-                         animations:^{
-                             [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
-                         }];
-    } else {
-        [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
+    if ([MZFormSheetBackgroundWindow sharedWindow].isHidden) {
+        [[MZFormSheetBackgroundWindow sharedWindow] makeKeyAndVisible];
+
+        [MZFormSheetBackgroundWindow sharedWindow].alpha = 0;
+        
+        if (![MZFormSheetBackgroundWindow sharedWindow].backgroundColor) {
+            [MZFormSheetBackgroundWindow sharedWindow].backgroundColor = [[[self class] appearance] backgroundColor];
+        }
+        
+        if (animated) {
+            [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                             animations:^{
+                                 [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
+                             }];
+        } else {
+            [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
+        }
     }
+    
 }
 
 + (void)hideBackgroundWindowAnimated:(BOOL)animated
@@ -237,7 +246,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 @interface MZFormSheetController () <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIViewController *presentedFSViewController;
 
-@property (nonatomic, strong) UIWindow *applicationKeyWindow;
+@property (nonatomic, weak) UIWindow *applicationKeyWindow;
 @property (nonatomic, strong) UIWindow *formSheetWindow;
 @end
 
@@ -463,8 +472,11 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
         transitionCompletionHandler();
     }
     
-    [self.applicationKeyWindow makeKeyWindow];
-    self.applicationKeyWindow.hidden = NO;
+    if ([MZFormSheetController sharedQueue].count == 0) {
+        [self.applicationKeyWindow makeKeyWindow];
+        self.applicationKeyWindow.hidden = NO;
+    }
+
 }
 
 - (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
