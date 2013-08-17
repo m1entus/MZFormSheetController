@@ -132,15 +132,14 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 - (void)startForwarding:(id)sender
 {
-    [self startForwardingInternal:sender];
-    
-    // We now need to also set the properties of the superclass
-    Class sc = [sender superclass];
-    
-    while ([sc isSubclassOfClass:[MZFormSheetController class]]) {
-        [(MZFormSheetAppearance *)[MZFormSheetAppearance appearanceForClass:sc] startForwardingInternal:sender];
-        sc = [sc superclass];
+    // We now need to first set the properties of the superclass    
+    for (Class superClass = [sender superclass];
+         [superClass isSubclassOfClass:[MZFormSheetController class]];
+         superClass = [superClass superclass]) {
+        [(MZFormSheetAppearance *)[MZFormSheetAppearance appearanceForClass:superClass] startForwardingInternal:sender];
     }
+    
+    [self startForwardingInternal:sender];
 }
 
 @end
@@ -236,7 +235,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 + (id)appearanceWhenContainedIn:(Class <UIAppearanceContainer>)ContainerClass, ... NS_REQUIRES_NIL_TERMINATION
 {
-    return nil;
+    return nil; // Not implemented
 }
 
 + (void)load
@@ -342,9 +341,6 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 {
     if (self = [super init]) {
         self.presentedFSViewController = presentedFormSheetViewController;
-        
-        id appearance = [[self class] appearance];
-        [appearance startForwarding:self];
     }
     return self;
 }
@@ -858,6 +854,9 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    id appearance = [[self class] appearance];
+    [appearance startForwarding:self];
     
     [self setupFormSheetViewController];
 }

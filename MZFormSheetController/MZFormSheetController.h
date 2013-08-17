@@ -177,7 +177,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 /**
  Subclasses may override to add custom transition animation.
  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
- When animation is finished you should must call super method or completionBlock to keep view life cycle.
+ When animation is finished you must call super method or completionBlock to keep view life cycle.
  */
 - (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
 - (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
