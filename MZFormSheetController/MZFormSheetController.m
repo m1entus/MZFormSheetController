@@ -24,6 +24,7 @@
 //  THE SOFTWARE.
 
 #import "MZFormSheetController.h"
+#import "NSInvocation+Copy.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
@@ -115,6 +116,9 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation;
 {
+    [anInvocation setTarget:nil];
+    [anInvocation retainArguments];
+    
     [self.invocations addObject:anInvocation];
 }
 
@@ -123,10 +127,18 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     return [self.mainClass instanceMethodSignatureForSelector:aSelector];
 }
 
-- (void)startForwardingInternal:(id)sender {
+- (void)startForwardingInternal:(id)sender
+{
     for (NSInvocation *invocation in self.invocations) {
-        [invocation setTarget:sender];
-        [invocation invoke];
+        
+        // Create a new copy of the stored invocation,
+        // otherwise setting the new target, this will never be released
+        // because the invocation in the array is still alive after the call
+
+        NSInvocation *targetInvocation = [invocation copy];
+        [targetInvocation setTarget:sender];
+        [targetInvocation invoke];
+        targetInvocation = nil;
     }
 }
 

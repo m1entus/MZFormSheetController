@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0628411417BFE5060098FD72 /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0628411317BFE5060098FD72 /* NSInvocation+Copy.m */; };
 		0660CEA017B65F8B0070B936 /* DEFacebookAttachmentFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0660CE7E17B65F8B0070B936 /* DEFacebookAttachmentFrame.png */; };
 		0660CEA117B65F8B0070B936 /* DEFacebookAttachmentFrame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0660CE7F17B65F8B0070B936 /* DEFacebookAttachmentFrame@2x.png */; };
 		0660CEA217B65F8B0070B936 /* DEFacebookCancelButtonLandscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 0660CE8017B65F8B0070B936 /* DEFacebookCancelButtonLandscape.png */; };
@@ -68,6 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0628411217BFE5060098FD72 /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+Copy.h"; path = "../../../MZFormSheetController/NSInvocation+Copy.h"; sourceTree = "<group>"; };
+		0628411317BFE5060098FD72 /* NSInvocation+Copy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSInvocation+Copy.m"; path = "../../../MZFormSheetController/NSInvocation+Copy.m"; sourceTree = "<group>"; };
 		0660CE7E17B65F8B0070B936 /* DEFacebookAttachmentFrame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DEFacebookAttachmentFrame.png; sourceTree = "<group>"; };
 		0660CE7F17B65F8B0070B936 /* DEFacebookAttachmentFrame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DEFacebookAttachmentFrame@2x.png"; sourceTree = "<group>"; };
 		0660CE8017B65F8B0070B936 /* DEFacebookCancelButtonLandscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DEFacebookCancelButtonLandscape.png; sourceTree = "<group>"; };
@@ -291,6 +294,8 @@
 				06A70E8217B5474A001A0AED /* MZFormSheetController.m */,
 				0662978817B7F1CA000DA2F2 /* MZFormSheetSegue.h */,
 				0662978917B7F1CB000DA2F2 /* MZFormSheetSegue.m */,
+				0628411217BFE5060098FD72 /* NSInvocation+Copy.h */,
+				0628411317BFE5060098FD72 /* NSInvocation+Copy.m */,
 			);
 			name = Source;
 			path = MZFormSheetControllerExample;
@@ -426,6 +431,7 @@
 				0660CEC117B65FC00070B936 /* UIApplication+DEFacebookComposeViewController.m in Sources */,
 				0660CEC217B65FC00070B936 /* UIDevice+DEFacebookComposeViewController.m in Sources */,
 				0662978A17B7F1CB000DA2F2 /* MZFormSheetSegue.m in Sources */,
+				0628411417BFE5060098FD72 /* NSInvocation+Copy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
