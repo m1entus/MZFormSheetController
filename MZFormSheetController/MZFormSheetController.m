@@ -123,7 +123,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     return [self.mainClass instanceMethodSignatureForSelector:aSelector];
 }
 
-- (void) startForwardingInternal:(id)sender {
+- (void)startForwardingInternal:(id)sender {
     for (NSInvocation *invocation in self.invocations) {
         [invocation setTarget:sender];
         [invocation invoke];
@@ -146,47 +146,76 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 #pragma mark - MZFormSheetBackgroundWindow
 
-@interface MZFormSheetBackgroundWindow : UIWindow
+@interface MZFormSheetBackgroundWindow()
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated withBackgroundColor:(UIColor *)backgroundColor;
++ (void)showBackgroundWindowAnimated:(BOOL)animated;
 + (void)hideBackgroundWindowAnimated:(BOOL)animated;
 
 @end
 
 @implementation MZFormSheetBackgroundWindow
+@synthesize backgroundColor = _backgroundColor;
 
-+ (void)showBackgroundWindowAnimated:(BOOL)animated withBackgroundColor:(UIColor *)backgroundColor
++ (instancetype)sharedWindow
 {
     if (!instanceOfFormSheetBackgroundWindow) {
         instanceOfFormSheetBackgroundWindow = [[MZFormSheetBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        instanceOfFormSheetBackgroundWindow.backgroundColor = backgroundColor;
-        [instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
-        instanceOfFormSheetBackgroundWindow.alpha = 0;
-        if (animated) {
-            [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
-                             animations:^{
-                                 instanceOfFormSheetBackgroundWindow.alpha = 1;
-                             }];
-        } else {
-            instanceOfFormSheetBackgroundWindow.alpha = 1;
-        }
-        
+    }
+    
+    return instanceOfFormSheetBackgroundWindow;
+}
+
++ (void)initialize
+{
+    if (self == [MZFormSheetBackgroundWindow class]) {
+        [[self appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
+    }
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    _backgroundColor = backgroundColor;
+    [super setBackgroundColor:backgroundColor];
+}
+
+- (UIColor *)backgroundColor
+{
+    return _backgroundColor;
+}
+
++ (void)showBackgroundWindowAnimated:(BOOL)animated
+{
+    [[MZFormSheetBackgroundWindow sharedWindow] makeKeyAndVisible];
+    
+    [MZFormSheetBackgroundWindow sharedWindow].alpha = 0;
+    
+    if (![MZFormSheetBackgroundWindow sharedWindow].backgroundColor) {
+        [MZFormSheetBackgroundWindow sharedWindow].backgroundColor = [[[self class] appearance] backgroundColor];
+    } 
+    
+    if (animated) {
+        [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
+                         animations:^{
+                             [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
+                         }];
+    } else {
+        [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
     }
 }
 
 + (void)hideBackgroundWindowAnimated:(BOOL)animated
 {
     if (!animated) {
-        [instanceOfFormSheetBackgroundWindow removeFromSuperview];
+        [[MZFormSheetBackgroundWindow sharedWindow] removeFromSuperview];
         instanceOfFormSheetBackgroundWindow = nil;
         return;
     }
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                      animations:^{
-                         instanceOfFormSheetBackgroundWindow.alpha = 0;
+                         [MZFormSheetBackgroundWindow sharedWindow].alpha = 0;
                      }
                      completion:^(BOOL finished) {
-                         [instanceOfFormSheetBackgroundWindow removeFromSuperview];
+                         [[MZFormSheetBackgroundWindow sharedWindow] removeFromSuperview];
                          instanceOfFormSheetBackgroundWindow = nil;
                      }];
 }
@@ -226,19 +255,16 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     return nil; // Not implemented
 }
 
-+ (void)load
++ (void)initialize
 {
-    @autoreleasepool {
-        id appearance = [[self class] appearance];
-        
-        [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
-        [appearance setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
-        [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
-        [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
-        [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
-        [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
-        [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
-    }
+    id appearance = [self appearance];
+    
+    [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
+    [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
+    [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
+    [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
+    [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
+    [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
 }
 
 + (BOOL)isAutoLayoutAvailable
@@ -355,7 +381,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     
     [MZFormSheetController setAnimating:YES];
     
-    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:animated withBackgroundColor:self.backgroundColor];
+    [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:animated];
     
     [self.formSheetWindow makeKeyAndVisible];
     

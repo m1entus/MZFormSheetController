@@ -72,9 +72,26 @@ typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
 
+@interface MZFormSheetBackgroundWindow : UIWindow
+
+/**
+ The background color of the background view.
+ If last form sheet will dismiss, backgroundColor will change to default.
+ If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
+ By default, this is a black at with a 0.5 alpha component
+ */
+@property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
+
+/**
+ Returns the window that is displayed in below form sheet controller
+ */
++ (instancetype)sharedWindow;
+
+@end
+
 @interface MZFormSheetController : UIViewController <UIAppearance>
 /**
- Return copy of formSheetController stack, last object (form sheet controller) is at the top
+ Returns copy of formSheetController stack, last object (form sheet controller) is at the top
  */
 + (NSArray *)formSheetControllersStack;
 
@@ -88,12 +105,6 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  By default, this is MZFormSheetTransitionStyleSlideFromTop.
  */
 @property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle UI_APPEARANCE_SELECTOR;
-
-/**
- The background color of the background view.
- By default, this is a black at with a 0.5 alpha component
- */
-@property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
