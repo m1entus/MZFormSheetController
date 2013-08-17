@@ -19,7 +19,7 @@
 {
     [super viewDidLoad];
 	
-    
+    [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
 
 }
 
@@ -32,8 +32,6 @@
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.landscapeTopInset = 20;
-    formSheet.backgroundStyle = MZFormSheetBackgroundStyleSolid;
-    formSheet.backgroundOpacity = 0.2;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {

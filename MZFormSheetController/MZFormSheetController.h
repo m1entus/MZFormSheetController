@@ -71,7 +71,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 /**
  The background color of the background view.
- If last form sheet will dismiss, backgroundColor will change to default.
+ After last form sheet dismiss, backgroundColor will change to default.
  If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
  By default, this is a black at with a 0.5 alpha component
  */
