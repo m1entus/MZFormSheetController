@@ -471,12 +471,9 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
     } else {
         transitionCompletionHandler();
     }
-    
-    if ([MZFormSheetController sharedQueue].count == 0) {
-        [self.applicationKeyWindow makeKeyWindow];
-        self.applicationKeyWindow.hidden = NO;
-    }
 
+    [self.applicationKeyWindow makeKeyWindow];
+    self.applicationKeyWindow.hidden = NO;
 }
 
 - (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
