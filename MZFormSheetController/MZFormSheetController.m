@@ -55,10 +55,9 @@ static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAs
 
 @class MZFormSheetBackgroundWindow;
 
-static MZFormSheetBackgroundWindow *instanceOfFormSheetBackgroundWindow;
-static NSMutableArray *instanceOfSharedQueue;
-static BOOL instanceOfFormSheetAnimating;
-
+static MZFormSheetBackgroundWindow *instanceOfFormSheetBackgroundWindow = nil;
+static NSMutableArray *instanceOfSharedQueue = nil;
+static BOOL instanceOfFormSheetAnimating = 0;
 static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 #pragma mark - UIViewController (OBJC_ASSOCIATION)
