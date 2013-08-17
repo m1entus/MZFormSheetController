@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.license  = 'MIT'
   s.summary  = 'Provides an alternative to the native iOS UIModalPresentationFormSheet.'
   s.homepage = 'https://github.com/m1entus/MZFormSheetController'
-  s.authors  = 'Michael Zaborowski'
+  s.authors  = 'Michał Zaborowski'
   s.source   = { :git => 'https://github.com/m1entus/MZFormSheetController.git', :tag => '0.0.3' }
   s.source_files = 'MZFormSheetController'
   s.requires_arc = true

@@ -33,11 +33,6 @@
 
 extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
 
-typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
-    MZFormSheetBackgroundStyleTransparent = 0,
-    MZFormSheetBackgroundStyleSolid,
-};
-
 typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleSlideFromTop = 0,
     MZFormSheetTransitionStyleSlideFromBottom,

@@ -177,22 +177,22 @@ id appearance = [MZFormSheetController appearance];
 ```
 
 ``` objective-c
-typedef NS_ENUM(NSInteger, MZFormSheetBackgroundStyle) {
-    MZFormSheetBackgroundStyleTransparent = 0,
-    MZFormSheetBackgroundStyleSolid,
-};
+@interface MZFormSheetBackgroundWindow : UIWindow
 
 /**
- Background view style.
- By default, this is MZFormSheetBackgroundStyleSolid.
+ The background color of the background view.
+ If last form sheet will dismiss, backgroundColor will change to default.
+ If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
+ By default, this is a black at with a 0.5 alpha component
  */
-@property (nonatomic, assign) MZFormSheetBackgroundStyle backgroundStyle UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
- The opacity of the background view.
- By default, this is 0.5
+ Returns the window that is displayed in below form sheet controller
  */
-@property (nonatomic, assign) CGFloat backgroundOpacity UI_APPEARANCE_SELECTOR;
++ (instancetype)sharedWindow;
+
+@end
 
 /**
  Center form sheet vertically.
