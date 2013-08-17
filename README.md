@@ -155,6 +155,13 @@ formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewCont
 [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         
 }];
+
+or
+
+[self presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+
+}];
+
 ```
 
 ## Appearance

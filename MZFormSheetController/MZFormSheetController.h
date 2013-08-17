@@ -226,7 +226,14 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, readonly) MZFormSheetController *formSheetController;
 
 /**
- Presents a form sheet controller.
+ Presents a form sheet cotnroller
+ @param formSheetController The form sheet controller or a subclass of MZFormSheetController.
+ @param completionHandler A completion handler or NULL.
+ */
+- (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
+
+/**
+ Creates a new form sheet controller and presents it.
  
  @param viewController The view controller that is presented by form sheet controller.
  @param transitionStyle he transition style to use when presenting the receiver.

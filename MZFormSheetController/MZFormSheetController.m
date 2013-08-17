@@ -925,11 +925,23 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 #pragma mark - Public
 
+- (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    self.formSheetController = formSheetController;
+    
+    [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
+        if (completionHandler) {
+            completionHandler(formSheetController);
+        }
+    }];
+}
+
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:viewController];
+    formSheet.transitionStyle = transitionStyle;
+    
     self.formSheetController = formSheet;
-    viewController.formSheetController = formSheet;
     
     [formSheet presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {

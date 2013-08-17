@@ -57,9 +57,10 @@
 {
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZCustomFormSheetController *customFormSheet = [[MZCustomFormSheetController alloc] initWithViewController:vc];
-    [customFormSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-        
+    [self presentFormSheetController:customFormSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+
     }];
+    
 }
 
 - (void)backgroundTapToDismiss

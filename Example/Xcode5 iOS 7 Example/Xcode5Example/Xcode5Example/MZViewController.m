@@ -35,8 +35,9 @@
     formSheet.backgroundStyle = MZFormSheetBackgroundStyleSolid;
     formSheet.backgroundOpacity = 0.2;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    [formSheet presentWithCompletionHandler:^(UIViewController *presentedFSViewController) {
-
+    
+    [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+        
     }];
 }
 
