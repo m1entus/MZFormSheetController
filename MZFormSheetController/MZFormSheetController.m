@@ -40,7 +40,7 @@ CGFloat const MZFormSheetControllerDefaultHeight = 284.0;
 CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
 
 CGFloat const MZFormSheetControllerDefaultAnimationDuration = 0.3;
-CGFloat const MZFormSheetControllerDefaultTransitionBounceDuration = 0.5;
+CGFloat const MZFormSheetControllerDefaultTransitionBounceDuration = 0.4;
 CGFloat const MZFormSheetControllerDefaultTransitionDropDownDuration = 0.4;
 
 CGFloat const MZFormSheetPresentedControllerDefaultCornerRadius = 6.0;
@@ -609,14 +609,22 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
             
         case MZFormSheetTransitionStyleBounce:
         {
-            CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
-            animation.values = @[@(0.01), @(1.2), @(0.9), @(1)];
-            animation.keyTimes = @[@(0), @(0.4), @(0.6), @(1)];
-            animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
-            animation.duration = MZFormSheetControllerDefaultTransitionBounceDuration;
-            animation.delegate = self;
-            [animation setValue:completionBlock forKey:@"completionHandler"];
-            [self.presentedFSViewController.view.layer addAnimation:animation forKey:@"bounce"];
+            CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+            bounceAnimation.fillMode = kCAFillModeBoth;
+            bounceAnimation.duration = MZFormSheetControllerDefaultTransitionBounceDuration;
+            bounceAnimation.values = @[
+                                       [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 0.01f)],
+                                       [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.1f)],
+                                       [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9f, 0.9f, 0.9f)],
+                                       [NSValue valueWithCATransform3D:CATransform3DIdentity]];
+            bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+            bounceAnimation.timingFunctions = @[
+                                                [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                                [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                                [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+            bounceAnimation.delegate = self;
+            [bounceAnimation setValue:completionBlock forKey:@"completionHandler"];
+            [self.presentedFSViewController.view.layer addAnimation:bounceAnimation forKey:@"bounce"];
         }break;
             
         case MZFormSheetTransitionStyleDropDown:

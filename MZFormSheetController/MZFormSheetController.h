@@ -78,7 +78,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
- Returns the window that is displayed in below form sheet controller
+ Returns the window that is displayed below form sheet controller
  */
 + (instancetype)sharedWindow;
 

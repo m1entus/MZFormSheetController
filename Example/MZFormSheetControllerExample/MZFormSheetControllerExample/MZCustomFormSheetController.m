@@ -7,6 +7,7 @@
 //
 
 #import "MZCustomFormSheetController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MZCustomFormSheetController ()
 
@@ -34,7 +35,27 @@
                              completionBlock();
                          }
                      }];
+    
+    CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    bounceAnimation.fillMode = kCAFillModeBoth;
+    bounceAnimation.removedOnCompletion = YES;
+    bounceAnimation.duration = 0.4;
+    bounceAnimation.values = @[
+                               [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 0.01f)],
+                               [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9f, 0.9f, 0.9f)],
+                               [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.1f)],
+                               [NSValue valueWithCATransform3D:CATransform3DIdentity]];
+    bounceAnimation.keyTimes = @[@0.0f, @0.5f, @0.75f, @1.0f];
+    bounceAnimation.timingFunctions = @[
+                                        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    bounceAnimation.delegate = self;
+    [bounceAnimation setValue:completionBlock forKey:@"completionHandler"];
+    [self.presentedFSViewController.view.layer addAnimation:bounceAnimation forKey:@"bounce"];
 }
+
+
 - (void)customTransitionOutWithCompletionBlock:(void(^)())completionBlock
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
