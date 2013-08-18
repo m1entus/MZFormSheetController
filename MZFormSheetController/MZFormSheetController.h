@@ -24,6 +24,7 @@
 //  THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "MZAppearance.h"
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #define MZ_DEPRECATED_ATTRIBUTE(message) __attribute__((deprecated(message)))
@@ -84,7 +85,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 @end
 
-@interface MZFormSheetController : UIViewController <UIAppearance>
+@interface MZFormSheetController : UIViewController <MZAppearance>
 /**
  Returns copy of formSheetController stack, last object (form sheet controller) is at the top
  */
@@ -99,7 +100,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  The transition style to use when presenting the receiver.
  By default, this is MZFormSheetTransitionStyleSlideFromTop.
  */
-@property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle MZ_APPEARANCE_SELECTOR;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
@@ -130,49 +131,49 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  Center form sheet vertically.
  By default, this is NO
  */
-@property (nonatomic, assign) BOOL centerFormSheetVertically UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) BOOL centerFormSheetVertically MZ_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
  By default, this is 66.0
  */
-@property (nonatomic, assign) CGFloat landscapeTopInset UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat landscapeTopInset MZ_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in portrait orientation.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat portraitTopInset UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat portraitTopInset MZ_APPEARANCE_SELECTOR;
 
 /**
  The radius to use when drawing rounded corners for the layer’s presented form sheet view background.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat cornerRadius MZ_APPEARANCE_SELECTOR;
 
 /**
  The blur radius (in points) used to render the layer’s shadow.
  By default, this is 6.0
  */
-@property (nonatomic, assign) CGFloat shadowRadius UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat shadowRadius MZ_APPEARANCE_SELECTOR;
 
 /**
  The opacity of the layer’s shadow.
  By default, this is 0.5
  */
-@property (nonatomic, assign) CGFloat shadowOpacity UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat shadowOpacity MZ_APPEARANCE_SELECTOR;
 
 /**
  Size for presented form sheet controller
  By default, this is CGSizeMake(284.0,284.0)
  */
-@property (nonatomic, assign) CGSize presentedFormSheetSize UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGSize presentedFormSheetSize MZ_APPEARANCE_SELECTOR;
 
 /**
  Returns whether the form sheet controller should dismiss after background view tap.
  By default, this is NO
  */
-@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap MZ_APPEARANCE_SELECTOR;
 
 /**
  Subclasses may override to add custom transition animation.
@@ -219,7 +220,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 @end
 
-/*
+/**
  Category on UIViewController to provide access to the formSheetController.
  */
 @interface UIViewController (MZFormSheet)

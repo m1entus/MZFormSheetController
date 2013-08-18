@@ -58,7 +58,6 @@ static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAs
 static MZFormSheetBackgroundWindow *instanceOfFormSheetBackgroundWindow = nil;
 static NSMutableArray *instanceOfSharedQueue = nil;
 static BOOL instanceOfFormSheetAnimating = 0;
-static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 #pragma mark - UIViewController (OBJC_ASSOCIATION)
 
@@ -72,91 +71,6 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 - (void)setFormSheetController:(MZFormSheetController *)formSheetController
 {
     objc_setAssociatedObject(self, MZFormSheetControllerAssociatedKey, formSheetController, OBJC_ASSOCIATION_ASSIGN);
-}
-
-@end
-
-#pragma mark - MZFormSheetAppearance proxy
-
-@interface MZFormSheetAppearance : NSObject
-@property (strong, nonatomic) Class mainClass;
-@property (strong, nonatomic) NSMutableArray *invocations;
-@end
-
-@implementation MZFormSheetAppearance
-
-// this method return the same object instance for each different class
-+ (id)appearanceForClass:(Class)thisClass
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        if (!instanceOfDictionaryClasses)
-            instanceOfDictionaryClasses = [[NSMutableDictionary alloc] init];
-    });
-
-    if (![instanceOfDictionaryClasses objectForKey:NSStringFromClass(thisClass)])
-    {
-        id thisAppearance = [[self alloc] initWithClass:thisClass];
-        [instanceOfDictionaryClasses setObject:thisAppearance forKey:NSStringFromClass(thisClass)];
-        return thisAppearance;
-    }
-    else
-        return [instanceOfDictionaryClasses objectForKey:NSStringFromClass(thisClass)];
-}
-
-- (id)initWithClass:(Class)thisClass
-{
-    if (self = [super init]) {
-        self.mainClass = thisClass;
-        self.invocations = [NSMutableArray array];
-    }
-    return self;
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation;
-{
-    [anInvocation setTarget:nil];
-    [anInvocation retainArguments];
-    
-    [self.invocations addObject:anInvocation];
-}
-
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    return [self.mainClass instanceMethodSignatureForSelector:aSelector];
-}
-
-- (void)startForwardingInternal:(id)sender
-{
-    for (NSInvocation *invocation in self.invocations) {
-        
-        // Create a new copy of the stored invocation,
-        // otherwise setting the new target, this will never be released
-        // because the invocation in the array is still alive after the call
-
-        NSInvocation *targetInvocation = [invocation copy];
-        [targetInvocation setTarget:sender];
-        [targetInvocation invoke];
-        targetInvocation = nil;
-    }
-}
-
-- (void)startForwarding:(id)sender
-{
-    NSMutableArray *classes = [NSMutableArray array];
-    
-    // We now need to first set the properties of the superclass    
-    for (Class class = [sender class];
-         [class isSubclassOfClass:[MZFormSheetController class]] || class == [MZFormSheetController class];
-         class = [class superclass]) {
-        [classes addObject:class];
-    }
-    
-    NSEnumerator *reverseClasses = [classes reverseObjectEnumerator];
-    
-    for (Class class in reverseClasses) {
-        [(MZFormSheetAppearance *)[MZFormSheetAppearance appearanceForClass:class] startForwardingInternal:sender];
-    }
 }
 
 @end
@@ -267,24 +181,21 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
 
 + (id)appearance
 {
-    return [MZFormSheetAppearance appearanceForClass:[self class]];
+    return [MZAppearance appearanceForClass:[self class]];
 }
 
-+ (id)appearanceWhenContainedIn:(Class <UIAppearanceContainer>)ContainerClass, ... NS_REQUIRES_NIL_TERMINATION
++ (void)load
 {
-    return nil; // Not implemented
-}
-
-+ (void)initialize
-{
-    id appearance = [self appearance];
-    
-    [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
-    [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
-    [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
-    [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
-    [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
-    [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
+    @autoreleasepool {
+        id appearance = [self appearance];
+        
+        [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
+        [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
+        [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
+        [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
+        [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
+        [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
+    }
 }
 
 + (BOOL)isAutoLayoutAvailable
@@ -378,7 +289,7 @@ static NSMutableDictionary *instanceOfDictionaryClasses = nil;
         self.presentedFSViewController = presentedFormSheetViewController;
         
         id appearance = [[self class] appearance];
-        [appearance startForwarding:self];
+        [appearance applyInvocationRecursivelyTo:self upToSuperClass:[MZFormSheetController class]];
         
         [self setupFormSheetViewController];
     }
