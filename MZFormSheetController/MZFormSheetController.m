@@ -263,6 +263,20 @@ static BOOL instanceOfFormSheetAnimating = 0;
     }
 }
 
+- (void)setPresentedFormSheetSize:(CGSize)presentedFormSheetSize
+{
+    if (!CGSizeEqualToSize(_presentedFormSheetSize, presentedFormSheetSize)) {
+        _presentedFormSheetSize = presentedFormSheetSize;
+        
+        CGPoint presentedFormCenter = self.presentedFSViewController.view.center;
+        self.presentedFSViewController.view.frame = CGRectMake(0, 0, _presentedFormSheetSize.width, _presentedFormSheetSize.height);
+        self.presentedFSViewController.view.center = presentedFormCenter;
+        
+        // This will make sure that origin be in good position
+        [self setupPresentedFSViewControllerFrame];
+    }
+}
+
 #pragma mark - Getters
 
 - (UIWindow *)formSheetWindow
