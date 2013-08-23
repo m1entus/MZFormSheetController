@@ -314,7 +314,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 {
     if (self = [self initWithViewController:presentedFormSheetViewController]) {
         if (!CGSizeEqualToSize(formSheetSize, CGSizeZero)) {
-            self.presentedFormSheetSize = formSheetSize;
+            _presentedFormSheetSize = formSheetSize;
             [self setupFormSheetViewController];
         }
     }
