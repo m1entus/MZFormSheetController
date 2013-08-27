@@ -171,6 +171,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
 @interface MZFormSheetController () <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIViewController *presentedFSViewController;
 
+@property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
+
 @property (nonatomic, weak) UIWindow *applicationKeyWindow;
 @property (nonatomic, strong) UIWindow *formSheetWindow;
 @end
@@ -824,6 +826,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleTapGestureRecognizer:)];
     tapGesture.delegate = self;
+    self.backgroundTapGestureRecognizer = tapGesture;
+    
     [self.formSheetWindow addGestureRecognizer:tapGesture];
     
     [self.view addSubview:self.presentedFSViewController.view];
@@ -878,9 +882,13 @@ static BOOL instanceOfFormSheetAnimating = 0;
     [self.presentedFSViewController.view removeFromSuperview];
     self.presentedFSViewController = nil;
     
+    [self.formSheetWindow removeGestureRecognizer:self.backgroundTapGestureRecognizer];
+    
     self.formSheetWindow.rootViewController = nil;
     [self.formSheetWindow removeFromSuperview];
     self.formSheetWindow = nil;
+    
+    self.backgroundTapGestureRecognizer = nil;
 }
 
 @end
