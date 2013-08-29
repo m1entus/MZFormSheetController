@@ -169,6 +169,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 #pragma mark - MZFormSheetController
 
 @interface MZFormSheetController () <UIGestureRecognizerDelegate>
+@property (nonatomic, weak) UIViewController *presentingViewController;
 @property (nonatomic, strong) UIViewController *presentedFSViewController;
 
 @property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
@@ -178,6 +179,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 @end
 
 @implementation MZFormSheetController
+@synthesize presentingViewController = _presentingViewController;
 
 #pragma mark - Class methods
 
@@ -232,6 +234,13 @@ static BOOL instanceOfFormSheetAnimating = 0;
 }
 
 #pragma mark - Setters
+
+- (void)setPresentingViewController:(UIViewController *)presentingViewController
+{
+    if (_presentingViewController != presentingViewController) {
+        _presentingViewController = presentingViewController;
+    }
+}
 
 - (BOOL)viewUsingAutolayout
 {
@@ -903,6 +912,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 - (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     self.formSheetController = formSheetController;
+    formSheetController.presentingViewController = self;
     
     [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
@@ -913,14 +923,15 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
-    MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:viewController];
-    formSheet.transitionStyle = transitionStyle;
+    MZFormSheetController *formSheetController = [[MZFormSheetController alloc] initWithViewController:viewController];
+    formSheetController.transitionStyle = transitionStyle;
     
-    self.formSheetController = formSheet;
+    self.formSheetController = formSheetController;
+    formSheetController.presentingViewController = self;
     
-    [formSheet presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
+    [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
-            completionHandler(formSheet);
+            completionHandler(formSheetController);
         }
     }];
 }

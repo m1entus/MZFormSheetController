@@ -87,14 +87,22 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 @interface MZFormSheetController : UIViewController <MZAppearance>
 /**
- Returns copy of formSheetController stack, last object (form sheet controller) is at the top
+ Returns copy of formSheetController stack, last object in array (form sheet controller) is on top
  */
 + (NSArray *)formSheetControllersStack;
 
 /**
  The view controller that is presented by this form sheet controller.
+ MZFormSheetController (self) --> presentedFSViewController
  */
 @property (nonatomic, readonly, strong) UIViewController *presentedFSViewController;
+
+/**
+ The view controller that is presenting this form sheet controller.
+ This is only set up if you use UIViewController (MZFormSheet) category to present form sheet controller.
+ presentingViewController --> MZFormSheetController (self) --> presentedFSViewController
+ */
+@property (nonatomic, readonly, weak) UIViewController *presentingViewController;
 
 /**
  The transition style to use when presenting the receiver.
