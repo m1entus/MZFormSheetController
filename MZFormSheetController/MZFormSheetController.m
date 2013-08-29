@@ -176,6 +176,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 @property (nonatomic, weak) UIWindow *applicationKeyWindow;
 @property (nonatomic, strong) UIWindow *formSheetWindow;
+
+@property (nonatomic, assign, getter = isPresented) BOOL presented;
 @end
 
 @implementation MZFormSheetController
@@ -336,6 +338,13 @@ static BOOL instanceOfFormSheetAnimating = 0;
 {
     NSAssert(self.presentedFSViewController, @"MZFormSheetController must have at least one view controller.");
     NSAssert(![MZFormSheetController isAnimating], @"Attempting to begin a form sheet transition from to while a transition is already in progress. Wait for didPresentCompletionHandler/didDismissCompletionHandler to know the current transition has completed");
+
+    if (self.presented){
+        if (completionHandler) {
+            completionHandler(self.presentedFSViewController);
+        }
+        return;
+    }
     
     self.applicationKeyWindow = [UIApplication sharedApplication].keyWindow;
     
@@ -358,6 +367,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
     
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
+
+        self.presented = YES;
         
         [self.presentedFSViewController setFormSheetController:self];
         
@@ -401,6 +412,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
     
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
+        self.presented = NO;
         
         if (self.didDismissCompletionHandler) {
             self.didDismissCompletionHandler(self.presentedFSViewController);
