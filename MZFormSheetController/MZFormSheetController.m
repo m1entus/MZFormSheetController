@@ -78,6 +78,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 #pragma mark - MZFormSheetBackgroundWindow
 
 @interface MZFormSheetBackgroundWindow()
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 
 + (void)showBackgroundWindowAnimated:(BOOL)animated;
 + (void)hideBackgroundWindowAnimated:(BOOL)animated;
@@ -112,6 +113,12 @@ static BOOL instanceOfFormSheetAnimating = 0;
 - (UIColor *)backgroundColor
 {
     return _backgroundColor;
+}
+
+- (void)setBackgroundImage:(UIImage *)backgroundImage
+{
+    _backgroundImage = backgroundImage;
+    self.backgroundImageView.image = backgroundImage;
 }
 
 + (void)showBackgroundWindowAnimated:(BOOL)animated
@@ -160,6 +167,13 @@ static BOOL instanceOfFormSheetAnimating = 0;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
         self.windowLevel = UIWindowLevelFormSheetBackground;
+
+        _backgroundImageView = [[UIImageView alloc] initWithFrame:frame];
+        _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+
+        _backgroundImageView.image = _backgroundImage = [[[self class] appearance] backgroundImage];
+        
+        [self addSubview:_backgroundImageView];
     }
     return self;
 }

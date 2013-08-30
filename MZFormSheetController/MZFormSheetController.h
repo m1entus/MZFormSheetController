@@ -79,6 +79,19 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
 
 /**
+ The background image of the background view, it is setter for backgroundImageView and can be set by MZAppearance proxy.
+ After last form sheet dismiss, backgroundImage will change to default.
+ If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
+ By default, this is nil
+ */
+@property (nonatomic, strong) UIImage *backgroundImage UI_APPEARANCE_SELECTOR;
+
+/**
+ The background image view, if you want to set backgroundImage use backgroundImage property.
+ */
+@property (nonatomic, strong, readonly) UIImageView *backgroundImageView;
+
+/**
  Returns the window that is displayed below form sheet controller
  */
 + (instancetype)sharedWindow;
