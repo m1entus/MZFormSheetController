@@ -22,6 +22,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     [[MZFormSheetController appearance] setCornerRadius:20.0];
+    [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
+    [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
 }
 
 - (void)transitionFromTop

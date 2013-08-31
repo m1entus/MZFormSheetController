@@ -243,7 +243,6 @@
 		06A70E4C17B546AE001A0AED = {
 			isa = PBXGroup;
 			children = (
-				0619D04817D1F66A0051E4C6 /* Accelerate.framework */,
 				062D29B317C0BD8B00E9CF11 /* Additional */,
 				06A70E7E17B5471B001A0AED /* Source */,
 				06A70E5E17B546AE001A0AED /* MZFormSheetControllerExample */,
@@ -263,6 +262,7 @@
 		06A70E5717B546AE001A0AED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0619D04817D1F66A0051E4C6 /* Accelerate.framework */,
 				06A70E7F17B54733001A0AED /* QuartzCore.framework */,
 				06A70E5817B546AE001A0AED /* UIKit.framework */,
 				06A70E5A17B546AE001A0AED /* Foundation.framework */,

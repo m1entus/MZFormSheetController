@@ -204,8 +204,6 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  */
 - (void)presentAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler;
 
-- (void)presentWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler MZ_DEPRECATED_ATTRIBUTE("Use presentAnimated:completionHandler instead.");
-
 /**
  Dismisses a form sheet controller.
  
@@ -213,8 +211,6 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  @param completionHandler A completion handler (didDismissCompletionHandler) or NULL.
  */
 - (void)dismissAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler;
-
-- (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler MZ_DEPRECATED_ATTRIBUTE("Use dismissAnimated:completionHandler instead.");
 
 @end
 
@@ -242,15 +238,11 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
 
-- (void)presentFormSheetWithViewController:(UIViewController *)viewController completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler MZ_DEPRECATED_ATTRIBUTE("Use presentFormSheetWithViewController:animated:completionHandler instead");
-
 /**
  Dismisses the form sheet controller that was presented by the receiver. If not find, last form sheet will be dismissed.
  @param animated Pass YES to animate the transition.
  @param completionHandler A completion handler (didDismissCompletionHandler) or NULL.
  */
 - (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
-
-- (void)dismissFormSheetControllerWithCompletionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler MZ_DEPRECATED_ATTRIBUTE("Use dismissFormSheetControllerAnimated:completionHandler instead");
 
 @end

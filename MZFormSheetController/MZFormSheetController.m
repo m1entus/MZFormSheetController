@@ -348,11 +348,6 @@ static BOOL instanceOfFormSheetAnimating = 0;
     
 }
 
-- (void)presentWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
-{
-    [self presentAnimated:YES completionHandler:completionHandler];
-}
-
 - (void)dismissAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler
 {
     if (self.willDismissCompletionHandler) {
@@ -391,11 +386,6 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
     [self.applicationKeyWindow makeKeyWindow];
     self.applicationKeyWindow.hidden = NO;
-}
-
-- (void)dismissWithCompletionHandler:(MZFormSheetCompletionHandler)completionHandler
-{
-    [self dismissFormSheetControllerAnimated:YES completionHandler:completionHandler];
 }
 
 //  Created by Kevin Cao on 13/4/29.
@@ -911,10 +901,6 @@ static BOOL instanceOfFormSheetAnimating = 0;
     [self presentFormSheetWithViewController:viewController animated:animated transitionStyle:MZFormSheetTransitionStyleSlideFromTop completionHandler:completionHandler];
 }
 
-- (void)presentFormSheetWithViewController:(UIViewController *)viewController completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
-{
-    [self presentFormSheetWithViewController:viewController animated:YES completionHandler:completionHandler];
-}
 
 - (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
@@ -931,11 +917,6 @@ static BOOL instanceOfFormSheetAnimating = 0;
             completionHandler(formSheetController);
         }
     }];
-}
-
-- (void)dismissFormSheetControllerWithCompletionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
-{
-    [self dismissFormSheetControllerAnimated:YES completionHandler:completionHandler];
 }
 
 @end

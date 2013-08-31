@@ -15,7 +15,7 @@
  The background color of the background view.
  After last form sheet dismiss, backgroundColor will change to default.
  If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
- By default, this is a clear color
+ By default, this is a black at with a 0.5 alpha component
  */
 @property (nonatomic, strong) UIColor *backgroundColor MZ_APPEARANCE_SELECTOR;
 
@@ -40,7 +40,7 @@
 
 /*
  Apply background blur effect
- By default, this is YES
+ By default, this is NO
  */
 @property (nonatomic, assign) BOOL backgroundBlurEffect MZ_APPEARANCE_SELECTOR;
 
@@ -63,10 +63,16 @@
 @property (nonatomic, assign) CGFloat blurSaturation MZ_APPEARANCE_SELECTOR;
 
 /*
- Specifies the blur saturation used to render the blur background view
- By default, this is 1.0
+ Asynchronously recompute the display of background blur.
+ Recommended to use if you expect interface orientation or some dynamic animations belof form sheet
  */
 @property (nonatomic, assign) BOOL dynamicBlur MZ_APPEARANCE_SELECTOR;
+
+/*
+ Specifies how often the blur background refresh.
+ Works only if dynamicBlur is set to YES.
+ By default, this is 0
+ */
 @property (nonatomic, assign) CGFloat dynamicBlurInterval MZ_APPEARANCE_SELECTOR;
 
 /*

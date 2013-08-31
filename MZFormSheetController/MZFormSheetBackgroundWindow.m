@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <Accelerate/Accelerate.h>
 
+CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurRadius = 2.0;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurSaturation = 1.0;
 
@@ -33,7 +34,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 @implementation UIView (Screenshot)
 
-- (UIImage *)screenshot
+- (UIImage *)screenshotWithStatusBar:(BOOL)includeStatusBar
 {
     UIGraphicsBeginImageContext(self.bounds.size);
     [self.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -41,6 +42,10 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     UIGraphicsEndImageContext();
     NSData *imageData = UIImageJPEGRepresentation(image, 0.75);
     image = [UIImage imageWithData:imageData];
+    
+    if (includeStatusBar) {
+        return image;
+    }
 
     CGRect rect = self.bounds;
 
@@ -234,10 +239,12 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 + (void)initialize
 {
     if (self == [MZFormSheetBackgroundWindow class]) {
-        [[self appearance] setBackgroundColor:[UIColor clearColor]];
-        [[self appearance] setBackgroundBlurEffect:YES];
+        [[self appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
+        [[self appearance] setBackgroundBlurEffect:NO];
         [[self appearance] setBlurRadius:MZFormSheetControllerDefaultBackgroundBlurRadius];
         [[self appearance] setBlurSaturation:MZFormSheetControllerDefaultBackgroundBlurSaturation];
+        [[self appearance] setDynamicBlur:NO];
+        [[self appearance] setDynamicBlurInterval:0.0f];
     }
 }
 
@@ -294,14 +301,19 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     if (backgroundBlurEffect) {
         [self updateBlur];
     }
+    if (self.dynamicBlur) {
+        [self updateBlurAsynchronously];
+    }
 }
 
 - (void)setDynamicBlur:(BOOL)dynamicBlur
 {
-    _dynamicBlur = dynamicBlur;
-    if (dynamicBlur)
-    {
-        [self updateBlurAsynchronously];
+    if (_dynamicBlur != dynamicBlur) {
+        _dynamicBlur = dynamicBlur;
+        if (dynamicBlur)
+        {
+            [self updateBlurAsynchronously];
+        }
     }
 }
 
@@ -377,7 +389,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
         controller = controller.presentedViewController;
     }
 
-    UIImage *blurredImage = [[controller.view screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
+    UIImage *blurredImage = [[controller.view screenshotWithStatusBar:self.shouldBackgroundImageOverlapStatusBar] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
 
     self.backgroundImageView.image = blurredImage;
 }
@@ -385,14 +397,14 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)updateBlurAsynchronously
 {
-    if (self.dynamicBlur && !self.updatingBlur)
+    if (self.dynamicBlur && !self.updatingBlur && self.backgroundBlurEffect)
     {
         UIViewController *controller = self.applicationWindow.rootViewController;
         while (controller.presentedViewController != nil) {
             controller = controller.presentedViewController;
         }
 
-        UIImage *snapshot = [controller.view screenshot];
+        UIImage *snapshot = [controller.view screenshotWithStatusBar:self.shouldBackgroundImageOverlapStatusBar];
 
         self.updatingBlur = YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
