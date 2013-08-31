@@ -222,6 +222,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 @interface MZFormSheetBackgroundWindow()
 @property (nonatomic, weak) UIWindow *applicationWindow;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
+
+@property (nonatomic, assign) BOOL updatingBlur;
 @end
 
 @implementation MZFormSheetBackgroundWindow
@@ -291,6 +293,15 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
     if (backgroundBlurEffect) {
         [self updateBlur];
+    }
+}
+
+- (void)setDynamicBlur:(BOOL)dynamicBlur
+{
+    _dynamicBlur = dynamicBlur;
+    if (dynamicBlur)
+    {
+        [self updateBlurAsynchronously];
     }
 }
 
@@ -366,9 +377,47 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
         controller = controller.presentedViewController;
     }
 
-    UIImage *blurImage = [[controller.view screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
+    UIImage *blurredImage = [[controller.view screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
 
-    self.backgroundImageView.image = blurImage;
+    self.backgroundImageView.image = blurredImage;
+}
+
+
+- (void)updateBlurAsynchronously
+{
+    if (self.dynamicBlur && !self.updatingBlur)
+    {
+        UIViewController *controller = self.applicationWindow.rootViewController;
+        while (controller.presentedViewController != nil) {
+            controller = controller.presentedViewController;
+        }
+
+        UIImage *snapshot = [controller.view screenshot];
+
+        self.updatingBlur = YES;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+
+            UIImage *blurredImage = [snapshot blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+
+                self.updatingBlur = NO;
+                if (self.dynamicBlur)
+                {
+                    self.backgroundImageView.image = blurredImage;
+                    if (self.dynamicBlurInterval)
+                    {
+                        [self performSelector:@selector(updateBlurAsynchronously) withObject:nil
+                                   afterDelay:self.dynamicBlurInterval inModes:@[NSDefaultRunLoopMode, UITrackingRunLoopMode]];
+                    }
+                    else
+                    {
+                        [self performSelectorOnMainThread:@selector(updateBlurAsynchronously) withObject:nil
+                                            waitUntilDone:NO modes:@[NSDefaultRunLoopMode, UITrackingRunLoopMode]];
+                    }
+                }
+            });
+        });
+    }
 }
 
 #pragma mark - Window rotations

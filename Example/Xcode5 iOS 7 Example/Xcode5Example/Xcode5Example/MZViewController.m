@@ -25,6 +25,7 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
     
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+
     formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;

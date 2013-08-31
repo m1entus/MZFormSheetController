@@ -63,6 +63,13 @@
 @property (nonatomic, assign) CGFloat blurSaturation MZ_APPEARANCE_SELECTOR;
 
 /*
+ Specifies the blur saturation used to render the blur background view
+ By default, this is 1.0
+ */
+@property (nonatomic, assign) BOOL dynamicBlur MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat dynamicBlurInterval MZ_APPEARANCE_SELECTOR;
+
+/*
  All of the interface orientations that the background image view supports.
  By default, this is UIInterfaceOrientationMaskAll
  */
