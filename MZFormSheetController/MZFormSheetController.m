@@ -38,8 +38,6 @@ CGFloat const MZFormSheetControllerDefaultLandscapeTopInset = 6.0;
 CGFloat const MZFormSheetControllerDefaultWidth = 284.0;
 CGFloat const MZFormSheetControllerDefaultHeight = 284.0;
 
-CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
-
 CGFloat const MZFormSheetControllerDefaultAnimationDuration = 0.3;
 CGFloat const MZFormSheetControllerDefaultTransitionBounceDuration = 0.4;
 CGFloat const MZFormSheetControllerDefaultTransitionDropDownDuration = 0.4;
@@ -49,7 +47,6 @@ CGFloat const MZFormSheetPresentedControllerDefaultShadowRadius = 6.0;
 CGFloat const MZFormSheetPresentedControllerDefaultShadowOpacity = 0.5;
 
 UIWindowLevel const UIWindowLevelFormSheet = 1991.0;  // don't overlap system's alert
-UIWindowLevel const UIWindowLevelFormSheetBackground = 1990.0; // below the alert window
 
 static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
 
@@ -75,107 +72,48 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 @end
 
-#pragma mark - MZFormSheetBackgroundWindow
+#pragma mark - MZFormSheetBackgroundWidnow (Show/Hide)
 
-@interface MZFormSheetBackgroundWindow()
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-
-+ (void)showBackgroundWindowAnimated:(BOOL)animated;
-+ (void)hideBackgroundWindowAnimated:(BOOL)animated;
-
-@end
-
-@implementation MZFormSheetBackgroundWindow
-@synthesize backgroundColor = _backgroundColor;
-
-+ (instancetype)sharedWindow
-{
-    if (!instanceOfFormSheetBackgroundWindow) {
-        instanceOfFormSheetBackgroundWindow = [[MZFormSheetBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    }
-    
-    return instanceOfFormSheetBackgroundWindow;
-}
-
-+ (void)initialize
-{
-    if (self == [MZFormSheetBackgroundWindow class]) {
-        [[self appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
-    }
-}
-
-- (void)setBackgroundColor:(UIColor *)backgroundColor
-{
-    _backgroundColor = backgroundColor;
-    [super setBackgroundColor:backgroundColor];
-}
-
-- (UIColor *)backgroundColor
-{
-    return _backgroundColor;
-}
-
-- (void)setBackgroundImage:(UIImage *)backgroundImage
-{
-    _backgroundImage = backgroundImage;
-    self.backgroundImageView.image = backgroundImage;
-}
+@implementation MZFormSheetBackgroundWindow (Show)
 
 + (void)showBackgroundWindowAnimated:(BOOL)animated
-{
-    if ([MZFormSheetBackgroundWindow sharedWindow].isHidden) {
-        [[MZFormSheetBackgroundWindow sharedWindow] makeKeyAndVisible];
+{    
+    if ([MZFormSheetController sharedBackgroundWindow].isHidden) {
+        [instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
 
-        [MZFormSheetBackgroundWindow sharedWindow].alpha = 0;
-        
-        if (![MZFormSheetBackgroundWindow sharedWindow].backgroundColor) {
-            [MZFormSheetBackgroundWindow sharedWindow].backgroundColor = [[[self class] appearance] backgroundColor];
+        instanceOfFormSheetBackgroundWindow.alpha = 0;
+
+        if (!instanceOfFormSheetBackgroundWindow.backgroundColor) {
+            instanceOfFormSheetBackgroundWindow.backgroundColor = [[[MZFormSheetBackgroundWindow class] appearance] backgroundColor];
         }
-        
+
         if (animated) {
             [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                              animations:^{
-                                 [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
+                                 instanceOfFormSheetBackgroundWindow.alpha = 1;
                              }];
         } else {
-            [MZFormSheetBackgroundWindow sharedWindow].alpha = 1;
+            instanceOfFormSheetBackgroundWindow.alpha = 1;
         }
     }
-    
+
 }
 
 + (void)hideBackgroundWindowAnimated:(BOOL)animated
 {
     if (!animated) {
-        [[MZFormSheetBackgroundWindow sharedWindow] removeFromSuperview];
+        [instanceOfFormSheetBackgroundWindow removeFromSuperview];
         instanceOfFormSheetBackgroundWindow = nil;
         return;
     }
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                      animations:^{
-                         [MZFormSheetBackgroundWindow sharedWindow].alpha = 0;
+                         instanceOfFormSheetBackgroundWindow.alpha = 0;
                      }
                      completion:^(BOOL finished) {
-                         [[MZFormSheetBackgroundWindow sharedWindow] removeFromSuperview];
+                         [instanceOfFormSheetBackgroundWindow removeFromSuperview];
                          instanceOfFormSheetBackgroundWindow = nil;
                      }];
-}
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.opaque = NO;
-        self.windowLevel = UIWindowLevelFormSheetBackground;
-
-        _backgroundImageView = [[UIImageView alloc] initWithFrame:frame];
-        _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
-
-        _backgroundImageView.image = _backgroundImage = [[[self class] appearance] backgroundImage];
-        
-        [self addSubview:_backgroundImageView];
-    }
-    return self;
 }
 
 @end
@@ -240,6 +178,16 @@ static BOOL instanceOfFormSheetAnimating = 0;
 {
     return [instanceOfSharedQueue copy];
 }
+
++ (MZFormSheetBackgroundWindow *)sharedBackgroundWindow
+{
+    if (!instanceOfFormSheetBackgroundWindow) {
+        instanceOfFormSheetBackgroundWindow = [[MZFormSheetBackgroundWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    }
+
+    return instanceOfFormSheetBackgroundWindow;
+}
+
 
 + (NSMutableArray *)sharedQueue
 {

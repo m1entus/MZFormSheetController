@@ -25,6 +25,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MZAppearance.h"
+#import "MZFormSheetBackgroundWindow.h"
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #define MZ_DEPRECATED_ATTRIBUTE(message) __attribute__((deprecated(message)))
@@ -68,37 +69,13 @@ typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
 
-@interface MZFormSheetBackgroundWindow : UIWindow
-
-/**
- The background color of the background view.
- After last form sheet dismiss, backgroundColor will change to default.
- If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
- By default, this is a black at with a 0.5 alpha component
- */
-@property (nonatomic, strong) UIColor *backgroundColor UI_APPEARANCE_SELECTOR;
-
-/**
- The background image of the background view, it is setter for backgroundImageView and can be set by MZAppearance proxy.
- After last form sheet dismiss, backgroundImage will change to default.
- If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
- By default, this is nil
- */
-@property (nonatomic, strong) UIImage *backgroundImage UI_APPEARANCE_SELECTOR;
-
-/**
- The background image view, if you want to set backgroundImage use backgroundImage property.
- */
-@property (nonatomic, strong, readonly) UIImageView *backgroundImageView;
+@interface MZFormSheetController : UIViewController <MZAppearance>
 
 /**
  Returns the window that is displayed below form sheet controller
  */
-+ (instancetype)sharedWindow;
++ (MZFormSheetBackgroundWindow *)sharedBackgroundWindow;
 
-@end
-
-@interface MZFormSheetController : UIViewController <MZAppearance>
 /**
  Returns copy of formSheetController stack, last object in array (form sheet controller) is on top
  */

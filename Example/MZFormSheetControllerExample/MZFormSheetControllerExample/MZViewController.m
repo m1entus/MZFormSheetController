@@ -22,6 +22,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     [[MZFormSheetController appearance] setCornerRadius:20.0];
+    [[MZFormSheetBackgroundWindow appearance] setBackgroundImage:[UIImage imageNamed:@"3.png"]];
 }
 
 - (void)transitionFromTop

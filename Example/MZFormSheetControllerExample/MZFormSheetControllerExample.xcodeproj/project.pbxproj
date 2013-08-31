@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0619D04717D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */; };
 		062D29B817C0BD9C00E9CF11 /* MZAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D29B517C0BD9C00E9CF11 /* MZAppearance.m */; };
 		062D29B917C0BD9C00E9CF11 /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D29B717C0BD9C00E9CF11 /* NSInvocation+Copy.m */; };
 		0660CEA017B65F8B0070B936 /* DEFacebookAttachmentFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0660CE7E17B65F8B0070B936 /* DEFacebookAttachmentFrame.png */; };
@@ -70,6 +71,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0619D04517D1E7960051E4C6 /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetBackgroundWindow.h; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
+		0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetBackgroundWindow.m; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
 		062D29B417C0BD9C00E9CF11 /* MZAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZAppearance.h; path = ../../../Additional/MZAppearance.h; sourceTree = "<group>"; };
 		062D29B517C0BD9C00E9CF11 /* MZAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZAppearance.m; path = ../../../Additional/MZAppearance.m; sourceTree = "<group>"; };
 		062D29B617C0BD9C00E9CF11 /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+Copy.h"; path = "../../../Additional/NSInvocation+Copy.h"; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 				06A70E8217B5474A001A0AED /* MZFormSheetController.m */,
 				0662978817B7F1CA000DA2F2 /* MZFormSheetSegue.h */,
 				0662978917B7F1CB000DA2F2 /* MZFormSheetSegue.m */,
+				0619D04517D1E7960051E4C6 /* MZFormSheetBackgroundWindow.h */,
+				0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */,
 			);
 			name = Source;
 			path = MZFormSheetControllerExample;
@@ -447,6 +452,7 @@
 				0662978A17B7F1CB000DA2F2 /* MZFormSheetSegue.m in Sources */,
 				062D29B817C0BD9C00E9CF11 /* MZAppearance.m in Sources */,
 				062D29B917C0BD9C00E9CF11 /* NSInvocation+Copy.m in Sources */,
+				0619D04717D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
