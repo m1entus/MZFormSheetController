@@ -32,6 +32,25 @@ If you want to dismiss form sheet controller, you can use category on UIViewCont
 }];
 ```
 
+## Blur background effect
+
+It is possible to display blurry background, you can set MZFormSheetWindow appearance or directly to window
+
+
+``` objective-c
+[[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
+[[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
+[[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
+[[MZFormSheetBackgroundWindow appearance] setShouldBackgroundImageOverlapStatusBar:YES];
+```
+
+``` objective-c
+[[MZFormSheetController sharedWindow] setBackgroundBlurEffect:YES];
+[[MZFormSheetController sharedWindow] setBlurRadius:5.0];
+[[MZFormSheetController sharedWindow] setBackgroundColor:[UIColor clearColor]];
+[[MZFormSheetController sharedWindow] setShouldBackgroundImageOverlapStatusBar:YES];
+```
+
 ## Transitions
 
 MZFormSheetController has predefined couple transitions.

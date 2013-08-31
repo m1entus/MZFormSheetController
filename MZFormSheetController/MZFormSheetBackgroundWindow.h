@@ -65,6 +65,7 @@
 /*
  Asynchronously recompute the display of background blur.
  Recommended to use if you expect interface orientation or some dynamic animations belof form sheet
+ By default, this is NO
  */
 @property (nonatomic, assign) BOOL dynamicBlur MZ_APPEARANCE_SELECTOR;
 

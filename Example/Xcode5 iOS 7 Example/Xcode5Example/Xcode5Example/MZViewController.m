@@ -18,6 +18,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
+    [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
+    [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
+    [[MZFormSheetBackgroundWindow appearance] setShouldBackgroundImageOverlapStatusBar:YES];
 }
 
 - (IBAction)showFormSheet:(UIButton *)sender

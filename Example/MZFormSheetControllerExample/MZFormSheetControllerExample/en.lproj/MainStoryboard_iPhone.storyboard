@@ -661,9 +661,6 @@
         </class>
         <class className="MZModalViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MZModalViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="modal:"/>
-            </relationships>
         </class>
         <class className="MZNavViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MZNavViewController.h"/>
