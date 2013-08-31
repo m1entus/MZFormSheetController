@@ -83,10 +83,6 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
         instanceOfFormSheetBackgroundWindow.alpha = 0;
 
-        if (!instanceOfFormSheetBackgroundWindow.backgroundColor) {
-            instanceOfFormSheetBackgroundWindow.backgroundColor = [[[MZFormSheetBackgroundWindow class] appearance] backgroundColor];
-        }
-
         if (animated) {
             [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                              animations:^{

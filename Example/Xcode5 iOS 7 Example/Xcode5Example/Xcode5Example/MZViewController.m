@@ -18,9 +18,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.2]];
-
 }
 
 - (IBAction)showFormSheet:(UIButton *)sender

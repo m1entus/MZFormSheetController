@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0619D04717D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */; };
+		0619D04917D1F66A0051E4C6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0619D04817D1F66A0051E4C6 /* Accelerate.framework */; };
 		062D29B817C0BD9C00E9CF11 /* MZAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D29B517C0BD9C00E9CF11 /* MZAppearance.m */; };
 		062D29B917C0BD9C00E9CF11 /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D29B717C0BD9C00E9CF11 /* NSInvocation+Copy.m */; };
 		0660CEA017B65F8B0070B936 /* DEFacebookAttachmentFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0660CE7E17B65F8B0070B936 /* DEFacebookAttachmentFrame.png */; };
@@ -73,6 +74,7 @@
 /* Begin PBXFileReference section */
 		0619D04517D1E7960051E4C6 /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetBackgroundWindow.h; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
 		0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetBackgroundWindow.m; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
+		0619D04817D1F66A0051E4C6 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		062D29B417C0BD9C00E9CF11 /* MZAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZAppearance.h; path = ../../../Additional/MZAppearance.h; sourceTree = "<group>"; };
 		062D29B517C0BD9C00E9CF11 /* MZAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZAppearance.m; path = ../../../Additional/MZAppearance.m; sourceTree = "<group>"; };
 		062D29B617C0BD9C00E9CF11 /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+Copy.h"; path = "../../../Additional/NSInvocation+Copy.h"; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0619D04917D1F66A0051E4C6 /* Accelerate.framework in Frameworks */,
 				06A70E8017B54733001A0AED /* QuartzCore.framework in Frameworks */,
 				06A70E5917B546AE001A0AED /* UIKit.framework in Frameworks */,
 				06A70E5B17B546AE001A0AED /* Foundation.framework in Frameworks */,
@@ -240,6 +243,7 @@
 		06A70E4C17B546AE001A0AED = {
 			isa = PBXGroup;
 			children = (
+				0619D04817D1F66A0051E4C6 /* Accelerate.framework */,
 				062D29B317C0BD8B00E9CF11 /* Additional */,
 				06A70E7E17B5471B001A0AED /* Source */,
 				06A70E5E17B546AE001A0AED /* MZFormSheetControllerExample */,
