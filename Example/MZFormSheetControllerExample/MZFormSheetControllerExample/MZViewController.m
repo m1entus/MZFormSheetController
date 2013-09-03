@@ -24,6 +24,7 @@
     [[MZFormSheetController appearance] setCornerRadius:20.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
+    // [[MZFormSheetBackgroundWindow appearance] setShouldBackgroundImageOverlapStatusBar:YES];
 }
 
 - (void)transitionFromTop
