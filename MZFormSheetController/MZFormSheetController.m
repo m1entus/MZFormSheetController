@@ -256,7 +256,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
         UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
-        window.windowLevel = UIWindowLevelFormSheet;
+        window.windowLevel = UIWindowLevelNormal;
         window.rootViewController = self;
         _formSheetWindow = window;
     }

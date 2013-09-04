@@ -331,7 +331,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     if (self = [super initWithFrame:frame]) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
-        self.windowLevel = UIWindowLevelFormSheetBackground;
+        self.windowLevel = UIWindowLevelNormal;
         self.applicationWindow = [UIApplication sharedApplication].keyWindow;
 
         _supportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
