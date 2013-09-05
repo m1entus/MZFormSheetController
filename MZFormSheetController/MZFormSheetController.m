@@ -28,6 +28,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+
 NSString *const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
 NSString *const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
 NSString *const MZFormSheetWillPresentNotification = @"MZFormSheetWillPresentNotification";
@@ -128,7 +130,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 @property (nonatomic, assign, getter = isPresented) BOOL presented;
 @property (nonatomic, assign, getter = isKeyboardVisible) BOOL keyboardVisible;
-@property (nonatomic, strong) NSValue *keyboardFrameEnd;
+@property (nonatomic, strong) NSValue *screenFrame;
 @end
 
 @implementation MZFormSheetController
@@ -764,14 +766,18 @@ static BOOL instanceOfFormSheetAnimating = 0;
 {
     if (self.keyboardVisible) {
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
-        CGRect screenRect = [self.keyboardFrameEnd CGRectValue];
+        CGRect screenRect = [self.screenFrame CGRectValue];
 
         if (screenRect.size.height > formSheetRect.size.height) {
             if (self.centerFormSheetVerticallyWhenKeyboardAppears) {
-                formSheetRect.origin.y = (screenRect.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)/2 - formSheetRect.size.height/2;
+                formSheetRect.origin.y = ([UIApplication sharedApplication].statusBarFrame.size.height + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
             }
         } else {
-            formSheetRect.origin.y = 0;
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+                formSheetRect.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+            } else {
+                formSheetRect.origin.y = 0;
+            }
         }
 
         self.presentedFSViewController.view.frame = formSheetRect;
@@ -817,12 +823,20 @@ static BOOL instanceOfFormSheetAnimating = 0;
     CGRect screenRect = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
 
     if (UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
-        CGFloat height = screenRect.size.height;
-        screenRect.size.height = screenRect.size.width;
-        screenRect.size.width = height;
+        screenRect.size.height = [UIScreen mainScreen].bounds.size.width - screenRect.size.width;
+        screenRect.size.width = [UIScreen mainScreen].bounds.size.height;
+    } else {
+        screenRect.size.height = [UIScreen mainScreen].bounds.size.height - screenRect.size.height;
+        screenRect.size.width = [UIScreen mainScreen].bounds.size.width;
     }
 
-    self.keyboardFrameEnd = [NSValue valueWithCGRect:screenRect];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        screenRect.origin.y = 0;
+    } else {
+        screenRect.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+
+    self.screenFrame = [NSValue valueWithCGRect:screenRect];
     self.keyboardVisible = YES;
 
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
@@ -834,7 +848,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 - (void)willHideKeyboardNotification:(NSNotification *)notification
 {
     self.keyboardVisible = NO;
-    self.keyboardFrameEnd = nil;
+    self.screenFrame = nil;
     
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
         [self setupPresentedFSViewControllerFrame];
