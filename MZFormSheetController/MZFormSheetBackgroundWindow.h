@@ -33,12 +33,6 @@
 @property (nonatomic, strong, readonly) UIImageView *backgroundImageView;
 
 /*
- If background image is displayed, status bar will be overlaped
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL shouldBackgroundImageOverlapStatusBar MZ_APPEARANCE_SELECTOR;
-
-/*
  Apply background blur effect
  By default, this is NO
  */

@@ -34,6 +34,7 @@
 #endif
 
 extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
+extern CGFloat const MZFormSheetControllerWindowTag;
 
 typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleSlideFromTop = 0,

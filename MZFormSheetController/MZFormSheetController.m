@@ -46,7 +46,8 @@ CGFloat const MZFormSheetPresentedControllerDefaultCornerRadius = 6.0;
 CGFloat const MZFormSheetPresentedControllerDefaultShadowRadius = 6.0;
 CGFloat const MZFormSheetPresentedControllerDefaultShadowOpacity = 0.5;
 
-UIWindowLevel const UIWindowLevelFormSheet = 3;  // don't overlap system's alert or keyboard
+UIWindowLevel const UIWindowLevelFormSheet = 3;
+CGFloat const MZFormSheetControllerWindowTag = 10001;
 
 static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
 
@@ -257,6 +258,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
         window.windowLevel = UIWindowLevelFormSheet;
+        window.tag = MZFormSheetControllerWindowTag;
         window.rootViewController = self;
         _formSheetWindow = window;
     }

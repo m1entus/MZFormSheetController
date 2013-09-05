@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		064BF79B17D2030300518C26 /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 064BF79917D2030300518C26 /* MZFormSheetBackgroundWindow.m */; };
+		0685BC0B17D8C394008CF534 /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 0685BC0A17D8C394008CF534 /* UIImage+Additional.m */; };
 		D217497617BA244F00F07567 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497517BA244F00F07567 /* Foundation.framework */; };
 		D217497817BA244F00F07567 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497717BA244F00F07567 /* CoreGraphics.framework */; };
 		D217497A17BA244F00F07567 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497917BA244F00F07567 /* UIKit.framework */; };
@@ -43,6 +44,8 @@
 /* Begin PBXFileReference section */
 		064BF79917D2030300518C26 /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetBackgroundWindow.m; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
 		064BF79A17D2030300518C26 /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetBackgroundWindow.h; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
+		0685BC0917D8C394008CF534 /* UIImage+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Additional.h"; path = "../../../MZFormSheetController/UIImage+Additional.h"; sourceTree = "<group>"; };
+		0685BC0A17D8C394008CF534 /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Additional.m"; path = "../../../MZFormSheetController/UIImage+Additional.m"; sourceTree = "<group>"; };
 		D217497217BA244F00F07567 /* Xcode5Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xcode5Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D217497517BA244F00F07567 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D217497717BA244F00F07567 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -180,6 +183,8 @@
 		D21749AD17BA247800F07567 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				0685BC0917D8C394008CF534 /* UIImage+Additional.h */,
+				0685BC0A17D8C394008CF534 /* UIImage+Additional.m */,
 				064BF79917D2030300518C26 /* MZFormSheetBackgroundWindow.m */,
 				064BF79A17D2030300518C26 /* MZFormSheetBackgroundWindow.h */,
 				D21749AE17BA248700F07567 /* MZFormSheetController.h */,
@@ -305,6 +310,7 @@
 			files = (
 				D21749B317BA248700F07567 /* MZFormSheetSegue.m in Sources */,
 				D217498F17BA244F00F07567 /* MZViewController.m in Sources */,
+				0685BC0B17D8C394008CF534 /* UIImage+Additional.m in Sources */,
 				D217498217BA244F00F07567 /* main.m in Sources */,
 				D21749B617BA24A300F07567 /* MZModalViewController.m in Sources */,
 				D21749B217BA248700F07567 /* MZFormSheetController.m in Sources */,
