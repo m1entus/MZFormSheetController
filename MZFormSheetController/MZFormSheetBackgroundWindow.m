@@ -32,26 +32,37 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     return 1 << orientation;
 }
 
-#pragma mark - UIViewController (ParentViewController)
+#pragma mark - MZFormSheetBackgroundWindow
 
-@implementation UIViewController (ParentViewController)
+@interface MZFormSheetBackgroundWindow()
+@property (nonatomic, strong) UIImageView *backgroundImageView;
 
-- (UIViewController *)topParentViewController
-{
-    UIViewController *controller = self;
-    while (controller.presentedViewController != nil) {
-        controller = controller.presentedViewController;
-    }
-    return controller;
-}
-
+@property (nonatomic, assign) BOOL updatingBlur;
 @end
 
-#pragma mark - UIView (Screenshot)
+@implementation MZFormSheetBackgroundWindow
+@synthesize backgroundColor = _backgroundColor;
 
-@implementation UIView (Screenshot)
+#pragma mark - Class methods
 
-- (UIImage *)screenshot
++ (void)initialize
+{
+    if (self == [MZFormSheetBackgroundWindow class]) {
+        [[self appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
+        [[self appearance] setBackgroundBlurEffect:NO];
+        [[self appearance] setBlurRadius:MZFormSheetControllerDefaultBackgroundBlurRadius];
+        [[self appearance] setBlurSaturation:MZFormSheetControllerDefaultBackgroundBlurSaturation];
+        [[self appearance] setDynamicBlur:NO];
+        [[self appearance] setDynamicBlurInterval:0.0f];
+    }
+}
+
++ (id)appearance
+{
+    return [MZAppearance appearanceForClass:[self class]];
+}
+
++ (UIImage *)screenshot
 {
     // Create a graphics context with the target size
     // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
@@ -95,40 +106,6 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     UIGraphicsEndImageContext();
     
     return image;
-}
-
-@end
-
-
-#pragma mark - MZFormSheetBackgroundWindow
-
-@interface MZFormSheetBackgroundWindow()
-@property (nonatomic, weak) UIWindow *applicationWindow;
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-
-@property (nonatomic, assign) BOOL updatingBlur;
-@end
-
-@implementation MZFormSheetBackgroundWindow
-@synthesize backgroundColor = _backgroundColor;
-
-#pragma mark - Class methods
-
-+ (void)initialize
-{
-    if (self == [MZFormSheetBackgroundWindow class]) {
-        [[self appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
-        [[self appearance] setBackgroundBlurEffect:NO];
-        [[self appearance] setBlurRadius:MZFormSheetControllerDefaultBackgroundBlurRadius];
-        [[self appearance] setBlurSaturation:MZFormSheetControllerDefaultBackgroundBlurSaturation];
-        [[self appearance] setDynamicBlur:NO];
-        [[self appearance] setDynamicBlurInterval:0.0f];
-    }
-}
-
-+ (id)appearance
-{
-    return [MZAppearance appearanceForClass:[self class]];
 }
 
 #pragma mark - Setters
@@ -194,7 +171,6 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
         self.windowLevel = UIWindowLevelFormSheetBackground;
-        self.applicationWindow = [UIApplication sharedApplication].keyWindow;
 
         _supportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
 
@@ -258,9 +234,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)updateBlur
 {
-    UIViewController *presentingController = [self.applicationWindow.rootViewController topParentViewController];
-
-    UIImage *blurredImage = [[presentingController.view screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
+    UIImage *blurredImage = [[MZFormSheetBackgroundWindow screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
 
     self.backgroundImageView.image = [self rotateImageToStatusBarOrientation:blurredImage];
 }
@@ -270,9 +244,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     if (self.dynamicBlur && !self.updatingBlur && self.backgroundBlurEffect)
     {
-        UIViewController *presentingController = [self.applicationWindow.rootViewController topParentViewController];
-
-        UIImage *snapshot = [presentingController.view screenshot];
+        UIImage *snapshot = [MZFormSheetBackgroundWindow screenshot];
 
         self.updatingBlur = YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
