@@ -41,7 +41,7 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
-    formSheet.centerFormSheetVertically = YES;
+    formSheet.shouldCenterVertically = YES;
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         
     }];
@@ -168,7 +168,7 @@
     formSheet.cornerRadius = 8.0;
     formSheet.portraitTopInset = 54.0;
     formSheet.presentedFormSheetSize = CGSizeMake(280, 180);
-    formSheet.centerFormSheetVerticallyWhenKeyboardAppears = YES;
+    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
     
     [formSheet presentAnimated:YES completionHandler:nil];
 }

@@ -53,8 +53,6 @@ CGFloat const MZFormSheetControllerWindowTag = 10001;
 
 static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
 
-@class MZFormSheetBackgroundWindow;
-
 static MZFormSheetBackgroundWindow *instanceOfFormSheetBackgroundWindow = nil;
 static NSMutableArray *instanceOfSharedQueue = nil;
 static BOOL instanceOfFormSheetAnimating = 0;
@@ -176,9 +174,17 @@ static BOOL instanceOfFormSheetAnimating = 0;
     return instanceOfFormSheetAnimating;
 }
 
++ (NSMutableArray *)sharedQueue
+{
+    if (!instanceOfSharedQueue) {
+        instanceOfSharedQueue = [NSMutableArray array];
+    }
+    return instanceOfSharedQueue;
+}
+
 + (NSArray *)formSheetControllersStack
 {
-    return [instanceOfSharedQueue copy];
+    return [[MZFormSheetController sharedQueue] copy];
 }
 
 + (MZFormSheetBackgroundWindow *)sharedBackgroundWindow
@@ -188,15 +194,6 @@ static BOOL instanceOfFormSheetAnimating = 0;
     }
 
     return instanceOfFormSheetBackgroundWindow;
-}
-
-
-+ (NSMutableArray *)sharedQueue
-{
-    if (!instanceOfSharedQueue) {
-        instanceOfSharedQueue = [NSMutableArray array];
-    }
-    return instanceOfSharedQueue;
 }
 
 #pragma mark - Setters
@@ -326,7 +323,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
     NSAssert(self.presentedFSViewController, @"MZFormSheetController must have at least one view controller.");
     NSAssert(![MZFormSheetController isAnimating], @"Attempting to begin a form sheet transition from to while a transition is already in progress. Wait for didPresentCompletionHandler/didDismissCompletionHandler to know the current transition has completed");
 
-    if (self.presented){
+    if (self.isPresented){
         if (completionHandler) {
             completionHandler(self.presentedFSViewController);
         }
@@ -791,7 +788,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
         CGRect screenRect = [self.screenFrame CGRectValue];
 
         if (screenRect.size.height > formSheetRect.size.height) {
-            if (self.centerFormSheetVerticallyWhenKeyboardAppears) {
+            if (self.shouldCenterVerticallyWhenKeyboardAppears) {
                 formSheetRect.origin.y = ([UIApplication sharedApplication].statusBarFrame.size.height + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
             }
         } else {
@@ -804,7 +801,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
         self.presentedFSViewController.view.frame = formSheetRect;
  
-    } else if (self.centerFormSheetVertically) {
+    } else if (self.shouldCenterVertically) {
         self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
     } else if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.portraitTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);

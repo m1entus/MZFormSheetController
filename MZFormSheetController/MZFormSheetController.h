@@ -127,12 +127,6 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 
 /**
- Center form sheet vertically.
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL centerFormSheetVertically MZ_APPEARANCE_SELECTOR;
-
-/**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
  By default, this is 66.0
  */
@@ -169,6 +163,12 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, assign) CGSize presentedFormSheetSize MZ_APPEARANCE_SELECTOR;
 
 /**
+ Center form sheet vertically.
+ By default, this is NO
+ */
+@property (nonatomic, assign) BOOL shouldCenterVertically MZ_APPEARANCE_SELECTOR;
+
+/**
  Returns whether the form sheet controller should dismiss after background view tap.
  By default, this is NO
  */
@@ -178,13 +178,13 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  Returns whether the form sheet controller should move to top when UIKeyboard will appear.
  By default, this is YES
  */
-@property (nonatomic, assign) BOOL shouldMoveToTopWhenKeyboardAppears;
+@property (nonatomic, assign) BOOL shouldMoveToTopWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 /**
  Center form sheet vertically when UIKeyboard will appear.
  By default, this is NO
  */
-@property (nonatomic, assign) BOOL centerFormSheetVerticallyWhenKeyboardAppears;
+@property (nonatomic, assign) BOOL shouldCenterVerticallyWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 /**
  Subclasses may override to add custom transition animation.

@@ -57,6 +57,12 @@
 @property (nonatomic, assign) CGFloat blurSaturation MZ_APPEARANCE_SELECTOR;
 
 /*
+ Specifies the blur mask image used to render the blur background view
+ By default, this is nil
+ */
+@property (nonatomic, assign) UIImage *blurMaskImage MZ_APPEARANCE_SELECTOR;
+
+/*
  Asynchronously recompute the display of background blur.
  Recommended to use if you expect interface orientation or some dynamic animations belof form sheet
  By default, this is NO

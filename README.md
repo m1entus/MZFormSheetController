@@ -220,12 +220,6 @@ id appearance = [MZFormSheetController appearance];
 @property (nonatomic, strong, readonly) UIImageView *backgroundImageView;
 
 /*
- If background image is displayed, status bar will be overlaped
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL shouldBackgroundImageOverlapStatusBar MZ_APPEARANCE_SELECTOR;
-
-/*
  Apply background blur effect
  By default, this is NO
  */
@@ -248,6 +242,12 @@ id appearance = [MZFormSheetController appearance];
  By default, this is 1.0
  */
 @property (nonatomic, assign) CGFloat blurSaturation MZ_APPEARANCE_SELECTOR;
+
+/*
+ Specifies the blur mask image used to render the blur background view
+ By default, this is nil
+ */
+@property (nonatomic, assign) UIImage *blurMaskImage MZ_APPEARANCE_SELECTOR;
 
 /*
  Asynchronously recompute the display of background blur.
@@ -275,12 +275,6 @@ id appearance = [MZFormSheetController appearance];
  Returns the window that is displayed below form sheet controller
  */
 + (MZFormSheetBackgroundWindow *)sharedBackgroundWindow;
-
-/**
- Center form sheet vertically.
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL centerFormSheetVertically MZ_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
@@ -319,10 +313,28 @@ id appearance = [MZFormSheetController appearance];
 @property (nonatomic, assign) CGSize presentedFormSheetSize MZ_APPEARANCE_SELECTOR;
 
 /**
+ Center form sheet vertically.
+ By default, this is NO
+ */
+@property (nonatomic, assign) BOOL shouldCenterVertically MZ_APPEARANCE_SELECTOR;
+
+/**
  Returns whether the form sheet controller should dismiss after background view tap.
  By default, this is NO
  */
 @property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap MZ_APPEARANCE_SELECTOR;
+
+/**
+ Returns whether the form sheet controller should move to top when UIKeyboard will appear.
+ By default, this is YES
+ */
+@property (nonatomic, assign) BOOL shouldMoveToTopWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
+
+/**
+ Center form sheet vertically when UIKeyboard will appear.
+ By default, this is NO
+ */
+@property (nonatomic, assign) BOOL shouldCenterVerticallyWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 ```
 

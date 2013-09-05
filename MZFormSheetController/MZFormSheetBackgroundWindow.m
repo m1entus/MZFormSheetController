@@ -233,7 +233,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)updateBlur
 {
-    UIImage *blurredImage = [[MZFormSheetBackgroundWindow screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
+    UIImage *blurredImage = [[MZFormSheetBackgroundWindow screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:self.blurMaskImage];
 
     self.backgroundImageView.image = [self rotateImageToStatusBarOrientation:blurredImage];
 }
@@ -248,7 +248,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
         self.updatingBlur = YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 
-            UIImage *blurredImage = [snapshot blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:nil];
+            UIImage *blurredImage = [snapshot blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:self.blurMaskImage];
             dispatch_sync(dispatch_get_main_queue(), ^{
 
                 self.updatingBlur = NO;
