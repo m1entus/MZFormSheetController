@@ -14,7 +14,7 @@ CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurRadius = 2.0;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurSaturation = 1.0;
 
-UIWindowLevel const UIWindowLevelFormSheetBackground = 1990.0; // below the alert window
+UIWindowLevel const UIWindowLevelFormSheetBackground = 2; // below the alert window
 
 static CGFloat const UIInterfaceOrientationAngleOfOrientation(UIInterfaceOrientation orientation) {
     switch (orientation)
@@ -331,7 +331,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     if (self = [super initWithFrame:frame]) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
-        self.windowLevel = UIWindowLevelNormal;
+        self.windowLevel = UIWindowLevelFormSheetBackground;
         self.applicationWindow = [UIApplication sharedApplication].keyWindow;
 
         _supportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
