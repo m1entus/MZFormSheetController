@@ -46,7 +46,7 @@ CGFloat const MZFormSheetPresentedControllerDefaultCornerRadius = 6.0;
 CGFloat const MZFormSheetPresentedControllerDefaultShadowRadius = 6.0;
 CGFloat const MZFormSheetPresentedControllerDefaultShadowOpacity = 0.5;
 
-UIWindowLevel const UIWindowLevelFormSheet = 1991.0;  // don't overlap system's alert
+UIWindowLevel const UIWindowLevelFormSheet = 3;  // don't overlap system's alert or keyboard
 
 static const char* MZFormSheetControllerAssociatedKey = "MZFormSheetControllerAssociatedKey";
 
