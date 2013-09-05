@@ -208,12 +208,26 @@ static BOOL instanceOfFormSheetAnimating = 0;
     }
 }
 
-- (BOOL)viewUsingAutolayout
+- (void)setPortraitTopInset:(CGFloat)portraitTopInset
 {
-    if (self.view.constraints.count > 0) {
-        return YES;
+    if (_portraitTopInset != portraitTopInset) {
+        _portraitTopInset = portraitTopInset;
+
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            _portraitTopInset += [UIApplication sharedApplication].statusBarFrame.size.height;
+        }
     }
-    return NO;
+}
+
+- (void)setLandscapeTopInset:(CGFloat)landscapeTopInset
+{
+    if (_landscapeTopInset != landscapeTopInset) {
+        _landscapeTopInset = landscapeTopInset;
+
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            _landscapeTopInset += [UIApplication sharedApplication].statusBarFrame.size.height;
+        }
+    }
 }
 
 - (void)setShadowOpacity:(CGFloat)shadowOpacity
@@ -269,6 +283,14 @@ static BOOL instanceOfFormSheetAnimating = 0;
     }
     
     return _formSheetWindow;
+}
+
+- (BOOL)viewUsingAutolayout
+{
+    if (self.view.constraints.count > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Public

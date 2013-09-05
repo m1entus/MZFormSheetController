@@ -33,7 +33,7 @@
     formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
-    formSheet.landscapeTopInset = 20;
+    formSheet.landscapeTopInset = 0;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
