@@ -124,8 +124,12 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage
 {
-    _backgroundImage = backgroundImage;
-    self.backgroundImageView.image = backgroundImage;
+    if (self.backgroundImageView) {
+        self.backgroundImageView.image = backgroundImage;
+    } else {
+        _backgroundImage = backgroundImage;
+    }
+    
 }
 
 - (void)setBackgroundBlurEffect:(BOOL)backgroundBlurEffect
@@ -183,6 +187,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
         [self addSubview:_backgroundImageView];
 
+        [_backgroundImageView addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:NULL];
+
         [self rotateWindow];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -205,6 +211,14 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 }
 
 #pragma mark - Notification handlers
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([object isEqual:self.backgroundImageView] && [keyPath isEqualToString:@"image"])
+    {
+        _backgroundImage = change[@"new"];
+    }
+}
 
 - (void)didOrientationChangeNotificationHandler:(NSNotification *)notification
 {
@@ -324,6 +338,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)dealloc
 {
+    [self.backgroundImageView removeObserver:self forKeyPath:@"image"];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];

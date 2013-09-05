@@ -28,7 +28,7 @@
 @property (nonatomic, strong) UIImage *backgroundImage MZ_APPEARANCE_SELECTOR;
 
 /**
- The background image view, if you want to set backgroundImage use backgroundImage property.
+ The background image view.
  */
 @property (nonatomic, strong, readonly) UIImageView *backgroundImageView;
 
