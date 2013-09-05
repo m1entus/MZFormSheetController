@@ -36,8 +36,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 @interface MZFormSheetBackgroundWindow()
 @property (nonatomic, strong) UIImageView *backgroundImageView;
-
-@property (nonatomic, assign) BOOL updatingBlur;
+@property (nonatomic, assign, getter = isUpdatingBlur) BOOL updatingBlur;
 @end
 
 @implementation MZFormSheetBackgroundWindow
@@ -242,7 +241,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)updateBlurAsynchronously
 {
-    if (self.dynamicBlur && !self.updatingBlur && self.backgroundBlurEffect)
+    if (self.dynamicBlur && !self.isUpdatingBlur && self.backgroundBlurEffect)
     {
         UIImage *snapshot = [MZFormSheetBackgroundWindow screenshot];
 

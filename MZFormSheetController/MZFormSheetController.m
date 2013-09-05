@@ -127,6 +127,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
 @property (nonatomic, strong) UIWindow *formSheetWindow;
 
 @property (nonatomic, assign, getter = isPresented) BOOL presented;
+@property (nonatomic, assign, getter = isKeyboardVisible) BOOL keyboardVisible;
+@property (nonatomic, strong) NSValue *keyboardFrameEndUser;
 @end
 
 @implementation MZFormSheetController
@@ -150,6 +152,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
         [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
         [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
         [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
+        [appearance setShouldMoveToTopWhenKeyboardAppears:YES];
     }
 }
 
@@ -331,10 +334,13 @@ static BOOL instanceOfFormSheetAnimating = 0;
         self.presented = YES;
         
         [self.presentedFSViewController setFormSheetController:self];
-        
+
+        [self addKeyboardNotifications];
+
         if (self.didPresentCompletionHandler) {
             self.didPresentCompletionHandler(self.presentedFSViewController);
         }
+
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
         
         if (completionHandler) {
@@ -364,6 +370,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
     if ([MZFormSheetController sharedQueue].count == 0) {
         [MZFormSheetBackgroundWindow hideBackgroundWindowAnimated:animated];
     }
+
+    [self removeKeyboardNotifications];
     
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
@@ -754,7 +762,21 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 - (void)setupPresentedFSViewControllerFrame
 {
-    if (self.centerFormSheetVertically) {
+    if (self.keyboardVisible) {
+        CGRect formSheetRect = self.presentedFSViewController.view.frame;
+        CGRect screenRect = [self.keyboardFrameEndUser CGRectValue];
+
+        if (screenRect.size.height > formSheetRect.size.height) {
+            if (self.centerFormSheetVerticallyWhenKeyboardAppears) {
+                formSheetRect.origin.y = (screenRect.size.height + [UIApplication sharedApplication].statusBarFrame.size.height)/2 - formSheetRect.size.height/2;
+            }
+        } else {
+            formSheetRect.origin.y = 0;
+        }
+
+        self.presentedFSViewController.view.frame = formSheetRect;
+ 
+    } else if (self.centerFormSheetVertically) {
         self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
     } else if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
         self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.portraitTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);
@@ -788,6 +810,64 @@ static BOOL instanceOfFormSheetAnimating = 0;
     }
 }
 
+#pragma mark - UIKeyboard Notifications
+
+- (void)willShowKeyboardNotification:(NSNotification *)notification
+{
+    CGRect screenRect = [[notification userInfo][UIKeyboardFrameEndUserInfoKey] CGRectValue];
+
+    if (UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+        CGFloat height = screenRect.size.height;
+        screenRect.size.height = screenRect.size.width;
+        screenRect.size.width = height;
+    }
+
+    self.keyboardFrameEndUser = [NSValue valueWithCGRect:screenRect];
+    self.keyboardVisible = YES;
+
+    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
+        [self setupPresentedFSViewControllerFrame];
+    }];
+    
+}
+
+- (void)willHideKeyboardNotification:(NSNotification *)notification
+{
+    self.keyboardVisible = NO;
+    self.keyboardFrameEndUser = nil;
+    
+    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
+        [self setupPresentedFSViewControllerFrame];
+    }];
+
+}
+
+- (void)addKeyboardNotifications
+{
+    [self removeKeyboardNotifications];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willShowKeyboardNotification:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(willHideKeyboardNotification:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)removeKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
+}
+
 #pragma mark - View life cycle
 
 - (void)viewDidLoad
@@ -813,8 +893,9 @@ static BOOL instanceOfFormSheetAnimating = 0;
         UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
         [navigationController.navigationBar sizeToFit];
     }
-    
+
     [self setupPresentedFSViewControllerFrame];
+
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -860,6 +941,8 @@ static BOOL instanceOfFormSheetAnimating = 0;
     self.formSheetWindow = nil;
     
     self.backgroundTapGestureRecognizer = nil;
+
+    [self removeKeyboardNotifications];
 }
 
 @end

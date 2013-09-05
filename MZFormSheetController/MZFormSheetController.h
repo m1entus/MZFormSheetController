@@ -175,6 +175,18 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap MZ_APPEARANCE_SELECTOR;
 
 /**
+ Returns whether the form sheet controller should move to top when UIKeyboard will appear.
+ By default, this is YES
+ */
+@property (nonatomic, assign) BOOL shouldMoveToTopWhenKeyboardAppears;
+
+/**
+ Center form sheet vertically when UIKeyboard will appear.
+ By default, this is NO
+ */
+@property (nonatomic, assign) BOOL centerFormSheetVerticallyWhenKeyboardAppears;
+
+/**
  Subclasses may override to add custom transition animation.
  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
  When animation is finished you must call super method or completionBlock to keep view life cycle.
