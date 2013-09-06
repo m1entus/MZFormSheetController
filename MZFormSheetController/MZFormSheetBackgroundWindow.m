@@ -191,6 +191,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
         [self rotateWindow];
 
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didChangeStatusBarNotificationHandler:)
                                                      name:UIApplicationDidChangeStatusBarOrientationNotification
@@ -257,12 +259,13 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     if (self.dynamicBlur && !self.isUpdatingBlur && self.backgroundBlurEffect)
     {
-        UIImage *snapshot = [MZFormSheetBackgroundWindow screenshot];
+        UIImage *snapshot = [self rotateImageToStatusBarOrientation:[MZFormSheetBackgroundWindow screenshot]];
 
         self.updatingBlur = YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 
             UIImage *blurredImage = [snapshot blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:self.blurMaskImage];
+
             dispatch_sync(dispatch_get_main_queue(), ^{
 
                 self.updatingBlur = NO;
@@ -343,6 +346,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
+
+    [[UIDevice currentDevice] endGeneratingDeviceOrientationNotifications];
 }
 
 @end

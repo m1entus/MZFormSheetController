@@ -41,14 +41,12 @@ It is possible to display blurry background, you can set MZFormSheetWindow appea
 [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
 [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
 [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
-[[MZFormSheetBackgroundWindow appearance] setShouldBackgroundImageOverlapStatusBar:YES];
 ```
 
 ``` objective-c
 [[MZFormSheetController sharedWindow] setBackgroundBlurEffect:YES];
 [[MZFormSheetController sharedWindow] setBlurRadius:5.0];
 [[MZFormSheetController sharedWindow] setBackgroundColor:[UIColor clearColor]];
-[[MZFormSheetController sharedWindow] setShouldBackgroundImageOverlapStatusBar:YES];
 ```
 
 ## Transitions
@@ -317,12 +315,6 @@ id appearance = [MZFormSheetController appearance];
  By default, this is NO
  */
 @property (nonatomic, assign) BOOL shouldCenterVertically MZ_APPEARANCE_SELECTOR;
-
-/**
- Returns whether the form sheet controller should dismiss after background view tap.
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap MZ_APPEARANCE_SELECTOR;
 
 /**
  Returns whether the form sheet controller should move to top when UIKeyboard will appear.
