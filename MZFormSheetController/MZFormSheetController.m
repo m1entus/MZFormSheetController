@@ -128,7 +128,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 @property (nonatomic, assign, getter = isPresented) BOOL presented;
 @property (nonatomic, assign, getter = isKeyboardVisible) BOOL keyboardVisible;
-@property (nonatomic, strong) NSValue *screenFrame;
+@property (nonatomic, strong) NSValue *screenFrameWhenKeyboardVisible;
 @end
 
 @implementation MZFormSheetController
@@ -222,20 +222,23 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 - (void)setPortraitTopInset:(CGFloat)portraitTopInset
 {
-    _portraitTopInset = portraitTopInset;
+    if (_portraitTopInset != portraitTopInset) {
+        _portraitTopInset = portraitTopInset;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        _portraitTopInset += [MZFormSheetController statusBarHeight];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            _portraitTopInset += [MZFormSheetController statusBarHeight];
+        }
     }
-
 }
 
 - (void)setLandscapeTopInset:(CGFloat)landscapeTopInset
 {
-    _landscapeTopInset = landscapeTopInset;
+    if (_landscapeTopInset != landscapeTopInset) {
+        _landscapeTopInset = landscapeTopInset;
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        _landscapeTopInset += [MZFormSheetController statusBarHeight];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            _landscapeTopInset += [MZFormSheetController statusBarHeight];
+        }
     }
 }
 
@@ -797,7 +800,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 {
     if (self.keyboardVisible) {
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
-        CGRect screenRect = [self.screenFrame CGRectValue];
+        CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
         if (screenRect.size.height > formSheetRect.size.height) {
             if (self.shouldCenterVerticallyWhenKeyboardAppears) {
@@ -867,7 +870,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
         screenRect.origin.y = [MZFormSheetController statusBarHeight];
     }
 
-    self.screenFrame = [NSValue valueWithCGRect:screenRect];
+    self.screenFrameWhenKeyboardVisible = [NSValue valueWithCGRect:screenRect];
     self.keyboardVisible = YES;
 
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
@@ -879,7 +882,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 - (void)willHideKeyboardNotification:(NSNotification *)notification
 {
     self.keyboardVisible = NO;
-    self.screenFrame = nil;
+    self.screenFrameWhenKeyboardVisible = nil;
     
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
         [self setupPresentedFSViewControllerFrame];
