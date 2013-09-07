@@ -115,6 +115,38 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 @end
 
+#pragma mark - MZFormSheetWindow
+
+@implementation MZFormSheetWindow
+
++ (id)appearance
+{
+    return [MZAppearance appearanceForClass:[self class]];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        id appearance = [[self class] appearance];
+        [appearance applyInvocationTo:self];
+    }
+    return self;
+}
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    // UIView will be "transparent" for touch events if we return NO
+    if (self.isTransparentTouchEnabled) {
+        MZFormSheetController *formSheet = (MZFormSheetController *)self.rootViewController;
+        if (!CGRectContainsPoint(formSheet.presentedFSViewController.view.frame, point)){
+            return NO;
+        }
+    }
+    return YES;
+}
+
+@end
+
 #pragma mark - MZFormSheetController
 
 @interface MZFormSheetController () <UIGestureRecognizerDelegate>
@@ -124,7 +156,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 @property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
 
 @property (nonatomic, weak) UIWindow *applicationKeyWindow;
-@property (nonatomic, strong) UIWindow *formSheetWindow;
+@property (nonatomic, strong) MZFormSheetWindow *formSheetWindow;
 
 @property (nonatomic, assign, getter = isPresented) BOOL presented;
 @property (nonatomic, assign, getter = isKeyboardVisible) BOOL keyboardVisible;
@@ -282,15 +314,16 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 #pragma mark - Getters
 
-- (UIWindow *)formSheetWindow
+- (MZFormSheetWindow *)formSheetWindow
 {
     if (!_formSheetWindow) {
-        UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        MZFormSheetWindow *window = [[MZFormSheetWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         window.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         window.opaque = NO;
         window.windowLevel = UIWindowLevelFormSheet;
         window.tag = MZFormSheetControllerWindowTag;
         window.rootViewController = self;
+
         _formSheetWindow = window;
     }
     

@@ -72,6 +72,16 @@ typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
 
+@interface MZFormSheetWindow : UIWindow <MZAppearance>
+
+/**
+ Returns whether the window should be touch transparent.
+ If transparent is set to YES, window will not recive touch and didTapOnBackgroundViewCompletionHandler will not be call.
+ By default, this is NO.
+ */
+@property (nonatomic, assign, getter = isTransparentTouchEnabled) BOOL transparentTouchEnabled MZ_APPEARANCE_SELECTOR;
+@end
+
 @interface MZFormSheetController : UIViewController <MZAppearance>
 
 /**
@@ -87,7 +97,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 /**
  Returns the window that form sheet controller is displayed .
  */
-@property (nonatomic, strong, readonly) UIWindow *formSheetWindow;
+@property (nonatomic, readonly, strong) MZFormSheetWindow *formSheetWindow;
 
 /**
  The view controller that is presented by this form sheet controller.
