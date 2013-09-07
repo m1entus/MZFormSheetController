@@ -32,6 +32,22 @@ If you want to dismiss form sheet controller, you can use category on UIViewCont
 }];
 ```
 
+## Touch transparent background
+
+If you want to have access to the controller that is below MZFormSheet, you can set background window to be touch transparent.
+
+``` objective-c
+MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+
+formSheet.formSheetWindow.transparentTouchEnabled = YES;
+
+[MZFormSheetController sharedBackgroundWindow].userInteractionEnabled = NO;
+
+[formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
+    
+}];
+```
+
 ## Blur background effect
 
 It is possible to display blurry background, you can set MZFormSheetWindow appearance or directly to window

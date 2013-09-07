@@ -76,7 +76,8 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 /**
  Returns whether the window should be touch transparent.
- If transparent is set to YES, window will not recive touch and didTapOnBackgroundViewCompletionHandler will not be call.
+ If transparent is set to YES, window will not recive touch and didTapOnBackgroundViewCompletionHandler will not be called.
+ Also will not be possible to dismiss form sheet on background tap.
  By default, this is NO.
  */
 @property (nonatomic, assign, getter = isTransparentTouchEnabled) BOOL transparentTouchEnabled MZ_APPEARANCE_SELECTOR;
