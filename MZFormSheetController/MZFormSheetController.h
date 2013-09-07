@@ -75,14 +75,19 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @interface MZFormSheetController : UIViewController <MZAppearance>
 
 /**
- Returns the window that is displayed below form sheet controller
+ Returns the background window that is displayed below form sheet controller.
  */
 + (MZFormSheetBackgroundWindow *)sharedBackgroundWindow;
 
 /**
- Returns copy of formSheetController stack, last object in array (form sheet controller) is on top
+ Returns copy of formSheetController stack, last object in array (form sheet controller) is on top.
  */
 + (NSArray *)formSheetControllersStack;
+
+/**
+ Returns the window that form sheet controller is displayed .
+ */
+@property (nonatomic, strong, readonly) UIWindow *formSheetWindow;
 
 /**
  The view controller that is presented by this form sheet controller.
