@@ -30,11 +30,11 @@
     
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
 
-    formSheet.transitionStyle = MZFormSheetTransitionStyleDropDown;
+    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromTop;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
-    formSheet.landscapeTopInset = 0;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
+    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
     
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         

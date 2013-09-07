@@ -134,25 +134,16 @@ static BOOL instanceOfFormSheetAnimating = 0;
 @implementation MZFormSheetController
 @synthesize presentingViewController = _presentingViewController;
 
-#pragma mark - Class methods
+#pragma mark - Helpers
 
-+ (id)appearance
++ (CGFloat)statusBarHeight
 {
-    return [MZAppearance appearanceForClass:[self class]];
-}
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 
-+ (void)load
-{
-    @autoreleasepool {
-        id appearance = [self appearance];
-        
-        [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
-        [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
-        [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
-        [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
-        [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
-        [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
-        [appearance setShouldMoveToTopWhenKeyboardAppears:YES];
+    if(UIInterfaceOrientationIsLandscape(orientation)) {
+        return [UIApplication sharedApplication].statusBarFrame.size.width;
+    } else {
+        return [UIApplication sharedApplication].statusBarFrame.size.height;
     }
 }
 
@@ -163,6 +154,30 @@ static BOOL instanceOfFormSheetAnimating = 0;
     }
     return NO;
 }
+
+#pragma mark - Appearance
+
++ (id)appearance
+{
+    return [MZAppearance appearanceForClass:[self class]];
+}
+
++ (void)load
+{
+    @autoreleasepool {
+        id appearance = [self appearance];
+
+        [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
+        [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
+        [appearance setShadowOpacity:MZFormSheetPresentedControllerDefaultShadowOpacity];
+        [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
+        [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
+        [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
+        [appearance setShouldMoveToTopWhenKeyboardAppears:YES];
+    }
+}
+
+#pragma mark - Class methods
 
 + (void)setAnimating:(BOOL)animating
 {
@@ -207,23 +222,20 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 - (void)setPortraitTopInset:(CGFloat)portraitTopInset
 {
-    if (_portraitTopInset != portraitTopInset) {
-        _portraitTopInset = portraitTopInset;
+    _portraitTopInset = portraitTopInset;
 
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-            _portraitTopInset += [UIApplication sharedApplication].statusBarFrame.size.height;
-        }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        _portraitTopInset += [MZFormSheetController statusBarHeight];
     }
+
 }
 
 - (void)setLandscapeTopInset:(CGFloat)landscapeTopInset
 {
-    if (_landscapeTopInset != landscapeTopInset) {
-        _landscapeTopInset = landscapeTopInset;
+    _landscapeTopInset = landscapeTopInset;
 
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-            _landscapeTopInset += [UIApplication sharedApplication].statusBarFrame.size.height;
-        }
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        _landscapeTopInset += [MZFormSheetController statusBarHeight];
     }
 }
 
@@ -789,11 +801,11 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
         if (screenRect.size.height > formSheetRect.size.height) {
             if (self.shouldCenterVerticallyWhenKeyboardAppears) {
-                formSheetRect.origin.y = ([UIApplication sharedApplication].statusBarFrame.size.height + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
+                formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
             }
         } else {
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-                formSheetRect.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+                formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
             } else {
                 formSheetRect.origin.y = 0;
             }
@@ -852,7 +864,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
         screenRect.origin.y = 0;
     } else {
-        screenRect.origin.y = [UIApplication sharedApplication].statusBarFrame.size.height;
+        screenRect.origin.y = [MZFormSheetController statusBarHeight];
     }
 
     self.screenFrame = [NSValue valueWithCGRect:screenRect];
