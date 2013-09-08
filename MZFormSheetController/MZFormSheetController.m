@@ -133,12 +133,32 @@ static BOOL instanceOfFormSheetAnimating = 0;
     return self;
 }
 
+- (CGPoint)convertPoint:(CGPoint)point toInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    CGSize windowSize = self.bounds.size;
+
+    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+        return CGPointMake(windowSize.height-point.y, point.x);
+
+    } else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        return CGPointMake(point.y, windowSize.width-point.x);
+
+    } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+
+        return CGPointMake(windowSize.width-point.x, windowSize.height-point.y);
+    }
+    return point;
+}
+
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
+    UIInterfaceOrientation orientaion = [UIApplication sharedApplication].statusBarOrientation;
+    CGPoint convertedPoint = [self convertPoint:point toInterfaceOrientation:orientaion];
+
     // UIView will be "transparent" for touch events if we return NO
     if (self.isTransparentTouchEnabled) {
         MZFormSheetController *formSheet = (MZFormSheetController *)self.rootViewController;
-        if (!CGRectContainsPoint(formSheet.presentedFSViewController.view.frame, point)){
+        if (!CGRectContainsPoint(formSheet.presentedFSViewController.view.frame, convertedPoint)){
             return NO;
         }
     }
