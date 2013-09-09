@@ -124,6 +124,14 @@ static BOOL instanceOfFormSheetAnimating = 0;
     return [MZAppearance appearanceForClass:[self class]];
 }
 
+- (void)setTransparentTouchEnabled:(BOOL)transparentTouchEnabled
+{
+    if (_transparentTouchEnabled != transparentTouchEnabled) {
+        _transparentTouchEnabled = transparentTouchEnabled;
+        [MZFormSheetController sharedBackgroundWindow].userInteractionEnabled = !transparentTouchEnabled;
+    }
+}
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {

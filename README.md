@@ -41,8 +41,6 @@ MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewCo
 
 formSheet.formSheetWindow.transparentTouchEnabled = YES;
 
-[MZFormSheetController sharedBackgroundWindow].userInteractionEnabled = NO;
-
 [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
     
 }];
