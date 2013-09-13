@@ -438,6 +438,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
             self.didPresentCompletionHandler(self.presentedFSViewController);
         }
 
+        self.formSheetWindow.hidden = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
         
         if (completionHandler) {
@@ -1044,6 +1045,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
     self.presentedFSViewController = nil;
     
     [self.formSheetWindow removeGestureRecognizer:self.backgroundTapGestureRecognizer];
+    self.formSheetWindow.hidden = YES;
     
     self.formSheetWindow.rootViewController = nil;
     [self.formSheetWindow removeFromSuperview];
