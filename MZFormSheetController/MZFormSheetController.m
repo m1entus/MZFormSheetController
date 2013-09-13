@@ -433,12 +433,13 @@ static BOOL instanceOfFormSheetAnimating = 0;
         [self.presentedFSViewController setFormSheetController:self];
 
         [self addKeyboardNotifications];
+        
+        self.formSheetWindow.hidden = NO;
 
         if (self.didPresentCompletionHandler) {
             self.didPresentCompletionHandler(self.presentedFSViewController);
         }
 
-        self.formSheetWindow.hidden = NO;
         [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidPresentNotification object:self userInfo:nil];
         
         if (completionHandler) {
