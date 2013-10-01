@@ -225,7 +225,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
 + (void)load
 {
     @autoreleasepool {
-        id appearance = [self appearance];
+        MZFormSheetController *appearance = [self appearance];
 
         [appearance setPresentedFormSheetSize:CGSizeMake(MZFormSheetControllerDefaultWidth, MZFormSheetControllerDefaultHeight)];
         [appearance setCornerRadius:MZFormSheetPresentedControllerDefaultCornerRadius];
