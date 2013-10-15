@@ -118,9 +118,9 @@ BOOL jbb_areObjCTypesEqual(const char *lhs, const char *rhs) {
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
             } else if (jbb_areObjCTypesEqual(typeForArg, @encode(id))) {
-                id arg;
-                [self getArgument:&arg atIndex:index];
-                [invocation setArgument:&arg atIndex:index];
+                char buffer[sizeof(intmax_t)];
+                [self getArgument:(void *)&buffer atIndex:i + 2];
+                [invocation setArgument:(void *)&buffer atIndex:i + 2];
             } else if (jbb_areObjCTypesEqual(typeForArg, @encode(SEL))) {
                 SEL arg;
                 [self getArgument:&arg atIndex:index];
