@@ -29,12 +29,18 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
     
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
-
+    
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromTop;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
     formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+    
+    formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController) {
+        // Passing data
+        UINavigationController *navController = (UINavigationController *)presentedFSViewController;
+        navController.topViewController.title = @"PASSING DATA";
+    };
     
     [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
         

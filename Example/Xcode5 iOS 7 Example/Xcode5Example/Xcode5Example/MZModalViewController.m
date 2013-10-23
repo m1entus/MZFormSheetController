@@ -18,15 +18,17 @@
 {
     [super viewDidLoad];
     
-    
-    
-	
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
+    
 }
 
 @end
