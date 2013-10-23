@@ -32,6 +32,16 @@ If you want to dismiss form sheet controller, you can use category on UIViewCont
 }];
 ```
 
+## Passing data
+
+``` objective-c
+formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController) {
+    // Passing data
+    UINavigationController *navController = (UINavigationController *)presentedFSViewController;
+    navController.topViewController.title = @"PASSING DATA";
+};
+```
+
 ## Touch transparent background
 
 If you want to have access to the controller that is below MZFormSheet, you can set background window to be touch transparent.
@@ -390,6 +400,22 @@ extern NSString *const MZFormSheetDidDismissNotification;
 
 MZFormSheetController support all interface orientations.
 If you want to resize form sheet controller during orientation change you can use autoresizeMask property. 
+
+You can manipulate interface orientation using this code:
+
+``` objective-c
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    NSUInteger orientations = UIInterfaceOrientationMaskAll;
+
+    if ([MZFormSheetController formSheetControllersStack] > 0) {
+        MZFormSheetController *viewController = [[MZFormSheetController formSheetControllersStack] lastObject];
+        return [viewController.presentedFSViewController supportedInterfaceOrientations];
+    }
+
+    return orientations;
+}
+```
 
 # Others
 
