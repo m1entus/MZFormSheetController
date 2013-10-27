@@ -26,7 +26,24 @@
 #import <UIKit/UIKit.h>
 #import "MZAppearance.h"
 
+
+extern UIWindowLevel const MZFormSheetBackgroundWindowLevelAboveStatusBar;
+extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
+
 @interface MZFormSheetBackgroundWindow : UIWindow <MZAppearance>
+
+/**
+ The positioning of windows relative to each other.
+ If you want to cover status bar when a dialog is presented use MZFormSheetBackgroundWindowLevelAboveStatusBar
+ (recomended for UIStatusBarStyleLightContent or if you don't use blur)
+
+ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelAboveStatusBar;
+ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
+ 
+ By default, this is MZFormSheetBackgroundWindowLevelBelowStatusBar;
+ */
+
+@property (nonatomic, readwrite) UIWindowLevel windowLevel MZ_APPEARANCE_SELECTOR;
 
 /**
  The background color of the background view.

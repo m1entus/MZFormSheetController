@@ -31,7 +31,8 @@ CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurRadius = 2.0;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurSaturation = 1.0;
 
-UIWindowLevel const UIWindowLevelFormSheetBackground = 2;
+UIWindowLevel const MZFormSheetBackgroundWindowLevelAboveStatusBar = 1002;
+UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar = 2;
 
 extern CGFloat MZFormSheetControllerWindowTag;
 
@@ -68,6 +69,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
         [[self appearance] setBackgroundBlurEffect:NO];
         [[self appearance] setBlurRadius:MZFormSheetControllerDefaultBackgroundBlurRadius];
         [[self appearance] setBlurSaturation:MZFormSheetControllerDefaultBackgroundBlurSaturation];
+        [[self appearance] setWindowLevel:MZFormSheetBackgroundWindowLevelBelowStatusBar];
         [[self appearance] setDynamicBlur:NO];
         [[self appearance] setDynamicBlurInterval:0.0f];
     }
@@ -190,12 +192,11 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     if (self = [super initWithFrame:frame]) {
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.opaque = NO;
-        self.windowLevel = UIWindowLevelFormSheetBackground;
-
-        _supportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
 
         id appearance = [[self class] appearance];
         [appearance applyInvocationTo:self];
+
+        _supportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
 
         _backgroundImageView = [[UIImageView alloc] initWithFrame:frame];
         _backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
