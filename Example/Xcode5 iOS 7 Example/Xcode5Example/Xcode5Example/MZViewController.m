@@ -41,9 +41,10 @@
         UINavigationController *navController = (UINavigationController *)presentedFSViewController;
         navController.topViewController.title = @"PASSING DATA";
     };
-    
-    [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-        
+
+
+    [self presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+
     }];
 }
 

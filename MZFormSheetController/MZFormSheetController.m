@@ -851,7 +851,9 @@ static BOOL instanceOfFormSheetAnimating = 0;
     self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), self.presentedFSViewController.view.center.y);
     self.presentedFSViewController.view.layer.cornerRadius = self.cornerRadius;
     self.presentedFSViewController.view.layer.masksToBounds = YES;
-    
+
+    self.presentedFSViewController.formSheetController = self;
+
     self.view.layer.shadowOffset = CGSizeZero;
     self.view.layer.shadowRadius = self.shadowRadius;
     self.view.layer.shadowOpacity = self.shadowOpacity;

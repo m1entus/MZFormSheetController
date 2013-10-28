@@ -7,6 +7,8 @@
 //
 
 #import "MZModalViewController.h"
+#import "MZFormSheetController.h"
+
 
 @interface MZModalViewController ()
 
@@ -17,7 +19,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    // Access to form sheet controller
+    MZFormSheetController *controller = self.navigationController.formSheetController;
+    controller.shouldDismissOnBackgroundViewTap = YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
