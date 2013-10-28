@@ -869,6 +869,12 @@ static BOOL instanceOfFormSheetAnimating = 0;
         if (screenRect.size.height > formSheetRect.size.height) {
             if (self.shouldCenterVerticallyWhenKeyboardAppears) {
                 formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
+            } else if (self.shouldMoveToTopWhenKeyboardAppears) {
+                if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+                    formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
+                } else {
+                    formSheetRect.origin.y = 0;
+                }
             }
         } else {
             if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {

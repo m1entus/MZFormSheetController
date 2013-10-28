@@ -34,8 +34,9 @@
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-    
+//    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+    formSheet.shouldMoveToTopWhenKeyboardAppears = NO;
+
     formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController) {
         // Passing data
         UINavigationController *navController = (UINavigationController *)presentedFSViewController;
