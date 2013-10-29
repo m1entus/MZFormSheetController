@@ -20,6 +20,12 @@
 {
     [super viewDidLoad];
 
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
     // Access to form sheet controller
     MZFormSheetController *controller = self.navigationController.formSheetController;
     controller.shouldDismissOnBackgroundViewTap = YES;
