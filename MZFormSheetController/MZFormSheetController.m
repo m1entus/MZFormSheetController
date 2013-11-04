@@ -1050,6 +1050,9 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 - (void)cleanup
 {
+    self.presentedFSViewController.formSheetController = nil;
+    self.presentingViewController.formSheetController = nil;
+    
     [self.presentedFSViewController.view removeFromSuperview];
     self.presentedFSViewController = nil;
     
