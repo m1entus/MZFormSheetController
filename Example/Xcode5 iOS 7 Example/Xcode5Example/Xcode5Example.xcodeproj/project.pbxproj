@@ -190,8 +190,8 @@
 			children = (
 				0685BC0917D8C394008CF534 /* UIImage+Additional.h */,
 				0685BC0A17D8C394008CF534 /* UIImage+Additional.m */,
-				064BF79917D2030300518C26 /* MZFormSheetBackgroundWindow.m */,
 				064BF79A17D2030300518C26 /* MZFormSheetBackgroundWindow.h */,
+				064BF79917D2030300518C26 /* MZFormSheetBackgroundWindow.m */,
 				D21749AE17BA248700F07567 /* MZFormSheetController.h */,
 				D21749AF17BA248700F07567 /* MZFormSheetController.m */,
 				D21749B017BA248700F07567 /* MZFormSheetSegue.h */,

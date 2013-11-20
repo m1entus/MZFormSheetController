@@ -212,12 +212,12 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didChangeStatusBarNotificationHandler:)
+                                                 selector:@selector(didChangeStatusBarOrientationNotificationHandler:)
                                                      name:UIApplicationDidChangeStatusBarOrientationNotification
                                                    object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(didChangeStatusBarNotificationHandler:)
+                                                 selector:@selector(didChangeStatusBarFrameNotificationHandler:)
                                                      name:UIApplicationDidChangeStatusBarFrameNotification
                                                    object:nil];
 
@@ -243,12 +243,34 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 - (void)didOrientationChangeNotificationHandler:(NSNotification *)notification
 {
     [self rotateWindow];
+
+    if ([self.formSheetBackgroundWindowDelegate respondsToSelector:@selector(formSheetBackgroundWindow:didRotateToOrientation:animated:)]) {
+        BOOL animated = [notification.userInfo[@"UIDeviceOrientationRotateAnimatedUserInfoKey"] boolValue];
+        UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
+
+        [self.formSheetBackgroundWindowDelegate formSheetBackgroundWindow:self didRotateToOrientation:deviceOrientation animated:animated];
+    }
 }
 
-- (void)didChangeStatusBarNotificationHandler:(NSNotification *)notification
+- (void)didChangeStatusBarOrientationNotificationHandler:(NSNotification *)notification
+{
+    [self rotateWindow];
+
+    if ([self.formSheetBackgroundWindowDelegate respondsToSelector:@selector(formSheetBackgroundWindow:didChangeStatusBarToOrientation:)]) {
+        NSNumber *orientation = notification.userInfo[UIApplicationStatusBarOrientationUserInfoKey];
+        [self.formSheetBackgroundWindowDelegate formSheetBackgroundWindow:self didChangeStatusBarToOrientation:[orientation integerValue]];
+    }
+}
+
+- (void)didChangeStatusBarFrameNotificationHandler:(NSNotification *)notification
 {
     // This notification is inside an animation block
     [self rotateWindow];
+
+    if ([self.formSheetBackgroundWindowDelegate respondsToSelector:@selector(formSheetBackgroundWindow:didChangeStatusBarFrame:)]) {
+        NSValue *statusBarFrame = notification.userInfo[UIApplicationStatusBarFrameUserInfoKey];
+        [self.formSheetBackgroundWindowDelegate formSheetBackgroundWindow:self didChangeStatusBarFrame:[statusBarFrame CGRectValue]];
+    }
 }
 
 #pragma mark - Blur

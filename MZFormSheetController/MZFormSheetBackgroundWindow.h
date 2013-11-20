@@ -26,11 +26,45 @@
 #import <UIKit/UIKit.h>
 #import "MZAppearance.h"
 
-
 extern UIWindowLevel const MZFormSheetBackgroundWindowLevelAboveStatusBar;
 extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
 
+@class MZFormSheetBackgroundWindow;
+
+@protocol MZFormSheetBackgroundWindowDelegate <NSObject>
+@optional
+/**
+ *  Called when the orientation of the device changes.
+ *
+ *  @param formSheetBackgroundWindow Form sheet background window.
+ *  @param orientation Returns the physical orientation of the device.
+ */
+- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didRotateToOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated;
+
+/**
+ *  Called when the frame of the status bar changes.
+ *
+ *  @param formSheetBackgroundWindow Form sheet background window.
+ *  @param newStatusBarFrame         Expressing the location and size of the new status bar frame.
+ */
+- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarFrame:(CGRect)newStatusBarFrame;
+
+/**
+ *  Called when the orientation of the application's user interface changes.
+ *  This method is called inside an animation block.
+ *
+ *  @param formSheetBackgroundWindow Form sheet background window.
+ *  @param orientation               The orientation of the application's user interface.
+ */
+- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarToOrientation:(UIInterfaceOrientation)orientation;
+@end
+
 @interface MZFormSheetBackgroundWindow : UIWindow <MZAppearance>
+
+/**
+ *  The object that acts as the delegate of the receiving form sheet background window.
+ */
+@property (nonatomic, weak) id <MZFormSheetBackgroundWindowDelegate> formSheetBackgroundWindowDelegate;
 
 /**
  The positioning of windows relative to each other.
@@ -42,7 +76,6 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  
  By default, this is MZFormSheetBackgroundWindowLevelBelowStatusBar;
  */
-
 @property (nonatomic, readwrite) UIWindowLevel windowLevel MZ_APPEARANCE_SELECTOR;
 
 /**

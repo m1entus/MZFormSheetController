@@ -9,7 +9,7 @@
 #import "MZViewController.h"
 #import "MZFormSheetController.h"
 
-@interface MZViewController ()
+@interface MZViewController () <MZFormSheetBackgroundWindowDelegate>
 
 @end
 
@@ -43,10 +43,26 @@
         navController.topViewController.title = @"PASSING DATA";
     };
 
+    [MZFormSheetController sharedBackgroundWindow].formSheetBackgroundWindowDelegate = self;
 
     [self presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
 
     }];
+}
+
+- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarToOrientation:(UIInterfaceOrientation)orientation
+{
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+}
+
+- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarFrame:(CGRect)newStatusBarFrame
+{
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+}
+
+- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didRotateToOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated
+{
+   NSLog(@"%@",NSStringFromSelector(_cmd)); 
 }
 
 @end
