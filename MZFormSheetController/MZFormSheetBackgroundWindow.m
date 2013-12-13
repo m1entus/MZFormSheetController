@@ -111,7 +111,11 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
                                   -[window bounds].size.height * [[window layer] anchorPoint].y);
 
             // Render the layer hierarchy to the current context
-            [[window layer] renderInContext:context];
+            if ([UIWindow instancesRespondToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+                [window drawViewHierarchyInRect:[window bounds] afterScreenUpdates:YES];
+            } else {
+                [[window layer] renderInContext:context];
+            }
 
             // Restore the context
             CGContextRestoreGState(context);
