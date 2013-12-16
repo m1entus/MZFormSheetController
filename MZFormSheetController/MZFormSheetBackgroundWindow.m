@@ -66,7 +66,6 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     if (self == [MZFormSheetBackgroundWindow class]) {
         [[self appearance] setBackgroundColor:[UIColor colorWithWhite:0 alpha:MZFormSheetControllerDefaultBackgroundOpacity]];
-        [[self appearance] setBackgroundBlurEffect:NO];
         [[self appearance] setBlurRadius:MZFormSheetControllerDefaultBackgroundBlurRadius];
         [[self appearance] setBlurSaturation:MZFormSheetControllerDefaultBackgroundBlurSaturation];
         [[self appearance] setWindowLevel:MZFormSheetBackgroundWindowLevelBelowStatusBar];
@@ -80,7 +79,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     return [MZAppearance appearanceForClass:[self class]];
 }
 
-+ (UIImage *)screenshot
++ (UIImage *)screenshotUsingContext:(BOOL)useContext
 {
     // Create a graphics context with the target size
     // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
@@ -110,8 +109,17 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
                                   -[window bounds].size.width * [[window layer] anchorPoint].x,
                                   -[window bounds].size.height * [[window layer] anchorPoint].y);
 
-            // Render the layer hierarchy to the current context
-            [[window layer] renderInContext:context];
+            if (useContext) {
+                // Render the layer hierarchy to the current context
+                [[window layer] renderInContext:context];
+            } else {
+                if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
+                    [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO];
+                } else {
+                    [[window layer] renderInContext:context];
+                }
+            }
+
 
             // Restore the context
             CGContextRestoreGState(context);
@@ -153,17 +161,16 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)setBackgroundBlurEffect:(BOOL)backgroundBlurEffect
 {
-    if (_backgroundBlurEffect && !backgroundBlurEffect) {
-        self.backgroundImageView.image = [[UIImage alloc] init];
-    }
+    if (_backgroundBlurEffect != backgroundBlurEffect) {
+        if (_backgroundBlurEffect && !backgroundBlurEffect) {
+            self.backgroundImageView.image = [[UIImage alloc] init];
+        }
 
-    _backgroundBlurEffect = backgroundBlurEffect;
+        _backgroundBlurEffect = backgroundBlurEffect;
 
-    if (backgroundBlurEffect) {
-        [self updateBlur];
-    }
-    if (self.dynamicBlur) {
-        [self updateBlurAsynchronously];
+        if (self.dynamicBlur) {
+            [self updateBlurAsynchronously];
+        }
     }
 }
 
@@ -186,6 +193,15 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 }
 
 #pragma mark - Initializers
+
+- (void)makeKeyAndVisible
+{
+    [super makeKeyAndVisible];
+
+    if (self.backgroundBlurEffect) {
+        [self updateBlurUsingContext:NO];
+    }
+}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -244,6 +260,10 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     [self rotateWindow];
 
+    if (self.backgroundBlurEffect) {
+        [self updateBlurUsingContext:YES];
+    }
+
     if ([self.formSheetBackgroundWindowDelegate respondsToSelector:@selector(formSheetBackgroundWindow:didRotateToOrientation:animated:)]) {
         BOOL animated = [notification.userInfo[@"UIDeviceOrientationRotateAnimatedUserInfoKey"] boolValue];
         UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
@@ -287,9 +307,9 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     return image;
 }
 
-- (void)updateBlur
+- (void)updateBlurUsingContext:(BOOL)useContext
 {
-    UIImage *blurredImage = [[MZFormSheetBackgroundWindow screenshot] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:self.blurMaskImage];
+    UIImage *blurredImage = [[MZFormSheetBackgroundWindow screenshotUsingContext:useContext] blurredImageWithRadius:self.blurRadius tintColor:self.blurTintColor saturationDeltaFactor:self.blurSaturation maskImage:self.blurMaskImage];
 
     self.backgroundImageView.image = [self rotateImageToStatusBarOrientation:blurredImage];
 }
@@ -299,7 +319,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     if (self.dynamicBlur && !self.isUpdatingBlur && self.backgroundBlurEffect)
     {
-        UIImage *snapshot = [self rotateImageToStatusBarOrientation:[MZFormSheetBackgroundWindow screenshot]];
+        UIImage *snapshot = [self rotateImageToStatusBarOrientation:[MZFormSheetBackgroundWindow screenshotUsingContext:YES]];
 
         self.updatingBlur = YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -332,10 +352,6 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)rotateWindow
 {
-    if (self.backgroundBlurEffect) {
-        [self updateBlur];
-    }
-
     CGFloat angle = UIInterfaceOrientationAngleOfOrientation([self windowOrientation]);
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
 
