@@ -523,6 +523,18 @@ static BOOL instanceOfFormSheetAnimating = 0;
 
 #pragma mark - Transitions
 
+- (void)transitionShadowPathFromPath:(CGPathRef)fromPath toPath:(CGPathRef)toPath
+{
+	self.view.layer.shadowPath = fromPath;
+	CABasicAnimation *shadowPathAnimation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+	shadowPathAnimation.duration = MZFormSheetControllerDefaultAnimationDuration;
+	shadowPathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+	shadowPathAnimation.fromValue = (id) self.view.layer.shadowPath;
+	self.view.layer.shadowPath = toPath;
+	shadowPathAnimation.toValue = (id) self.view.layer.shadowPath;
+	[self.view.layer addAnimation:shadowPathAnimation forKey:@"shadowPath"];
+}
+
 - (void)transitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     switch (self.transitionStyle) {
@@ -549,6 +561,7 @@ static BOOL instanceOfFormSheetAnimating = 0;
             CGRect originalFormSheetRect = formSheetRect;
             formSheetRect.origin.y = self.view.bounds.size.height;
             self.presentedFSViewController.view.frame = formSheetRect;
+            [self transitionShadowPathFromPath:[UIBezierPath bezierPathWithRoundedRect:formSheetRect cornerRadius:self.cornerRadius].CGPath toPath:[UIBezierPath bezierPathWithRoundedRect:originalFormSheetRect cornerRadius:self.cornerRadius].CGPath];
             [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                              animations:^{
                                  self.presentedFSViewController.view.frame = originalFormSheetRect;
@@ -703,7 +716,9 @@ static BOOL instanceOfFormSheetAnimating = 0;
         case MZFormSheetTransitionStyleSlideFromBottom:
         {
             CGRect formSheetRect = self.presentedFSViewController.view.frame;
+            CGRect originalFormSheetRect = formSheetRect;
             formSheetRect.origin.y = self.view.bounds.size.height;
+            [self transitionShadowPathFromPath:[UIBezierPath bezierPathWithRoundedRect:originalFormSheetRect cornerRadius:self.cornerRadius].CGPath toPath:[UIBezierPath bezierPathWithRoundedRect:formSheetRect cornerRadius:self.cornerRadius].CGPath];
             [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseIn
