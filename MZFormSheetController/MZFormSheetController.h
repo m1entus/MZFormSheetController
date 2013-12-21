@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import "MZAppearance.h"
 #import "MZFormSheetBackgroundWindow.h"
+#import "MZTransition.h"
 
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
 #define MZ_DEPRECATED_ATTRIBUTE(message) __attribute__((deprecated(message)))
@@ -84,6 +85,16 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @end
 
 @interface MZFormSheetController : UIViewController <MZAppearance>
+/**
+ *  Register custom transition animation style.
+ *  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom.
+ *
+ *  @param transitionClass Custom transition class.
+ *  @param transitionStyle The transition style to use when presenting the receiver.
+ */
++ (void)registerTransitionClass:(Class)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
+
++ (Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 
 /**
  Returns the background window that is displayed below form sheet controller.
@@ -209,8 +220,8 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
  When animation is finished you must call super method or completionBlock to keep view life cycle.
  */
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
+- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock MZ_DEPRECATED_ATTRIBUTE("This method is not used since v2.0.0. Use registerTransitionClass:forTransitionStyle");
+- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock MZ_DEPRECATED_ATTRIBUTE("This method is not used since v2.0.0. Use registerTransitionClass:forTransitionStyle");
 
 /**
  Initializes and returns a newly created form sheet controller.

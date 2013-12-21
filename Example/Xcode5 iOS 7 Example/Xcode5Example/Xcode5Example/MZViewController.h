@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MZViewController : UIViewController
-
+- (IBAction)showFormSheet:(UIButton *)sender;
 @end

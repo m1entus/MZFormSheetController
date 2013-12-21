@@ -8,6 +8,7 @@
 
 #import "MZViewController.h"
 #import "MZFormSheetController.h"
+#import "MZCustomTransition.h"
 
 @interface MZViewController () <MZFormSheetBackgroundWindowDelegate>
 
@@ -22,6 +23,8 @@
     [[MZFormSheetBackgroundWindow appearance] setBackgroundBlurEffect:YES];
     [[MZFormSheetBackgroundWindow appearance] setBlurRadius:5.0];
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
+
+    [MZFormSheetController registerTransitionClass:[MZCustomTransition class] forTransitionStyle:MZFormSheetTransitionStyleCustom];
 }
 
 - (IBAction)showFormSheet:(UIButton *)sender
@@ -42,6 +45,7 @@
         UINavigationController *navController = (UINavigationController *)presentedFSViewController;
         navController.topViewController.title = @"PASSING DATA";
     };
+    formSheet.transitionStyle = MZFormSheetTransitionStyleCustom;
 
     [MZFormSheetController sharedBackgroundWindow].formSheetBackgroundWindowDelegate = self;
 

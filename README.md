@@ -97,16 +97,24 @@ You can create your own transition by subclassing MZFormSheetController.
 
 ``` objective-c
 /**
- Subclasses may override to add custom transition animation.
- You need to setup transitionStyle to MZFormSheetTransitionStyleCustom to call this method.
- When animation is finished you should must call super method or completionBlock to keep view life cycle.
+ *  Register custom transition animation style.
+ *  You need to setup transitionStyle to MZFormSheetTransitionStyleCustom.
+ *
+ *  @param transitionClass Custom transition class.
+ *  @param transitionStyle The transition style to use when presenting the receiver.
  */
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock;
++ (void)registerTransitionClass:(Class)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
+
++ (Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 
 For example, transition from right side
 
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
+@interface MZCustomTransition : MZTransition
+- (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
+- (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
+@end
+
+- (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
 {
     // It is very important to use self.view.bounds not self.view.frame !!!
     // When you rotate your device, the device is not changing its screen size.
@@ -122,12 +130,12 @@ For example, transition from right side
                          self.presentedFSViewController.view.frame = originalFormSheetRect;
                      }
                      completion:^(BOOL finished) {
-                         if (completionBlock) {
-                             completionBlock();
+                         if (completionHandler) {
+                             completionHandler();
                          }
                      }];
 }
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
+- (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
 {
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     formSheetRect.origin.x = self.view.bounds.size.width;
@@ -138,8 +146,8 @@ For example, transition from right side
                          self.presentedFSViewController.view.frame = formSheetRect;
                      }
                      completion:^(BOOL finished) {
-                         if (completionBlock) {
-                             completionBlock();
+                         if (completionHandler) {
+                             completionHandler();
                          }
                      }];
 }
@@ -148,6 +156,7 @@ For example, transition from right side
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [MZFormSheetController registerTransitionClass:[MZCustomTransition class] forTransitionStyle:MZFormSheetTransitionStyleCustom];
     
     self.transitionStyle = MZFormSheetTransitionStyleCustom;
     self.presentedFSViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;

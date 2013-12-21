@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0619D04717D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */; };
 		0619D04917D1F66A0051E4C6 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0619D04817D1F66A0051E4C6 /* Accelerate.framework */; };
+		06218B4E186648FE0058C1EB /* MZTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 06218B4D186648FE0058C1EB /* MZTransition.m */; };
+		06218B511866498D0058C1EB /* MZCustomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 06218B501866498D0058C1EB /* MZCustomTransition.m */; };
 		062D29B817C0BD9C00E9CF11 /* MZAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D29B517C0BD9C00E9CF11 /* MZAppearance.m */; };
 		062D29B917C0BD9C00E9CF11 /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = 062D29B717C0BD9C00E9CF11 /* NSInvocation+Copy.m */; };
 		0660CEA017B65F8B0070B936 /* DEFacebookAttachmentFrame.png in Resources */ = {isa = PBXBuildFile; fileRef = 0660CE7E17B65F8B0070B936 /* DEFacebookAttachmentFrame.png */; };
@@ -62,7 +64,6 @@
 		06A70E8317B5474A001A0AED /* MZFormSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A70E8217B5474A001A0AED /* MZFormSheetController.m */; };
 		06A70E8617B54A84001A0AED /* MZSampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A70E8517B54A84001A0AED /* MZSampleViewController.m */; };
 		06A70E8917B54D60001A0AED /* MZNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A70E8817B54D60001A0AED /* MZNavViewController.m */; };
-		06F6C65A17B56887002A90B6 /* MZCustomFormSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06F6C65917B56887002A90B6 /* MZCustomFormSheetController.m */; };
 		06F6C65D17B56ACD002A90B6 /* navigationBarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 06F6C65C17B56ACD002A90B6 /* navigationBarBackground.png */; };
 		06F6C65F17B56B40002A90B6 /* navigationBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06F6C65E17B56B40002A90B6 /* navigationBarBackground@2x.png */; };
 		06F6C66217B56C3F002A90B6 /* closeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 06F6C66017B56C3F002A90B6 /* closeButton.png */; };
@@ -76,6 +77,10 @@
 		0619D04517D1E7960051E4C6 /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetBackgroundWindow.h; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
 		0619D04617D1E7960051E4C6 /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetBackgroundWindow.m; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
 		0619D04817D1F66A0051E4C6 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		06218B4C186648FE0058C1EB /* MZTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZTransition.h; path = ../../../MZFormSheetController/MZTransition.h; sourceTree = "<group>"; };
+		06218B4D186648FE0058C1EB /* MZTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZTransition.m; path = ../../../MZFormSheetController/MZTransition.m; sourceTree = "<group>"; };
+		06218B4F1866498D0058C1EB /* MZCustomTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZCustomTransition.h; sourceTree = "<group>"; };
+		06218B501866498D0058C1EB /* MZCustomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZCustomTransition.m; sourceTree = "<group>"; };
 		062D29B417C0BD9C00E9CF11 /* MZAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZAppearance.h; path = ../../../Additional/MZAppearance.h; sourceTree = "<group>"; };
 		062D29B517C0BD9C00E9CF11 /* MZAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZAppearance.m; path = ../../../Additional/MZAppearance.m; sourceTree = "<group>"; };
 		062D29B617C0BD9C00E9CF11 /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+Copy.h"; path = "../../../Additional/NSInvocation+Copy.h"; sourceTree = "<group>"; };
@@ -149,8 +154,6 @@
 		06A70E8517B54A84001A0AED /* MZSampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZSampleViewController.m; sourceTree = "<group>"; };
 		06A70E8717B54D60001A0AED /* MZNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZNavViewController.h; sourceTree = "<group>"; };
 		06A70E8817B54D60001A0AED /* MZNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZNavViewController.m; sourceTree = "<group>"; };
-		06F6C65817B56887002A90B6 /* MZCustomFormSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZCustomFormSheetController.h; sourceTree = "<group>"; };
-		06F6C65917B56887002A90B6 /* MZCustomFormSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZCustomFormSheetController.m; sourceTree = "<group>"; };
 		06F6C65C17B56ACD002A90B6 /* navigationBarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationBarBackground.png; sourceTree = "<group>"; };
 		06F6C65E17B56B40002A90B6 /* navigationBarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationBarBackground@2x.png"; sourceTree = "<group>"; };
 		06F6C66017B56C3F002A90B6 /* closeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = closeButton.png; sourceTree = "<group>"; };
@@ -277,6 +280,8 @@
 		06A70E5E17B546AE001A0AED /* MZFormSheetControllerExample */ = {
 			isa = PBXGroup;
 			children = (
+				06218B4F1866498D0058C1EB /* MZCustomTransition.h */,
+				06218B501866498D0058C1EB /* MZCustomTransition.m */,
 				06A70E6717B546AE001A0AED /* MZAppDelegate.h */,
 				06A70E6817B546AE001A0AED /* MZAppDelegate.m */,
 				0662978617B7DCE3000DA2F2 /* iPhone_autolayout.storyboard */,
@@ -289,8 +294,6 @@
 				06A70E8517B54A84001A0AED /* MZSampleViewController.m */,
 				06A70E8717B54D60001A0AED /* MZNavViewController.h */,
 				06A70E8817B54D60001A0AED /* MZNavViewController.m */,
-				06F6C65817B56887002A90B6 /* MZCustomFormSheetController.h */,
-				06F6C65917B56887002A90B6 /* MZCustomFormSheetController.m */,
 				0660CE2E17B652160070B936 /* FacebookComposeViewController */,
 				06F6C65B17B56ABF002A90B6 /* Resources */,
 				06965FA317B62B39003F7274 /* MZModalViewController.h */,
@@ -316,6 +319,8 @@
 		06A70E7E17B5471B001A0AED /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				06218B4C186648FE0058C1EB /* MZTransition.h */,
+				06218B4D186648FE0058C1EB /* MZTransition.m */,
 				06A70E8117B5474A001A0AED /* MZFormSheetController.h */,
 				06A70E8217B5474A001A0AED /* MZFormSheetController.m */,
 				0662978817B7F1CA000DA2F2 /* MZFormSheetSegue.h */,
@@ -449,13 +454,14 @@
 				06A70E8317B5474A001A0AED /* MZFormSheetController.m in Sources */,
 				06A70E8617B54A84001A0AED /* MZSampleViewController.m in Sources */,
 				06A70E8917B54D60001A0AED /* MZNavViewController.m in Sources */,
-				06F6C65A17B56887002A90B6 /* MZCustomFormSheetController.m in Sources */,
 				06965FA517B62B39003F7274 /* MZModalViewController.m in Sources */,
 				0660CEB817B65F8B0070B936 /* DEFacebookGradientView.m in Sources */,
 				0660CEB917B65F8B0070B936 /* DEFacebookSheetCardView.m in Sources */,
 				0660CEBA17B65F8B0070B936 /* DEFacebookTextView.m in Sources */,
 				0660CEBB17B65F8B0070B936 /* DERuledView.m in Sources */,
+				06218B511866498D0058C1EB /* MZCustomTransition.m in Sources */,
 				0660CEBC17B65F8B0070B936 /* MZFacebookComposeViewController.m in Sources */,
+				06218B4E186648FE0058C1EB /* MZTransition.m in Sources */,
 				0660CEC117B65FC00070B936 /* UIApplication+DEFacebookComposeViewController.m in Sources */,
 				0660CEC217B65FC00070B936 /* UIDevice+DEFacebookComposeViewController.m in Sources */,
 				0662978A17B7F1CB000DA2F2 /* MZFormSheetSegue.m in Sources */,

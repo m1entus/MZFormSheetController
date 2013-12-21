@@ -8,7 +8,7 @@
 
 #import "MZViewController.h"
 #import "MZFormSheetController.h"
-#import "MZCustomFormSheetController.h"
+#import "MZCustomTransition.h"
 
 @interface MZViewController ()
 
@@ -59,12 +59,14 @@
 
 - (void)transitionCustom
 {
+    [MZFormSheetController registerTransitionClass:[MZCustomTransition class] forTransitionStyle:MZFormSheetTransitionStyleCustom];
+
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
-    MZCustomFormSheetController *customFormSheet = [[MZCustomFormSheetController alloc] initWithViewController:vc];
-    [self presentFormSheetController:customFormSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+    [self presentFormSheetWithViewController:vc animated:YES transitionStyle:MZFormSheetTransitionStyleCustom completionHandler:^(MZFormSheetController *formSheetController) {
 
     }];
-    
+
+
 }
 
 - (void)backgroundTapToDismiss
