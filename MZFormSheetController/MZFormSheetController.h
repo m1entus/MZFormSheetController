@@ -37,8 +37,6 @@
 extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
 extern CGFloat const MZFormSheetControllerWindowTag;
 
-extern NSString *const MZFormSheetWillRotateNotification;
-
 typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleSlideFromTop = 0,
     MZFormSheetTransitionStyleSlideFromBottom,
