@@ -25,6 +25,12 @@
     return [self.topViewController supportedInterfaceOrientations];
 }
 
+//-(UIStatusBarStyle)preferredStatusBarStyle {
+//    return UIStatusBarStyleLightContent; // your own style
+//}
 
+//- (BOOL)prefersStatusBarHidden {
+//    return YES; // your own visibility code
+//}
 
 @end

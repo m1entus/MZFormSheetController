@@ -9,6 +9,7 @@
 #import "MZViewController.h"
 #import "MZFormSheetController.h"
 #import "MZCustomTransition.h"
+#import "MZModalViewController.h"
 
 @interface MZViewController () <MZFormSheetBackgroundWindowDelegate>
 
@@ -40,6 +41,21 @@
     formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
 //    formSheet.shouldMoveToTopWhenKeyboardAppears = NO;
 
+    __weak MZFormSheetController *weakFormSheet = formSheet;
+
+
+    // If you want to animate status bar use this code
+    formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location) {
+        UINavigationController *navController = (UINavigationController *)weakFormSheet.presentedFSViewController;
+        MZModalViewController *mzvc = (MZModalViewController *)navController.topViewController;
+        mzvc.showStatusBar = NO;
+        [UIView animateWithDuration:0.3 animations:^{
+            if ([weakFormSheet respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+                [weakFormSheet setNeedsStatusBarAppearanceUpdate];
+            }
+        }];
+    };
+
     formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController) {
         // Passing data
         UINavigationController *navController = (UINavigationController *)presentedFSViewController;
@@ -52,6 +68,10 @@
     [self presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
 
     }];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO; // your own visibility code
 }
 
 - (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarToOrientation:(UIInterfaceOrientation)orientation

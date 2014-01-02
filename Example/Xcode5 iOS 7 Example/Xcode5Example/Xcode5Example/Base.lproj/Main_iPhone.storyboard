@@ -116,7 +116,7 @@
         <!--Table View Controller-->
         <scene sceneID="60D-rD-a0N">
             <objects>
-                <tableViewController id="NGH-3U-YiQ" sceneMemberID="viewController">
+                <tableViewController id="NGH-3U-YiQ" customClass="MZTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u2W-G3-nXx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -205,10 +205,10 @@
             </objects>
             <point key="canvasLocation" x="1778" y="188"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Navigation View Controller-->
         <scene sceneID="He6-o8-XLi">
             <objects>
-                <navigationController storyboardIdentifier="modal" automaticallyAdjustsScrollViewInsets="NO" id="MpD-Ff-cYw" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="modal" automaticallyAdjustsScrollViewInsets="NO" id="MpD-Ff-cYw" customClass="MZNavigationViewController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Soq-fd-QOd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

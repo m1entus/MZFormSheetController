@@ -741,6 +741,25 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     
 }
 
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+        return navigationController.topViewController;
+    }
+    return self.presentedFSViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden
+{
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+        return navigationController.topViewController;
+    }
+    return self.presentedFSViewController;
+}
+
+
 - (NSUInteger)supportedInterfaceOrientations
 {
     return [self.presentedFSViewController supportedInterfaceOrientations];
@@ -748,6 +767,10 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+        return [navigationController.topViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+    }
     return [self.presentedFSViewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MZModalViewController : UIViewController
-
+@property (nonatomic, assign) BOOL showStatusBar;
 @end
