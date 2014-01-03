@@ -47,8 +47,12 @@
     // If you want to animate status bar use this code
     formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location) {
         UINavigationController *navController = (UINavigationController *)weakFormSheet.presentedFSViewController;
-        MZModalViewController *mzvc = (MZModalViewController *)navController.topViewController;
-        mzvc.showStatusBar = NO;
+        if ([navController.topViewController isKindOfClass:[MZModalViewController class]]) {
+            MZModalViewController *mzvc = (MZModalViewController *)navController.topViewController;
+            mzvc.showStatusBar = NO;
+        }
+
+
         [UIView animateWithDuration:0.3 animations:^{
             if ([weakFormSheet respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
                 [weakFormSheet setNeedsStatusBarAppearanceUpdate];
@@ -65,9 +69,13 @@
 
     [MZFormSheetController sharedBackgroundWindow].formSheetBackgroundWindowDelegate = self;
 
-    [self presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+    [self mz_presentFormSheetController:formSheet animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
 
     }];
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent; // your own style
 }
 
 - (BOOL)prefersStatusBarHidden {

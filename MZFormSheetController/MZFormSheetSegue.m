@@ -33,7 +33,7 @@
     UIViewController *sourceViewController = [self sourceViewController];
     UIViewController *destinationViewController = [self destinationViewController];
     
-    [sourceViewController presentFormSheetWithViewController:destinationViewController animated:YES completionHandler:nil];
+    [sourceViewController mz_presentFormSheetWithViewController:destinationViewController animated:YES completionHandler:nil];
 }
 
 @end

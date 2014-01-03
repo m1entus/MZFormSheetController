@@ -55,6 +55,12 @@ static NSMutableArray *_instanceOfSharedQueue = nil;
 static BOOL _instanceOfFormSheetAnimating = NO;
 static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
+#pragma mark - UIViewController (MZParentTargetViewController)
+
+@interface UIViewController (MZParentTargetViewController)
+- (UIViewController *)mz_parentTargetViewController;
+@end
+
 #pragma mark - UIViewController (OBJC_ASSOCIATION)
 
 @implementation UIViewController (OBJC_ASSOCIATION)
@@ -78,6 +84,12 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 + (void)showBackgroundWindowAnimated:(BOOL)animated
 {    
     if ([MZFormSheetController sharedBackgroundWindow].isHidden) {
+
+        // Hack: I set rootViewController to presentingViewController because
+        // if View controller-based status bar appearance is YES and background window was hiding animated,
+        // there was problem with preferredStatusBarStyle (half second always black status bar)
+        _instanceOfFormSheetBackgroundWindow.rootViewController = [[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController];
+
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
 
         _instanceOfFormSheetBackgroundWindow.alpha = 0;
@@ -101,6 +113,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         _instanceOfFormSheetBackgroundWindow = nil;
         return;
     }
+
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                      animations:^{
                          _instanceOfFormSheetBackgroundWindow.alpha = 0;
@@ -418,7 +431,11 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     }
     
     self.applicationKeyWindow = [UIApplication sharedApplication].keyWindow;
-    
+
+    if (!self.presentingViewController) {
+        self.presentingViewController = [self.applicationKeyWindow.rootViewController mz_parentTargetViewController];
+    }
+
     if (![[MZFormSheetController sharedQueue] containsObject:self]) {
         [[MZFormSheetController sharedQueue] addObject:self];
     }
@@ -482,11 +499,11 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     }
 
     [self removeKeyboardNotifications];
-    
+
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
         [MZFormSheetController setAnimating:NO];
         self.presented = NO;
-        
+
         if (self.didDismissCompletionHandler) {
             self.didDismissCompletionHandler(self.presentedFSViewController);
         }
@@ -747,6 +764,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
         return navigationController.topViewController;
     }
+
     return self.presentedFSViewController;
 }
 
@@ -758,7 +776,6 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     }
     return self.presentedFSViewController;
 }
-
 
 - (NSUInteger)supportedInterfaceOrientations
 {
@@ -781,19 +798,20 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)cleanup
 {
+
     self.presentedFSViewController.formSheetController = nil;
     self.presentingViewController.formSheetController = nil;
     
     [self.presentedFSViewController.view removeFromSuperview];
     self.presentedFSViewController = nil;
-    
+
     [self.formSheetWindow removeGestureRecognizer:self.backgroundTapGestureRecognizer];
     self.formSheetWindow.hidden = YES;
-    
+
     self.formSheetWindow.rootViewController = nil;
     [self.formSheetWindow removeFromSuperview];
     self.formSheetWindow = nil;
-    
+
     self.backgroundTapGestureRecognizer = nil;
 
     [self removeKeyboardNotifications];
@@ -808,11 +826,31 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 #pragma mark - Public
 
-- (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+- (void)mz_presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     self.formSheetController = formSheetController;
     formSheetController.presentingViewController = self;
-    
+
+    [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
+        if (completionHandler) {
+            completionHandler(formSheetController);
+        }
+    }];
+}
+
+- (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self mz_presentFormSheetController:formSheetController animated:animated completionHandler:completionHandler];
+}
+
+- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    MZFormSheetController *formSheetController = [[MZFormSheetController alloc] initWithViewController:viewController];
+    formSheetController.transitionStyle = transitionStyle;
+
+    self.formSheetController = formSheetController;
+    formSheetController.presentingViewController = self;
+
     [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
             completionHandler(formSheetController);
@@ -822,40 +860,52 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
-    MZFormSheetController *formSheetController = [[MZFormSheetController alloc] initWithViewController:viewController];
-    formSheetController.transitionStyle = transitionStyle;
-    
-    self.formSheetController = formSheetController;
-    formSheetController.presentingViewController = self;
-    
-    [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
-        if (completionHandler) {
-            completionHandler(formSheetController);
-        }
-    }];
+    [self mz_presentFormSheetWithViewController:viewController animated:animated transitionStyle:transitionStyle completionHandler:completionHandler];
+}
+
+- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self mz_presentFormSheetWithViewController:viewController animated:animated transitionStyle:MZFormSheetTransitionStyleSlideFromTop completionHandler:completionHandler];
 }
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
-    [self presentFormSheetWithViewController:viewController animated:animated transitionStyle:MZFormSheetTransitionStyleSlideFromTop completionHandler:completionHandler];
+    [self mz_presentFormSheetWithViewController:viewController animated:animated completionHandler:completionHandler];
 }
 
-
-- (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+- (void)mz_dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     MZFormSheetController *formSheetController = nil;
-    
+
     if (self.formSheetController) {
         formSheetController = self.formSheetController;
     } else {
         formSheetController = [[MZFormSheetController sharedQueue] lastObject];
     }
-    
+
     [formSheetController dismissAnimated:animated completionHandler:^(UIViewController *presentedFSViewController) {
         if (completionHandler) {
             completionHandler(formSheetController);
         }
     }];
+}
+
+- (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self mz_dismissFormSheetControllerAnimated:animated completionHandler:completionHandler];
+}
+
+@end
+
+@implementation UIViewController (MZParentTargetViewController)
+
+- (UIViewController *)mz_parentTargetViewController
+{
+    UIViewController *target = self;
+    while (target.parentViewController) {
+        target = target.parentViewController;
+    }
+    return target;
 }
 
 @end
