@@ -88,7 +88,9 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         // Hack: I set rootViewController to presentingViewController because
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
-        _instanceOfFormSheetBackgroundWindow.rootViewController = [[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController];
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            _instanceOfFormSheetBackgroundWindow.rootViewController = [[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController];
+        }
 
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
 
@@ -588,7 +590,9 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)setupPresentedFSViewControllerFrame
 {
-    if (self.keyboardVisible) {
+    BOOL shouldChangePresentedFSViewControllerOriginWhenKeyboardVisible = self.shouldCenterVerticallyWhenKeyboardAppears || self.shouldMoveToTopWhenKeyboardAppears;
+    
+    if (self.keyboardVisible && shouldChangePresentedFSViewControllerOriginWhenKeyboardVisible) {
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
