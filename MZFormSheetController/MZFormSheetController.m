@@ -27,6 +27,7 @@
 #import "NSInvocation+Copy.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
+#import "MZFormSheetBackgroundWindowViewController.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
@@ -54,6 +55,16 @@ static MZFormSheetBackgroundWindow *_instanceOfFormSheetBackgroundWindow = nil;
 static NSMutableArray *_instanceOfSharedQueue = nil;
 static BOOL _instanceOfFormSheetAnimating = NO;
 static NSMutableDictionary *_instanceOfTransitionClasses = nil;
+
+static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) {
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        NSNumber *viewControllerBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
+        if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue]) {
+            return YES;
+        }
+    }
+    return NO;
+};
 
 #pragma mark - UIViewController (MZParentTargetViewController)
 
@@ -88,8 +99,11 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         // Hack: I set rootViewController to presentingViewController because
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-            _instanceOfFormSheetBackgroundWindow.rootViewController = [[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController];
+        if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance()) {
+            UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController] mz_parentTargetViewController];
+            
+            // set mostTopViewController prefferedStatusBarStyle to empty viewController
+            _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:mostTopViewController.preferredStatusBarStyle prefersStatusBarHidden:mostTopViewController.prefersStatusBarHidden];
         }
 
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
@@ -534,10 +548,10 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)transitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
-    Class class = _instanceOfTransitionClasses[@(self.transitionStyle)];
+    Class transitionClass = _instanceOfTransitionClasses[@(self.transitionStyle)];
 
-    if (class) {
-        id <MZFormSheetControllerTransition> transition = [[class alloc] init];
+    if (transitionClass) {
+        id <MZFormSheetControllerTransition> transition = [[transitionClass alloc] init];
 
         [transition entryFormSheetControllerTransition:self
                                      completionHandler:completionBlock];
@@ -548,10 +562,10 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)transitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
-    Class class = _instanceOfTransitionClasses[@(self.transitionStyle)];
+    Class transitionClass = _instanceOfTransitionClasses[@(self.transitionStyle)];
 
-    if (class) {
-        id <MZFormSheetControllerTransition> transition = [[class alloc] init];
+    if (transitionClass) {
+        id <MZFormSheetControllerTransition> transition = [[transitionClass alloc] init];
 
         [transition exitFormSheetControllerTransition:self
                                      completionHandler:completionBlock];
