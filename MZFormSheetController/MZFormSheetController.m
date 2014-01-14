@@ -28,12 +28,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 
-#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+#define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
+#endif
 
-NSString *const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
-NSString *const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
-NSString *const MZFormSheetWillPresentNotification = @"MZFormSheetWillPresentNotification";
-NSString *const MZFormSheetWillDismissNotification = @"MZFormSheetWillDismissNotification";
+#define MZSystemVersionGratherThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+
+NSString * const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
+NSString * const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
+NSString * const MZFormSheetWillPresentNotification = @"MZFormSheetWillPresentNotification";
+NSString * const MZFormSheetWillDismissNotification = @"MZFormSheetWillDismissNotification";
 
 CGFloat const MZFormSheetControllerDefaultPortraitTopInset = 66.0;
 CGFloat const MZFormSheetControllerDefaultLandscapeTopInset = 6.0;
@@ -306,7 +310,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     if (_portraitTopInset != portraitTopInset) {
         _portraitTopInset = portraitTopInset;
 
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
             _portraitTopInset += [MZFormSheetController statusBarHeight];
         }
     }
@@ -317,7 +321,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     if (_landscapeTopInset != landscapeTopInset) {
         _landscapeTopInset = landscapeTopInset;
 
-        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
             _landscapeTopInset += [MZFormSheetController statusBarHeight];
         }
     }
@@ -596,14 +600,14 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
             if (self.shouldCenterVerticallyWhenKeyboardAppears) {
                 formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
             } else if (self.shouldMoveToTopWhenKeyboardAppears) {
-                if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+                if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
                     formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
                 } else {
                     formSheetRect.origin.y = 0;
                 }
             }
         } else {
-            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+            if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
                 formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
             } else {
                 formSheetRect.origin.y = 0;
@@ -660,7 +664,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         screenRect.size.width = [UIScreen mainScreen].bounds.size.width;
     }
 
-    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+    if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
         screenRect.origin.y = 0;
     } else {
         screenRect.origin.y = [MZFormSheetController statusBarHeight];
@@ -726,6 +730,11 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     [self.formSheetWindow addGestureRecognizer:tapGesture];
     
     [self.view addSubview:self.presentedFSViewController.view];
+
+    // This fix UINavigationBar bug for iOS7 when navigationBar is translucent has a white shadow inside like in iOS6
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        ((UINavigationController *)self.presentedFSViewController).navigationBar.translucent = NO;
+    }
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
