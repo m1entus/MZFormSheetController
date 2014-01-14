@@ -31,6 +31,7 @@
 		D21749B317BA248700F07567 /* MZFormSheetSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = D21749B117BA248700F07567 /* MZFormSheetSegue.m */; };
 		D21749B617BA24A300F07567 /* MZModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D21749B517BA24A300F07567 /* MZModalViewController.m */; };
 		D21ACB521817BA9D0033C19C /* MZNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D21ACB511817BA9D0033C19C /* MZNavigationViewController.m */; };
+		D27E9E9E1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D27E9E9D1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.m */; };
 		D282DE9917CCB9D000DDC4E6 /* MZAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = D282DE9617CCB9D000DDC4E6 /* MZAppearance.m */; };
 		D282DE9A17CCB9D000DDC4E6 /* NSInvocation+Copy.m in Sources */ = {isa = PBXBuildFile; fileRef = D282DE9817CCB9D000DDC4E6 /* NSInvocation+Copy.m */; };
 /* End PBXBuildFile section */
@@ -84,6 +85,8 @@
 		D21749B517BA24A300F07567 /* MZModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZModalViewController.m; sourceTree = "<group>"; };
 		D21ACB501817BA9D0033C19C /* MZNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZNavigationViewController.h; sourceTree = "<group>"; };
 		D21ACB511817BA9D0033C19C /* MZNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZNavigationViewController.m; sourceTree = "<group>"; };
+		D27E9E9C1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZFormSheetBackgroundWindowViewController.h; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindowViewController.h; sourceTree = "<group>"; };
+		D27E9E9D1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZFormSheetBackgroundWindowViewController.m; path = ../../../MZFormSheetController/MZFormSheetBackgroundWindowViewController.m; sourceTree = "<group>"; };
 		D282DE9517CCB9D000DDC4E6 /* MZAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZAppearance.h; path = ../../../Additional/MZAppearance.h; sourceTree = "<group>"; };
 		D282DE9617CCB9D000DDC4E6 /* MZAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MZAppearance.m; path = ../../../Additional/MZAppearance.m; sourceTree = "<group>"; };
 		D282DE9717CCB9D000DDC4E6 /* NSInvocation+Copy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSInvocation+Copy.h"; path = "../../../Additional/NSInvocation+Copy.h"; sourceTree = "<group>"; };
@@ -211,6 +214,8 @@
 				D21749B117BA248700F07567 /* MZFormSheetSegue.m */,
 				0655D47018663023006E82EF /* MZTransition.h */,
 				0655D47118663023006E82EF /* MZTransition.m */,
+				D27E9E9C1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.h */,
+				D27E9E9D1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -340,6 +345,7 @@
 				D21ACB521817BA9D0033C19C /* MZNavigationViewController.m in Sources */,
 				D282DE9A17CCB9D000DDC4E6 /* NSInvocation+Copy.m in Sources */,
 				064BF79B17D2030300518C26 /* MZFormSheetBackgroundWindow.m in Sources */,
+				D27E9E9E1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.m in Sources */,
 				0665D3A818762A92007A55B4 /* MZTableViewController.m in Sources */,
 				06218B4B1866418C0058C1EB /* MZCustomTransition.m in Sources */,
 			);

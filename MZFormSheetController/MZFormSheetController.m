@@ -27,6 +27,7 @@
 #import "NSInvocation+Copy.h"
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
+#import "MZFormSheetBackgroundWindowViewController.h"
 
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
@@ -58,6 +59,16 @@ static MZFormSheetBackgroundWindow *_instanceOfFormSheetBackgroundWindow = nil;
 static NSMutableArray *_instanceOfSharedQueue = nil;
 static BOOL _instanceOfFormSheetAnimating = NO;
 static NSMutableDictionary *_instanceOfTransitionClasses = nil;
+
+static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) {
+    if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
+        NSNumber *viewControllerBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
+        if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue]) {
+            return YES;
+        }
+    }
+    return NO;
+};
 
 #pragma mark - UIViewController (MZParentTargetViewController)
 
@@ -92,7 +103,12 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         // Hack: I set rootViewController to presentingViewController because
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
-        _instanceOfFormSheetBackgroundWindow.rootViewController = [[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController];
+        if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance()) {
+            UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController] mz_parentTargetViewController];
+            
+            // set mostTopViewController prefferedStatusBarStyle to empty viewController
+            _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:mostTopViewController.preferredStatusBarStyle prefersStatusBarHidden:mostTopViewController.prefersStatusBarHidden];
+        }
 
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
 
@@ -536,10 +552,10 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)transitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
-    Class class = _instanceOfTransitionClasses[@(self.transitionStyle)];
+    Class transitionClass = _instanceOfTransitionClasses[@(self.transitionStyle)];
 
-    if (class) {
-        id <MZFormSheetControllerTransition> transition = [[class alloc] init];
+    if (transitionClass) {
+        id <MZFormSheetControllerTransition> transition = [[transitionClass alloc] init];
 
         [transition entryFormSheetControllerTransition:self
                                      completionHandler:completionBlock];
@@ -550,10 +566,10 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)transitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
-    Class class = _instanceOfTransitionClasses[@(self.transitionStyle)];
+    Class transitionClass = _instanceOfTransitionClasses[@(self.transitionStyle)];
 
-    if (class) {
-        id <MZFormSheetControllerTransition> transition = [[class alloc] init];
+    if (transitionClass) {
+        id <MZFormSheetControllerTransition> transition = [[transitionClass alloc] init];
 
         [transition exitFormSheetControllerTransition:self
                                      completionHandler:completionBlock];
@@ -592,7 +608,9 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)setupPresentedFSViewControllerFrame
 {
-    if (self.keyboardVisible) {
+    BOOL shouldChangePresentedFSViewControllerOriginWhenKeyboardVisible = self.shouldCenterVerticallyWhenKeyboardAppears || self.shouldMoveToTopWhenKeyboardAppears;
+    
+    if (self.keyboardVisible && shouldChangePresentedFSViewControllerOriginWhenKeyboardVisible) {
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
