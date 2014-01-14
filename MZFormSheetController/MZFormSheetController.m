@@ -217,6 +217,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 @property (nonatomic, weak) UIWindow *applicationKeyWindow;
 @property (nonatomic, strong) MZFormSheetWindow *formSheetWindow;
 
+@property (nonatomic, readonly) CGFloat topInset;
 @property (nonatomic, assign, getter = isPresented) BOOL presented;
 @property (nonatomic, assign, getter = isKeyboardVisible) BOOL keyboardVisible;
 @property (nonatomic, strong) NSValue *screenFrameWhenKeyboardVisible;
@@ -382,6 +383,16 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 }
 
 #pragma mark - Getters
+
+- (CGFloat)topInset
+{
+  if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+    return self.portraitTopInset;
+  }
+  else {
+    return self.landscapeTopInset;
+  }
+}
 
 - (MZFormSheetWindow *)formSheetWindow
 {
@@ -617,11 +628,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
             if (self.shouldCenterVerticallyWhenKeyboardAppears) {
                 formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
             } else if (self.shouldMoveToTopWhenKeyboardAppears) {
-                if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
-                    formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
-                } else {
-                    formSheetRect.origin.y = 0;
-                }
+                formSheetRect.origin.y = self.topInset;
             }
         } else {
             if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
@@ -635,10 +642,10 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
  
     } else if (self.shouldCenterVertically) {
         self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-    } else if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-        self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.portraitTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);
     } else {
-        self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.landscapeTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);
+        CGRect frame = self.presentedFSViewController.view.frame;
+        frame.origin.y = self.topInset;
+        self.presentedFSViewController.view.frame = frame;
     }
 }
 
