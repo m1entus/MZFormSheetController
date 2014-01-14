@@ -31,6 +31,10 @@ typedef void(^MZTransitionCompletionHandler)();
 
 @protocol MZFormSheetControllerTransition <NSObject>
 @required
+/**
+ Subclasses must implement to add custom transition animation.
+ When animation is finished you must call super method or completionHandler to keep view life cycle.
+ */
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
 - (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
 

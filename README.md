@@ -17,7 +17,7 @@ Let's start with a simple example
 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
 
 // present form sheet with view controller
-[self presentFormSheetWithViewController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+[self mz_presentFormSheetController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
    //do sth
 }];
 ```
@@ -27,7 +27,7 @@ This will display view controller inside form sheet container.
 If you want to dismiss form sheet controller, you can use category on UIViewController to provide access to the formSheetController.
 
 ``` objective-c
-[self dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+[self mz_dismissFormSheetControllerAnimated:YES completionHandler:^(MZFormSheetController *formSheetController) {
     // do sth
 }];
 ```
@@ -93,7 +93,7 @@ typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
 };
 ```
 
-You can create your own transition by subclassing MZFormSheetController.
+You can create your own transition by subclassing MZTransition.
 
 ``` objective-c
 /**
@@ -107,11 +107,18 @@ You can create your own transition by subclassing MZFormSheetController.
 
 + (Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 
-For example, transition from right side
-
-@interface MZCustomTransition : MZTransition
+@protocol MZFormSheetControllerTransition <NSObject>
+@required
+/**
+ Subclasses must implement to add custom transition animation.
+ When animation is finished you must call super method or completionHandler to keep view life cycle.
+ */
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
 - (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
+
+@end
+
+@interface MZCustomTransition : MZTransition <MZFormSheetControllerTransition>
 @end
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -172,7 +179,7 @@ It is possible to full screen present modal view controllers over the form sheet
 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
 UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
 
-[self presentFormSheetWithViewController:vc animated:YES transitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromLeft completionHandler:^(MZFormSheetController *formSheetController) {
+[self mz_presentFormSheetWithViewController:vc animated:YES transitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromLeft completionHandler:^(MZFormSheetController *formSheetController) {
 
     [formSheetController presentViewController:modal animated:YES completion:^{
 
@@ -309,13 +316,13 @@ id appearance = [MZFormSheetController appearance];
 
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
- By default, this is 66.0
+ By default, this is 6.0
  */
 @property (nonatomic, assign) CGFloat landscapeTopInset MZ_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in portrait orientation.
- By default, this is 6.0
+ By default, this is 66.0
  */
 @property (nonatomic, assign) CGFloat portraitTopInset MZ_APPEARANCE_SELECTOR;
 
@@ -405,7 +412,7 @@ extern NSString *const MZFormSheetDidPresentNotification;
 extern NSString *const MZFormSheetDidDismissNotification;
 ```
 
-# Supported interface orientations
+## Supported interface orientations
 
 MZFormSheetController support all interface orientations.
 If you want to resize form sheet controller during orientation change you can use autoresizeMask property. 
@@ -426,7 +433,33 @@ You can manipulate interface orientation using this code:
 }
 ```
 
-# Others
+## PreferredStatusBarStyle (iOS7)
+
+Presented view controller or UINavigationController topViewController is used 
+for determining status bar style. If you don't want this behavior subclass MZFormSheetController. 
+
+``` objective-c
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+        return navigationController.topViewController;
+    }
+
+    return self.presentedFSViewController;
+}
+
+- (UIViewController *)childViewControllerForStatusBarHidden
+{
+    if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
+        UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
+        return navigationController.topViewController;
+    }
+    return self.presentedFSViewController;
+}
+```
+
+## Others
 
 ``` objective-c
 /**
@@ -440,6 +473,15 @@ You can manipulate interface orientation using this code:
  */
 @property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 ```
+
+## Known Issues
+
+* There is not possible to set blurred UINavigationBar when view controller is 
+presented from MZFormSheetController.<br />If you don't want to have UINavigationBar
+inner white shadow in iOS7, you should set UINavigationBar translucent property to NO.
+
+* If you are using blurred background, you will have huge delay on iPad 3 Retina.<br />
+I recommend you to turn off background blur for iPad 3 Retina.
 
 ## Autolayout
 

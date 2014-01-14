@@ -35,11 +35,11 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
 {
-    [NSException raise:MZTransitionExceptionMethodNotImplemented format:@"+[%@ entryFormSheetControllerTransition:completionHandler:] must be implemented", NSStringFromClass([self class])];
+    [NSException raise:MZTransitionExceptionMethodNotImplemented format:@"-[%@ entryFormSheetControllerTransition:completionHandler:] must be implemented", NSStringFromClass([self class])];
 }
 - (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
 {
-    [NSException raise:MZTransitionExceptionMethodNotImplemented format:@"+[%@ exitFormSheetControllerTransition:completionHandler:] must be implemented", NSStringFromClass([self class])];
+    [NSException raise:MZTransitionExceptionMethodNotImplemented format:@"-[%@ exitFormSheetControllerTransition:completionHandler:] must be implemented", NSStringFromClass([self class])];
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag

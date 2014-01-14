@@ -155,13 +155,13 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
- By default, this is 66.0
+ By default, this is 6.0
  */
 @property (nonatomic, assign) CGFloat landscapeTopInset MZ_APPEARANCE_SELECTOR;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in portrait orientation.
- By default, this is 6.0
+ By default, this is 66.0
  */
 @property (nonatomic, assign) CGFloat portraitTopInset MZ_APPEARANCE_SELECTOR;
 
