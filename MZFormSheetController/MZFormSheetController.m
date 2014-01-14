@@ -412,8 +412,9 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (instancetype)initWithViewController:(UIViewController *)presentedFormSheetViewController
 {
     if (self = [super init]) {
-        
 
+        [self addKeyboardNotifications];
+        
         presentedFormSheetViewController.formSheetController = self;
         self.presentedFSViewController = presentedFormSheetViewController;
 
@@ -479,8 +480,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         self.presented = YES;
         
         [self.presentedFSViewController setFormSheetController:self];
-
-        [self addKeyboardNotifications];
         
         self.formSheetWindow.hidden = NO;
 
@@ -825,7 +824,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 - (void)cleanup
 {
-
     self.presentedFSViewController.formSheetController = nil;
     self.presentingViewController.formSheetController = nil;
     
@@ -841,6 +839,11 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
     self.backgroundTapGestureRecognizer = nil;
 
+    [self removeKeyboardNotifications];
+}
+
+- (void)dealloc
+{
     [self removeKeyboardNotifications];
 }
 

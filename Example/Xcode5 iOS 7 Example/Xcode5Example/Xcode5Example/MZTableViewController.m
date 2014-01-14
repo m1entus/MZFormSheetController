@@ -20,6 +20,8 @@
 {
     [super viewDidLoad];
 
+    [self.textField becomeFirstResponder];
+
     [UIView animateWithDuration:0.3 animations:^{
         [self.navigationController.formSheetController setNeedsStatusBarAppearanceUpdate];
     }];

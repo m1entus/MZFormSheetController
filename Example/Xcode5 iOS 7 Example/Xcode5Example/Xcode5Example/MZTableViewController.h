@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MZTableViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UITextField *textField;
 
 @end
