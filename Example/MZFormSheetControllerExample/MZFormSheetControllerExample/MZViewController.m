@@ -170,7 +170,7 @@
     formSheet.cornerRadius = 8.0;
     formSheet.portraitTopInset = 54.0;
     formSheet.presentedFormSheetSize = CGSizeMake(280, 180);
-    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
+    formSheet.keyboardMovementStyle = MZFormSheetKeyboardMovementStyleCenterVertically;
     
     [formSheet presentAnimated:YES completionHandler:nil];
 }
