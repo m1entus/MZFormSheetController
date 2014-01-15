@@ -133,11 +133,11 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
             UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController] mz_parentTargetViewController];
 			
             // find controllers responsible for status bar style and hidden state
-            UIViewController* statusBarResponsibleViewController = [self.class childViewControllerResponsibleForStatusBarStyleInViewController:mostTopViewController];
+            UIViewController* statusBarStyleResponsibleViewController = [self.class childViewControllerResponsibleForStatusBarStyleInViewController:mostTopViewController];
             UIViewController* statusBarHiddenResponsibleViewController = [self.class childViewControllerResponsibleForStatusBarHiddenInViewController:mostTopViewController];
             
             // set mostTopViewController prefferedStatusBarStyle to empty viewController
-            _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:statusBarResponsibleViewController.preferredStatusBarStyle prefersStatusBarHidden:statusBarHiddenResponsibleViewController.prefersStatusBarHidden];
+            _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:statusBarStyleResponsibleViewController.preferredStatusBarStyle prefersStatusBarHidden:statusBarHiddenResponsibleViewController.prefersStatusBarHidden];
         }
 
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
