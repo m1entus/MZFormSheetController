@@ -932,8 +932,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (UIViewController *)mz_parentTargetViewController
 {
     UIViewController *target = self;
-    while (target.parentViewController) {
-        target = target.parentViewController;
+    while (target.presentedViewController) {
+        target = target.presentedViewController;
     }
     return target;
 }
