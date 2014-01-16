@@ -51,11 +51,11 @@ typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleNone,
 };
 
-typedef NS_ENUM(NSInteger, MZFormSheetKeyboardMovementStyle) {
-  MZFormSheetKeyboardMovementStyleMoveToTop = 0,
-  MZFormSheetKeyboardMovementStyleMoveToTopInset,
-  MZFormSheetKeyboardMovementStyleCenterVertically,
-  MZFormSheetKeyboardMovementStyleNone,
+typedef NS_ENUM(NSInteger, MZFormSheetWhenKeyboardAppears) {
+  MZFormSheetWhenKeyboardAppearsDoNothing = 0,
+  MZFormSheetWhenKeyboardAppearsCenterVertically,
+  MZFormSheetWhenKeyboardAppearsMoveToTop,
+  MZFormSheetWhenKeyboardAppearsMoveToTopInset,
 };
 
 /**
@@ -137,9 +137,9 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 /**
  The movement style to use when the keyboard appears.
- By default, this is MZFormSheetKeyboardMovementStyleMoveToTop.
+ By default, this is MZFormSheetWhenKeyboardAppearsMoveToTop.
  */
-@property (nonatomic, assign) MZFormSheetKeyboardMovementStyle keyboardMovementStyle MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) MZFormSheetWhenKeyboardAppears movementWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.

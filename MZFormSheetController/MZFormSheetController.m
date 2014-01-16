@@ -28,6 +28,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <objc/runtime.h>
 #import "MZFormSheetBackgroundWindowViewController.h"
+#import "UIViewController+TargetViewController.h"
 
 #ifndef kCFCoreFoundationVersionNumber_iOS_7_0
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
@@ -70,12 +71,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     return NO;
 };
 
-#pragma mark - UIViewController (MZParentTargetViewController)
-
-@interface UIViewController (MZParentTargetViewController)
-- (UIViewController *)mz_parentTargetViewController;
-@end
-
 #pragma mark - UIViewController (OBJC_ASSOCIATION)
 
 @implementation UIViewController (OBJC_ASSOCIATION)
@@ -96,32 +91,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 @implementation MZFormSheetBackgroundWindow (Show)
 
-+ (UIViewController*)childViewControllerResponsibleForStatusBarStyleInViewController:(UIViewController*)viewController {
-    UIViewController* responsibleViewController;
-	
-    if ([viewController respondsToSelector:@selector(childViewControllerForStatusBarStyle)]) {
-        responsibleViewController = [viewController childViewControllerForStatusBarStyle];
-        if (responsibleViewController != nil) {
-            return [self.class childViewControllerResponsibleForStatusBarStyleInViewController:responsibleViewController];
-        }
-    }
-	
-    return viewController;
-}
-
-+ (UIViewController*)childViewControllerResponsibleForStatusBarHiddenInViewController:(UIViewController*)viewController {
-    UIViewController* responsibleViewController;
-	
-    if ([viewController respondsToSelector:@selector(childViewControllerForStatusBarHidden)]) {
-        responsibleViewController = [viewController childViewControllerForStatusBarHidden];
-        if (responsibleViewController != nil) {
-            return [self.class childViewControllerResponsibleForStatusBarHiddenInViewController:responsibleViewController];
-        }
-    }
-	
-    return viewController;
-}
-
 + (void)showBackgroundWindowAnimated:(BOOL)animated
 {
     if ([MZFormSheetController sharedBackgroundWindow].isHidden) {
@@ -133,8 +102,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
             UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController] mz_parentTargetViewController];
 			
             // find controllers responsible for status bar style and hidden state
-            UIViewController* statusBarStyleResponsibleViewController = [self.class childViewControllerResponsibleForStatusBarStyleInViewController:mostTopViewController];
-            UIViewController* statusBarHiddenResponsibleViewController = [self.class childViewControllerResponsibleForStatusBarHiddenInViewController:mostTopViewController];
+            UIViewController* statusBarStyleResponsibleViewController = [mostTopViewController mz_childTargetViewControllerForStatusBarStyle];
+            UIViewController* statusBarHiddenResponsibleViewController = [mostTopViewController mz_childTargetViewControllerForStatusBarHidden];
             
             // set mostTopViewController prefferedStatusBarStyle to empty viewController
             _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:statusBarStyleResponsibleViewController.preferredStatusBarStyle prefersStatusBarHidden:statusBarHiddenResponsibleViewController.prefersStatusBarHidden];
@@ -296,6 +265,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
         [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
         [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
+        [appearance setMovementWhenKeyboardAppears:MZFormSheetWhenKeyboardAppearsDoNothing];
 
         _instanceOfTransitionClasses = [[NSMutableDictionary alloc] init];
         _instanceOfSharedQueue = [[NSMutableArray alloc] init];
@@ -648,19 +618,19 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 - (void)setupPresentedFSViewControllerFrame
 {
-    if (self.keyboardVisible && self.keyboardMovementStyle != MZFormSheetKeyboardMovementStyleNone) {
+    if (self.keyboardVisible && self.movementWhenKeyboardAppears != MZFormSheetWhenKeyboardAppearsDoNothing) {
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
         if (screenRect.size.height > formSheetRect.size.height) {
-          switch (self.keyboardMovementStyle) {
-            case MZFormSheetKeyboardMovementStyleCenterVertically:
+          switch (self.movementWhenKeyboardAppears) {
+            case MZFormSheetWhenKeyboardAppearsCenterVertically:
               formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
               break;
-            case MZFormSheetKeyboardMovementStyleMoveToTop:
+            case MZFormSheetWhenKeyboardAppearsMoveToTop:
               formSheetRect.origin.y = self.top;
               break;
-            case MZFormSheetKeyboardMovementStyleMoveToTopInset:
+            case MZFormSheetWhenKeyboardAppearsMoveToTopInset:
               formSheetRect.origin.y = self.topInset;
               break;
             default:
@@ -961,19 +931,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     [self mz_dismissFormSheetControllerAnimated:animated completionHandler:completionHandler];
-}
-
-@end
-
-@implementation UIViewController (MZParentTargetViewController)
-
-- (UIViewController *)mz_parentTargetViewController
-{
-    UIViewController *target = self;
-    while (target.presentedViewController) {
-        target = target.presentedViewController;
-    }
-    return target;
 }
 
 @end
