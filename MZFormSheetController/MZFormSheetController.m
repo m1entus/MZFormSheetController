@@ -33,7 +33,7 @@
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
 #endif
 
-#define MZSystemVersionGratherThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+#define MZSystemVersionGreaterThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
 
 NSString * const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
 NSString * const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
@@ -61,7 +61,7 @@ static BOOL _instanceOfFormSheetAnimating = NO;
 static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) {
-    if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
+    if (MZSystemVersionGreaterThanOrEqualTo_iOS7()) {
         NSNumber *viewControllerBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
         if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue]) {
             return YES;
@@ -247,6 +247,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 @property (nonatomic, weak) UIWindow *applicationKeyWindow;
 @property (nonatomic, strong) MZFormSheetWindow *formSheetWindow;
 
+@property (nonatomic, readonly) CGFloat top;
+@property (nonatomic, readonly) CGFloat topInset;
 @property (nonatomic, assign, getter = isPresented) BOOL presented;
 @property (nonatomic, assign, getter = isKeyboardVisible) BOOL keyboardVisible;
 @property (nonatomic, strong) NSValue *screenFrameWhenKeyboardVisible;
@@ -294,7 +296,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         [appearance setShadowRadius:MZFormSheetPresentedControllerDefaultShadowRadius];
         [appearance setPortraitTopInset:MZFormSheetControllerDefaultPortraitTopInset];
         [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
-        [appearance setShouldMoveToTopWhenKeyboardAppears:YES];
 
         _instanceOfTransitionClasses = [[NSMutableDictionary alloc] init];
         _instanceOfSharedQueue = [[NSMutableArray alloc] init];
@@ -354,22 +355,14 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (void)setPortraitTopInset:(CGFloat)portraitTopInset
 {
     if (_portraitTopInset != portraitTopInset) {
-        _portraitTopInset = portraitTopInset;
-
-        if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
-            _portraitTopInset += [MZFormSheetController statusBarHeight];
-        }
+        _portraitTopInset = portraitTopInset + self.top;
     }
 }
 
 - (void)setLandscapeTopInset:(CGFloat)landscapeTopInset
 {
     if (_landscapeTopInset != landscapeTopInset) {
-        _landscapeTopInset = landscapeTopInset;
-
-        if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
-            _landscapeTopInset += [MZFormSheetController statusBarHeight];
-        }
+        _landscapeTopInset = landscapeTopInset + self.top;
     }
 }
 
@@ -412,6 +405,24 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 }
 
 #pragma mark - Getters
+
+- (CGFloat)top {
+  if (MZSystemVersionGreaterThanOrEqualTo_iOS7()) {
+    return [MZFormSheetController statusBarHeight];
+  } else {
+    return 0;
+  }
+}
+
+- (CGFloat)topInset
+{
+  if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
+    return self.portraitTopInset;
+  }
+  else {
+    return self.landscapeTopInset;
+  }
+}
 
 - (MZFormSheetWindow *)formSheetWindow
 {
@@ -637,38 +648,35 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 - (void)setupPresentedFSViewControllerFrame
 {
-    BOOL shouldChangePresentedFSViewControllerOriginWhenKeyboardVisible = self.shouldCenterVerticallyWhenKeyboardAppears || self.shouldMoveToTopWhenKeyboardAppears;
-    
-    if (self.keyboardVisible && shouldChangePresentedFSViewControllerOriginWhenKeyboardVisible) {
+    if (self.keyboardVisible && self.keyboardMovementStyle != MZFormSheetKeyboardMovementStyleNone) {
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
         if (screenRect.size.height > formSheetRect.size.height) {
-            if (self.shouldCenterVerticallyWhenKeyboardAppears) {
-                formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
-            } else if (self.shouldMoveToTopWhenKeyboardAppears) {
-                if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
-                    formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
-                } else {
-                    formSheetRect.origin.y = 0;
-                }
-            }
+          switch (self.keyboardMovementStyle) {
+            case MZFormSheetKeyboardMovementStyleCenterVertically:
+              formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
+              break;
+            case MZFormSheetKeyboardMovementStyleMoveToTop:
+              formSheetRect.origin.y = self.top;
+              break;
+            case MZFormSheetKeyboardMovementStyleMoveToTopInset:
+              formSheetRect.origin.y = self.topInset;
+              break;
+            default:
+              break;
+          }
         } else {
-            if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
-                formSheetRect.origin.y = [MZFormSheetController statusBarHeight];
-            } else {
-                formSheetRect.origin.y = 0;
-            }
+          formSheetRect.origin.y = self.top;
         }
 
         self.presentedFSViewController.view.frame = formSheetRect;
- 
     } else if (self.shouldCenterVertically) {
         self.presentedFSViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));
-    } else if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-        self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.portraitTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);
     } else {
-        self.presentedFSViewController.view.frame = CGRectMake(self.presentedFSViewController.view.frame.origin.x, self.landscapeTopInset, self.presentedFSViewController.view.frame.size.width, self.presentedFSViewController.view.frame.size.height);
+        CGRect frame = self.presentedFSViewController.view.frame;
+        frame.origin.y = self.topInset;
+        self.presentedFSViewController.view.frame = frame;
     }
 }
 
@@ -711,7 +719,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         screenRect.size.width = [UIScreen mainScreen].bounds.size.width;
     }
 
-    if (MZSystemVersionGratherThanOrEqualTo_iOS7()) {
+    if (MZSystemVersionGreaterThanOrEqualTo_iOS7()) {
         screenRect.origin.y = 0;
     } else {
         screenRect.origin.y = [MZFormSheetController statusBarHeight];

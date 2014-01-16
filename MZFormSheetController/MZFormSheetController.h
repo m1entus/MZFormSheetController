@@ -51,6 +51,13 @@ typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
     MZFormSheetTransitionStyleNone,
 };
 
+typedef NS_ENUM(NSInteger, MZFormSheetKeyboardMovementStyle) {
+  MZFormSheetKeyboardMovementStyleMoveToTop = 0,
+  MZFormSheetKeyboardMovementStyleMoveToTopInset,
+  MZFormSheetKeyboardMovementStyleCenterVertically,
+  MZFormSheetKeyboardMovementStyleNone,
+};
+
 /**
  Notifications are posted right after completion handlers
  
@@ -129,6 +136,12 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle MZ_APPEARANCE_SELECTOR;
 
 /**
+ The movement style to use when the keyboard appears.
+ By default, this is MZFormSheetKeyboardMovementStyleMoveToTop.
+ */
+@property (nonatomic, assign) MZFormSheetKeyboardMovementStyle keyboardMovementStyle MZ_APPEARANCE_SELECTOR;
+
+/**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
  */
 @property (nonatomic, copy) MZFormSheetCompletionHandler willPresentCompletionHandler;
@@ -200,18 +213,6 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  By default, this is NO
  */
 @property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap MZ_APPEARANCE_SELECTOR;
-
-/**
- Returns whether the form sheet controller should move to top when UIKeyboard will appear.
- By default, this is YES
- */
-@property (nonatomic, assign) BOOL shouldMoveToTopWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
-
-/**
- Center form sheet vertically when UIKeyboard will appear.
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL shouldCenterVerticallyWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 /**
  Subclasses may override to add custom transition animation.

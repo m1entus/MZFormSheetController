@@ -33,14 +33,19 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
     
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
-    
+  
+    formSheet.presentedFormSheetSize = CGSizeMake(320, 298);
     formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromTop;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
-    formSheet.shouldCenterVerticallyWhenKeyboardAppears = YES;
-//    formSheet.shouldMoveToTopWhenKeyboardAppears = NO;
-
+    formSheet.shouldCenterVertically = YES;
+    formSheet.keyboardMovementStyle = MZFormSheetKeyboardMovementStyleCenterVertically;
+    // formSheet.keyboardMovementStyle = MZFormSheetKeyboardMovementStyleMoveToTop;
+    // formSheet.keyboardMovementStyle = MZFormSheetKeyboardMovementStyleMoveToTopInset;
+    // formSheet.landscapeTopInset = 50;
+    // formSheet.portraitTopInset = 100;
+  
     __weak MZFormSheetController *weakFormSheet = formSheet;
 
 
