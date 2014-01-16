@@ -796,19 +796,19 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 {
     if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
-        return navigationController.topViewController;
+        return [navigationController.topViewController mz_childTargetViewControllerForStatusBarStyle];
     }
 
-    return self.presentedFSViewController;
+    return [self.presentedFSViewController mz_childTargetViewControllerForStatusBarStyle];
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden
 {
     if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
-        return navigationController.topViewController;
+        return [navigationController.topViewController mz_childTargetViewControllerForStatusBarStyle];
     }
-    return self.presentedFSViewController;
+    return [self.presentedFSViewController mz_childTargetViewControllerForStatusBarStyle];
 }
 
 - (NSUInteger)supportedInterfaceOrientations

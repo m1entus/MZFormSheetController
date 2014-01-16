@@ -1,6 +1,6 @@
 //
 //  MZTransition.m
-//  Xcode5Example
+//  MZFormSheetController
 //
 //  Created by Michał Zaborowski on 21.12.2013.
 //  Copyright (c) 2013 Michał Zaborowski. All rights reserved.

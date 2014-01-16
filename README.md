@@ -309,6 +309,13 @@ id appearance = [MZFormSheetController appearance];
 ```
 
 ``` objective-c
+typedef NS_ENUM(NSInteger, MZFormSheetWhenKeyboardAppears) {
+  MZFormSheetWhenKeyboardAppearsDoNothing = 0,
+  MZFormSheetWhenKeyboardAppearsCenterVertically,
+  MZFormSheetWhenKeyboardAppearsMoveToTop,
+  MZFormSheetWhenKeyboardAppearsMoveToTopInset,
+};
+
 /**
  Returns the window that is displayed below form sheet controller
  */
@@ -357,16 +364,10 @@ id appearance = [MZFormSheetController appearance];
 @property (nonatomic, assign) BOOL shouldCenterVertically MZ_APPEARANCE_SELECTOR;
 
 /**
- Returns whether the form sheet controller should move to top when UIKeyboard will appear.
- By default, this is YES
+ The movement style to use when the keyboard appears.
+ By default, this is MZFormSheetWhenKeyboardAppearsMoveToTop.
  */
-@property (nonatomic, assign) BOOL shouldMoveToTopWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
-
-/**
- Center form sheet vertically when UIKeyboard will appear.
- By default, this is NO
- */
-@property (nonatomic, assign) BOOL shouldCenterVerticallyWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) MZFormSheetWhenKeyboardAppears movementWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 ```
 
@@ -443,19 +444,19 @@ for determining status bar style. If you don't want this behavior subclass MZFor
 {
     if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
-        return navigationController.topViewController;
+        return [navigationController.topViewController mz_childTargetViewControllerForStatusBarStyle];
     }
 
-    return self.presentedFSViewController;
+    return [self.presentedFSViewController mz_childTargetViewControllerForStatusBarStyle];
 }
 
 - (UIViewController *)childViewControllerForStatusBarHidden
 {
     if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
         UINavigationController *navigationController = (UINavigationController *)self.presentedFSViewController;
-        return navigationController.topViewController;
+        return [navigationController.topViewController mz_childTargetViewControllerForStatusBarStyle];
     }
-    return self.presentedFSViewController;
+    return [self.presentedFSViewController mz_childTargetViewControllerForStatusBarStyle];
 }
 ```
 

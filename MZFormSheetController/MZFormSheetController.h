@@ -136,12 +136,6 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 @property (nonatomic, assign) MZFormSheetTransitionStyle transitionStyle MZ_APPEARANCE_SELECTOR;
 
 /**
- The movement style to use when the keyboard appears.
- By default, this is MZFormSheetWhenKeyboardAppearsMoveToTop.
- */
-@property (nonatomic, assign) MZFormSheetWhenKeyboardAppears movementWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
-
-/**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
  */
 @property (nonatomic, copy) MZFormSheetCompletionHandler willPresentCompletionHandler;
@@ -213,6 +207,12 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  By default, this is NO
  */
 @property (nonatomic, assign) BOOL shouldDismissOnBackgroundViewTap MZ_APPEARANCE_SELECTOR;
+
+/**
+ The movement style to use when the keyboard appears.
+ By default, this is MZFormSheetWhenKeyboardAppearsMoveToTop.
+ */
+@property (nonatomic, assign) MZFormSheetWhenKeyboardAppears movementWhenKeyboardAppears MZ_APPEARANCE_SELECTOR;
 
 /**
  Subclasses may override to add custom transition animation.

@@ -1,6 +1,6 @@
 //
 //  UIImage+Additional.h
-//  MZFormSheetControllerExample
+//  MZFormSheetController
 //
 //  Created by Michał Zaborowski on 05.09.2013.
 //  Copyright (c) 2013 Michał Zaborowski. All rights reserved.
