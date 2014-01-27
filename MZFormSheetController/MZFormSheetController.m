@@ -247,6 +247,15 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     return NO;
 }
 
++ (NSMutableDictionary *)sharedTransitionClasses
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instanceOfTransitionClasses = [[NSMutableDictionary alloc] init];
+    });
+    return _instanceOfTransitionClasses;
+}
+
 #pragma mark - Appearance
 
 + (id)appearance
@@ -267,7 +276,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         [appearance setLandscapeTopInset:MZFormSheetControllerDefaultLandscapeTopInset];
         [appearance setMovementWhenKeyboardAppears:MZFormSheetWhenKeyboardAppearsDoNothing];
 
-        _instanceOfTransitionClasses = [[NSMutableDictionary alloc] init];
         _instanceOfSharedQueue = [[NSMutableArray alloc] init];
     }
 }
@@ -276,12 +284,12 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 + (void)registerTransitionClass:(Class)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle
 {
-    [_instanceOfTransitionClasses setObject:transitionClass forKey:@(transitionStyle)];
+    [[MZFormSheetController sharedTransitionClasses] setObject:transitionClass forKey:@(transitionStyle)];
 }
 
 + (Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle
 {
-    return _instanceOfTransitionClasses[@(transitionStyle)];
+    return [MZFormSheetController sharedTransitionClasses][@(transitionStyle)];
 }
 
 + (void)setAnimating:(BOOL)animating
@@ -562,7 +570,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 - (void)transitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
-    Class transitionClass = _instanceOfTransitionClasses[@(self.transitionStyle)];
+    Class transitionClass = [MZFormSheetController sharedTransitionClasses][@(self.transitionStyle)];
 
     if (transitionClass) {
         id <MZFormSheetControllerTransition> transition = [[transitionClass alloc] init];
@@ -576,7 +584,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 - (void)transitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
-    Class transitionClass = _instanceOfTransitionClasses[@(self.transitionStyle)];
+    Class transitionClass = [MZFormSheetController sharedTransitionClasses][@(self.transitionStyle)];
 
     if (transitionClass) {
         id <MZFormSheetControllerTransition> transition = [[transitionClass alloc] init];

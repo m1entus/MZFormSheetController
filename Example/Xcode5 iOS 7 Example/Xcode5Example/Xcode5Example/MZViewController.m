@@ -35,7 +35,7 @@
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
   
     formSheet.presentedFormSheetSize = CGSizeMake(300, 298);
-    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromTop;
+//    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromTop;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;
     formSheet.shouldDismissOnBackgroundViewTap = YES;
