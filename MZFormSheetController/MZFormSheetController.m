@@ -706,9 +706,9 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     self.screenFrameWhenKeyboardVisible = [NSValue valueWithCGRect:screenRect];
     self.keyboardVisible = YES;
 
-    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
+    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         [self setupPresentedFSViewControllerFrame];
-    }];
+    } completion:nil];
     
 }
 
@@ -717,9 +717,9 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     self.keyboardVisible = NO;
     self.screenFrameWhenKeyboardVisible = nil;
     
-    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration animations:^{
+    [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration delay:0.0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
         [self setupPresentedFSViewControllerFrame];
-    }];
+    } completion:nil];
 
 }
 
