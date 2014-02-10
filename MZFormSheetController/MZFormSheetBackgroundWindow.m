@@ -27,6 +27,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Additional.h"
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+#define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
+#endif
+
+#define MZSystemVersionGreaterThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+
 CGFloat const MZFormSheetControllerDefaultBackgroundOpacity = 0.5;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurRadius = 2.0;
 CGFloat const MZFormSheetControllerDefaultBackgroundBlurSaturation = 1.0;
@@ -55,6 +61,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 @interface MZFormSheetBackgroundWindow()
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, assign, getter = isUpdatingBlur) BOOL updatingBlur;
+@property (nonatomic, strong) UIToolbar *standardBlurToolbar;
 @end
 
 @implementation MZFormSheetBackgroundWindow
@@ -168,7 +175,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
         _backgroundBlurEffect = backgroundBlurEffect;
 
-        if (self.dynamicBlur) {
+        if (self.dynamicBlur && !self.useStandardBlur) {
             [self updateBlurAsynchronously];
         }
     }
@@ -176,6 +183,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)setDynamicBlur:(BOOL)dynamicBlur
 {
+	if (self.useStandardBlur) return;
+	
     if (_dynamicBlur != dynamicBlur) {
         _dynamicBlur = dynamicBlur;
         if (dynamicBlur)
@@ -183,6 +192,26 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
             [self updateBlurAsynchronously];
         }
     }
+}
+
+- (void)setUseStandardBlur:(BOOL)useStandardBlur
+{
+	NSAssert(MZSystemVersionGreaterThanOrEqualTo_iOS7(), @"Standard blur only available on iOS7 or greater.");
+	
+	if (_useStandardBlur != useStandardBlur) {
+		_useStandardBlur = useStandardBlur;
+		if (useStandardBlur) {
+			[self setDynamicBlur:NO];
+			if (!self.standardBlurToolbar) {
+				self.standardBlurToolbar = [[UIToolbar alloc] initWithFrame:self.frame];
+				[self.standardBlurToolbar setTranslucent:YES];
+				[self.standardBlurToolbar setBarStyle:UIBarStyleBlackTranslucent];
+				[self insertSubview:self.standardBlurToolbar atIndex:0];
+			}
+		} else {
+			self.standardBlurToolbar = nil;
+		}
+	}
 }
 
 #pragma mark - Getters
@@ -198,7 +227,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     [super makeKeyAndVisible];
 
-    if (self.backgroundBlurEffect) {
+    if (self.backgroundBlurEffect && !self.useStandardBlur) {
         [self updateBlurUsingContext:NO];
     }
 }
@@ -260,7 +289,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     [self rotateWindow];
 
-    if (self.backgroundBlurEffect) {
+    if (self.backgroundBlurEffect && !self.useStandardBlur) {
         [self updateBlurUsingContext:YES];
     }
 
@@ -317,7 +346,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (void)updateBlurAsynchronously
 {
-    if (self.dynamicBlur && !self.isUpdatingBlur && self.backgroundBlurEffect)
+    if (self.dynamicBlur && !self.isUpdatingBlur && self.backgroundBlurEffect && !self.useStandardBlur)
     {
         UIImage *snapshot = [self rotateImageToStatusBarOrientation:[MZFormSheetBackgroundWindow screenshotUsingContext:YES]];
 

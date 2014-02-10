@@ -148,4 +148,11 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  By default, this is UIInterfaceOrientationMaskAll
  */
 @property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations MZ_APPEARANCE_SELECTOR;
+
+/*
+ Use UIToolbar hack to duplicate the iOS7 standard blur.
+ Works only on iOS7
+ By default, this is 0
+ */
+@property (nonatomic, assign) BOOL useStandardBlur;
 @end
