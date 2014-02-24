@@ -484,6 +484,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     
     [MZFormSheetBackgroundWindow showBackgroundWindowAnimated:animated];
     
+    self.formSheetWindow.userInteractionEnabled = NO;
     [self.formSheetWindow makeKeyAndVisible];
     
     [self setupPresentedFSViewControllerFrame];
@@ -494,6 +495,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetWillPresentNotification object:self userInfo:nil];
     
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
+        self.formSheetWindow.userInteractionEnabled = YES;
         [MZFormSheetController setAnimating:NO];
 
         self.presented = YES;
@@ -529,6 +531,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetWillDismissNotification object:self userInfo:nil];
     
     [MZFormSheetController setAnimating:YES];
+    self.formSheetWindow.userInteractionEnabled = NO;
     
     [[MZFormSheetController sharedQueue] removeObject:self];
     
@@ -539,6 +542,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     [self removeKeyboardNotifications];
 
     MZFormSheetTransitionCompletionHandler transitionCompletionHandler = ^(){
+        self.formSheetWindow.userInteractionEnabled = YES;
         [MZFormSheetController setAnimating:NO];
         self.presented = NO;
 
