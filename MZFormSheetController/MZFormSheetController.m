@@ -785,7 +785,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     }
 
     [self setupPresentedFSViewControllerFrame];
-
+    
+    [self.presentedFSViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -802,6 +803,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         }
     }
     
+    [self.presentedFSViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (UIViewController *)childViewControllerForStatusBarStyle
