@@ -34,6 +34,10 @@
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
 #endif
 
+#ifndef OS_OBJECT_USE_OBJC_RETAIN_RELEASE
+#define OS_OBJECT_USE_OBJC_RETAIN_RELEASE 0
+#endif
+
 #define MZSystemVersionGreaterThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
 
 NSString * const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
@@ -125,11 +129,14 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 }
 
-+ (void)hideBackgroundWindowAnimated:(BOOL)animated
++ (void)hideBackgroundWindowAnimated:(BOOL)animated completion:(void (^)())completion
 {
     if (!animated) {
         [_instanceOfFormSheetBackgroundWindow removeFromSuperview];
         _instanceOfFormSheetBackgroundWindow = nil;
+        if (completion) {
+            completion();
+        }
         return;
     }
 
@@ -140,6 +147,9 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
                      completion:^(BOOL finished) {
                          [_instanceOfFormSheetBackgroundWindow removeFromSuperview];
                          _instanceOfFormSheetBackgroundWindow = nil;
+                         if (completion) {
+                             completion();
+                         }
                      }];
 }
 
@@ -532,11 +542,18 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     
     [MZFormSheetController setAnimating:YES];
     self.formSheetWindow.userInteractionEnabled = NO;
+
+    dispatch_queue_t dissmissQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
+    dispatch_group_t dissmissGroup = dispatch_group_create();
     
     [[MZFormSheetController sharedQueue] removeObject:self];
     
     if ([MZFormSheetController sharedQueue].count == 0) {
-        [MZFormSheetBackgroundWindow hideBackgroundWindowAnimated:animated];
+
+        dispatch_group_enter(dissmissGroup);
+        [MZFormSheetBackgroundWindow hideBackgroundWindowAnimated:animated completion:^{
+            dispatch_group_leave(dissmissGroup);
+        }];
     }
 
     [self removeKeyboardNotifications];
@@ -545,23 +562,35 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         self.formSheetWindow.userInteractionEnabled = YES;
         [MZFormSheetController setAnimating:NO];
         self.presented = NO;
-
-        if (self.didDismissCompletionHandler) {
-            self.didDismissCompletionHandler(self.presentedFSViewController);
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidDismissNotification object:self userInfo:nil];
-        
-        if (completionHandler) {
-            completionHandler(self.presentedFSViewController);
-        }
-        [self cleanup];
+ 
+        dispatch_group_leave(dissmissGroup);
     };
-    
+
+    dispatch_group_enter(dissmissGroup);
     if (animated) {
         [self transitionOutWithCompletionBlock:transitionCompletionHandler];
     } else {
         transitionCompletionHandler();
     }
+
+    dispatch_group_notify(dissmissGroup, dissmissQueue, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            if (self.didDismissCompletionHandler) {
+                self.didDismissCompletionHandler(self.presentedFSViewController);
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:MZFormSheetDidDismissNotification object:self userInfo:nil];
+
+            if (completionHandler) {
+                completionHandler(self.presentedFSViewController);
+            }
+            [self cleanup];
+        });
+    });
+
+#if !OS_OBJECT_USE_OBJC_RETAIN_RELEASE
+    dispatch_release(dissmissGroup);
+#endif
 
     [self.applicationKeyWindow makeKeyWindow];
     self.applicationKeyWindow.hidden = NO;
