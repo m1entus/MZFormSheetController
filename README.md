@@ -273,7 +273,7 @@ id appearance = [MZFormSheetController appearance];
  Specifies the blur tint color used to render the blur background view
  By default, this is nil
  */
-@property (nonatomic, assign) UIColor *blurTintColor MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *blurTintColor MZ_APPEARANCE_SELECTOR;
 
 /*
  Specifies the blur saturation used to render the blur background view
@@ -285,7 +285,7 @@ id appearance = [MZFormSheetController appearance];
  Specifies the blur mask image used to render the blur background view
  By default, this is nil
  */
-@property (nonatomic, assign) UIImage *blurMaskImage MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIImage *blurMaskImage MZ_APPEARANCE_SELECTOR;
 
 /*
  Asynchronously recompute the display of background blur.
