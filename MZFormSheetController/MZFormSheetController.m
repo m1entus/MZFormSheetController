@@ -924,10 +924,11 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     [self mz_presentFormSheetController:formSheetController animated:animated completionHandler:completionHandler];
 }
 
-- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated configHandler:(MZFormSheetConfigHandler)configHandler completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     MZFormSheetController *formSheetController = [[MZFormSheetController alloc] initWithViewController:viewController];
-    formSheetController.transitionStyle = transitionStyle;
+    if (configHandler)
+        configHandler(formSheetController);
 
     self.formSheetController = formSheetController;
     formSheetController.presentingViewController = self;
@@ -937,6 +938,13 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
             completionHandler(formSheetController);
         }
     }];
+}
+
+- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
+{
+    [self mz_presentFormSheetWithViewController:viewController animated:animated configHandler:^(MZFormSheetController *formSheetController) {
+        formSheetController.transitionStyle = transitionStyle;
+    } completionHandler:completionHandler];
 }
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
