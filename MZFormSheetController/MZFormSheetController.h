@@ -269,8 +269,6 @@ typedef void(^MZFormSheetConfigHandler)(MZFormSheetController *formSheetControll
  */
 - (void)mz_presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
 
-- (void)mz_presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler formConfigBlock:(MZFormSheetConfigHandler)configHandler;
-
 - (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler MZ_DEPRECATED_ATTRIBUTE("Use mz_presentFormSheetController:animated:completionHandler");
 
 /**
