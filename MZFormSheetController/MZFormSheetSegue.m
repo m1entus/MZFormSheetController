@@ -28,12 +28,19 @@
 
 @implementation MZFormSheetSegue
 
+- (id)initWithIdentifier:(NSString *)identifier source:(UIViewController *)source destination:(UIViewController *)destination
+{
+    if ([super initWithIdentifier:identifier source:source destination:destination]) {
+        _formSheetController = [[MZFormSheetController alloc] initWithViewController:destination];
+    }
+    return self;
+}
+
 - (void)perform
 {
     UIViewController *sourceViewController = [self sourceViewController];
-    UIViewController *destinationViewController = [self destinationViewController];
     
-    [sourceViewController mz_presentFormSheetWithViewController:destinationViewController animated:YES completionHandler:nil];
+    [sourceViewController mz_presentFormSheetController:self.formSheetController animated:YES completionHandler:nil];
 }
 
 @end

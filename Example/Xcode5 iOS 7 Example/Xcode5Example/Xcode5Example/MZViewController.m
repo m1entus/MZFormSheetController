@@ -10,6 +10,7 @@
 #import "MZFormSheetController.h"
 #import "MZCustomTransition.h"
 #import "MZModalViewController.h"
+#import "MZFormSheetSegue.h"
 
 @interface MZViewController () <MZFormSheetBackgroundWindowDelegate>
 
@@ -26,6 +27,25 @@
     [[MZFormSheetBackgroundWindow appearance] setBackgroundColor:[UIColor clearColor]];
 
     [MZFormSheetController registerTransitionClass:[MZCustomTransition class] forTransitionStyle:MZFormSheetTransitionStyleCustom];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"formSheet"]) {
+        MZFormSheetSegue *formSheetSegue = (MZFormSheetSegue *)segue;
+        MZFormSheetController *formSheet = formSheetSegue.formSheetController;
+        formSheet.transitionStyle = MZFormSheetTransitionStyleBounce;
+        formSheet.cornerRadius = 8.0;
+        formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location) {
+            
+        };
+        
+        formSheet.shouldDismissOnBackgroundViewTap = YES;
+        
+        formSheet.didPresentCompletionHandler = ^(UIViewController *presentedFSViewController) {
+            
+        };
+    }
 }
 
 - (IBAction)showFormSheet:(UIButton *)sender

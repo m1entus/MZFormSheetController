@@ -24,7 +24,8 @@
 //  THE SOFTWARE.
 
 #import <UIKit/UIKit.h>
+#import "MZFormSheetController.h"
 
 @interface MZFormSheetSegue : UIStoryboardSegue
-
+@property (nonatomic, strong) MZFormSheetController *formSheetController;
 @end
