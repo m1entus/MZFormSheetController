@@ -77,6 +77,7 @@ typedef void(^MZFormSheetCompletionHandler)(UIViewController *presentedFSViewCon
 typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
+typedef void(^MZFormSheetConfigHandler)(MZFormSheetController *formSheetController);
 
 @interface MZFormSheetWindow : UIWindow <MZAppearance>
 
@@ -277,6 +278,8 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  @param transitionStyle he transition style to use when presenting the receiver.
  @param completionHandler A completion handler or NULL.
  */
+- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated configHandler:(MZFormSheetConfigHandler)configHandler completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandle;
+
 - (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
 
 - (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler MZ_DEPRECATED_ATTRIBUTE("Use mz_presentFormSheetWithViewController:animated:transitionStyle:completionHandler");
