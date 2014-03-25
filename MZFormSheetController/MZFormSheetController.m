@@ -562,7 +562,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         self.formSheetWindow.userInteractionEnabled = YES;
         [MZFormSheetController setAnimating:NO];
         self.presented = NO;
- 
+        [self cleanup];
+
         dispatch_group_leave(dissmissGroup);
     };
 
@@ -584,7 +585,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
             if (completionHandler) {
                 completionHandler(self.presentedFSViewController);
             }
-            [self cleanup];
+
+            [self cleanupPresentedViewController];
         });
     });
 
@@ -877,9 +879,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 {
     self.presentedFSViewController.formSheetController = nil;
     self.presentingViewController.formSheetController = nil;
-    
-    [self.presentedFSViewController.view removeFromSuperview];
-    self.presentedFSViewController = nil;
 
     [self.formSheetWindow removeGestureRecognizer:self.backgroundTapGestureRecognizer];
     self.formSheetWindow.hidden = YES;
@@ -891,6 +890,12 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     self.backgroundTapGestureRecognizer = nil;
 
     [self removeKeyboardNotifications];
+}
+
+- (void)cleanupPresentedViewController
+{
+    [self.presentedFSViewController.view removeFromSuperview];
+    self.presentedFSViewController = nil;
 }
 
 - (void)dealloc
