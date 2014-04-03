@@ -484,6 +484,25 @@ inner white shadow in iOS7, you should set UINavigationBar translucent property 
 * If you are using blurred background, you will have huge delay on iPad 3 Retina.<br />
 I recommend you to turn off background blur for iPad 3 Retina.
 
+* If you want to present modal view controller on top of MZFormSheetController you have to present it from formSheetController, for example:
+
+```objective-c
+// Easiest way:
+[[[MZFormSheetController formSheetControllersStack] lastObject] presentViewController:navHistorico animated:YES completion:^{
+
+}];
+
+// Navigation Controller as a root of presentedFormSheetController:
+[self.navigationController.formSheetController presentViewController:vc animated:YES completion:^{
+
+}];
+
+// View Controller as a root of presentedFormSheetController:
+[self.formSheetController presentViewController:vc animated:YES completion:^{
+
+}];
+```
+
 ## Autolayout
 
 MZFormSheetController supports autolayout.
