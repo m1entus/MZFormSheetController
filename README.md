@@ -1,7 +1,7 @@
 MZFormSheetController
 ===========
 
-MZFormSheetController provides an alternative to the native iOS UIModalPresentationFormSheet, adding support for iPhone and additional opportunities to setup controller size and feel form sheet. 
+MZFormSheetController provides an alternative to the native iOS UIModalPresentationFormSheet, adding support for iPhone and additional opportunities to setup controller size and feel form sheet.
 
 
 [![](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)](https://raw.github.com/m1entus/MZFormSheetController/master/Screens/screen1.png)
@@ -22,7 +22,7 @@ UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:
 }];
 ```
 
-This will display view controller inside form sheet container. 
+This will display view controller inside form sheet container.
 
 If you want to dismiss form sheet controller, you can use category on UIViewController to provide access to the formSheetController.
 
@@ -52,7 +52,7 @@ MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewCo
 formSheet.formSheetWindow.transparentTouchEnabled = YES;
 
 [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-    
+
 }];
 ```
 
@@ -68,9 +68,9 @@ It is possible to display blurry background, you can set MZFormSheetWindow appea
 ```
 
 ``` objective-c
-[[MZFormSheetController sharedWindow] setBackgroundBlurEffect:YES];
-[[MZFormSheetController sharedWindow] setBlurRadius:5.0];
-[[MZFormSheetController sharedWindow] setBackgroundColor:[UIColor clearColor]];
+[[MZFormSheetController sharedBackgroundWindow] setBackgroundBlurEffect:YES];
+[[MZFormSheetController sharedBackgroundWindow] setBlurRadius:5.0];
+[[MZFormSheetController sharedBackgroundWindow] setBackgroundColor:[UIColor clearColor]];
 ```
 
 ## Transitions
@@ -126,7 +126,7 @@ You can create your own transition by subclassing MZTransition.
     // It is very important to use self.view.bounds not self.view.frame !!!
     // When you rotate your device, the device is not changing its screen size.
     // It is staying the same, however the view is changing. So this is why you would want to use bounds.
-    
+
     CGRect formSheetRect = self.presentedFSViewController.view.frame;
     CGRect originalFormSheetRect = formSheetRect;
     originalFormSheetRect.origin.x = self.view.bounds.size.width - formSheetRect.size.width - 10;
@@ -164,7 +164,7 @@ You can create your own transition by subclassing MZTransition.
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [MZFormSheetController registerTransitionClass:[MZCustomTransition class] forTransitionStyle:MZFormSheetTransitionStyleCustom];
-    
+
     self.transitionStyle = MZFormSheetTransitionStyleCustom;
     self.presentedFSViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 }
@@ -184,7 +184,7 @@ UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifi
     [formSheetController presentViewController:modal animated:YES completion:^{
 
     }];
-    
+
 }];
 
 ```
@@ -204,13 +204,13 @@ formSheet.portraitTopInset = 6.0;
 formSheet.landscapeTopInset = 6.0;
 formSheet.presentedFormSheetSize = CGSizeMake(320, 200);
 
-    
+
 formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController){
     presentedFSViewController.view.autoresizingMask = presentedFSViewController.view.autoresizingMask | UIViewAutoresizingFlexibleWidth;
 };
 
 [formSheet presentAnimated:YES completionHandler:^(UIViewController *presentedFSViewController) {
-        
+
 }];
 
 or
@@ -400,7 +400,7 @@ typedef NS_ENUM(NSInteger, MZFormSheetWhenKeyboardAppears) {
 ``` objective-c
 /**
  Notifications are posted right after completion handlers
- 
+
  @see willPresentCompletionHandler
  @see willDismissCompletionHandler
  @see didPresentCompletionHandler
@@ -416,7 +416,7 @@ extern NSString *const MZFormSheetDidDismissNotification;
 ## Supported interface orientations
 
 MZFormSheetController support all interface orientations.
-If you want to resize form sheet controller during orientation change you can use autoresizeMask property. 
+If you want to resize form sheet controller during orientation change you can use autoresizeMask property.
 
 You can manipulate interface orientation using this code:
 
@@ -436,8 +436,8 @@ You can manipulate interface orientation using this code:
 
 ## PreferredStatusBarStyle (iOS7)
 
-Presented view controller or UINavigationController topViewController is used 
-for determining status bar style. If you don't want this behavior subclass MZFormSheetController. 
+Presented view controller or UINavigationController topViewController is used
+for determining status bar style. If you don't want this behavior subclass MZFormSheetController.
 
 ``` objective-c
 - (UIViewController *)childViewControllerForStatusBarStyle
@@ -477,7 +477,7 @@ for determining status bar style. If you don't want this behavior subclass MZFor
 
 ## Known Issues
 
-* There is not possible to set blurred UINavigationBar when view controller is 
+* There is not possible to set blurred UINavigationBar when view controller is
 presented from MZFormSheetController.<br />If you don't want to have UINavigationBar
 inner white shadow in iOS7, you should set UINavigationBar translucent property to NO.
 
@@ -533,5 +533,4 @@ MZFormSheetController uses ARC.
 
 [Michal Zaborowski](http://github.com/m1entus)
 
-[Twitter](https://twitter.com/iMientus) 
-
+[Twitter](https://twitter.com/iMientus)
