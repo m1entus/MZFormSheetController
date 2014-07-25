@@ -7,7 +7,7 @@
 //
 
 #import "MZFormSheetController+SVProgressHUD.h"
-#import "SVProgressHUD.h"
+#import <SVProgressHUD.h>
 
 @interface SVProgressHUD ()
 + (SVProgressHUD*)sharedView;
@@ -28,8 +28,10 @@
                 if(![[window class] isEqual:[MZFormSheetBackgroundWindow class]]) {
                     
                     MZFormSheetController *formSheet = [[MZFormSheetController formSheetControllersStack] lastObject];
-                    [[SVProgressHUD sharedView].overlayView removeFromSuperview];
-                    [formSheet.formSheetWindow addSubview:[SVProgressHUD sharedView].overlayView];
+                    if(formSheet){
+                        [[SVProgressHUD sharedView].overlayView removeFromSuperview];
+                        [formSheet.formSheetWindow addSubview:[SVProgressHUD sharedView].overlayView];
+                    }
                     break;
                     
                 }
