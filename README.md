@@ -475,6 +475,11 @@ for determining status bar style. If you don't want this behavior subclass MZFor
 @property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 ```
 
+## MZFormSheetController+SVProgressHUD
+
+* If you want to SVProgressHUD to work with MZFormSheetController all you need is import #import "MZFormSheetController+SVProgressHUD.h"
+from MZFormSheetController+SVProgressHUD directory.
+
 ## Known Issues
 
 * There is not possible to set blurred UINavigationBar when view controller is
