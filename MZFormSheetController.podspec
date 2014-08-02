@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/m1entus/MZFormSheetController'
   s.authors  = 'Michał Zaborowski'
   s.source   = { :git => 'https://github.com/m1entus/MZFormSheetController.git', :tag => '2.3.4' }
-  s.source_files = 'MZFormSheetController/*.{h,m}', 'MZFormSheetController+SVProgressHUD/*.{h,m}'
+  s.source_files = 'MZFormSheetController/*.{h,m}', 'MZFormSheetController/MZFormSheetController+SVProgressHUD/*.{h,m}'
   s.requires_arc = true
 
   s.dependency 'MZAppearance', '~> 1.1.2'
