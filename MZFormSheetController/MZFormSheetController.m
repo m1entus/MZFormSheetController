@@ -34,11 +34,17 @@
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
 #endif
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_8_0
+#define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
+#endif
+
 #ifndef OS_OBJECT_USE_OBJC_RETAIN_RELEASE
 #define OS_OBJECT_USE_OBJC_RETAIN_RELEASE 0
 #endif
 
 #define MZSystemVersionGreaterThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+
+#define MZSystemVersionGreaterThanOrEqualTo_iOS8() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0)
 
 NSString * const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
 NSString * const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
@@ -242,6 +248,10 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 
+    if (MZSystemVersionGreaterThanOrEqualTo_iOS8()) {
+        return [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+    
     if(UIInterfaceOrientationIsLandscape(orientation)) {
         return [UIApplication sharedApplication].statusBarFrame.size.width;
     } else {
