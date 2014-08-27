@@ -45,6 +45,7 @@
 #define MZSystemVersionGreaterThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
 
 #define MZSystemVersionGreaterThanOrEqualTo_iOS8() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0)
+#define MZSystemVersionLessThan_iOS8() (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0)
 
 NSString * const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
 NSString * const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
@@ -74,7 +75,8 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) {
     if (MZSystemVersionGreaterThanOrEqualTo_iOS7()) {
         NSNumber *viewControllerBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
-        if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue]) {
+        if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue])
+        || MZSystemVersionGreaterThanOrEqualTo_iOS8()) {
             return YES;
         }
     }
@@ -189,17 +191,20 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 - (CGPoint)convertPoint:(CGPoint)point toInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    CGSize windowSize = self.bounds.size;
-
-    if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
-        return CGPointMake(windowSize.height-point.y, point.x);
-
-    } else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-        return CGPointMake(point.y, windowSize.width-point.x);
-
-    } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-
-        return CGPointMake(windowSize.width-point.x, windowSize.height-point.y);
+    if (MZSystemVersionLessThan_iOS8())
+    {
+        CGSize windowSize = self.bounds.size;
+        
+        if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
+            return CGPointMake(windowSize.height-point.y, point.x);
+            
+        } else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+            return CGPointMake(point.y, windowSize.width-point.x);
+            
+        } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+            
+            return CGPointMake(windowSize.width-point.x, windowSize.height-point.y);
+        }        
     }
     return point;
 }
