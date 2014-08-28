@@ -39,18 +39,20 @@
     CGRect formSheetRect = formSheetController.presentedFSViewController.view.frame;
     formSheetRect.origin.x = formSheetController.view.bounds.size.width;
 
-    CGPathRef fromPath = [UIBezierPath bezierPathWithRoundedRect:formSheetController.presentedFSViewController.view.frame cornerRadius:formSheetController.cornerRadius].CGPath;
-    CGPathRef toPath = [UIBezierPath bezierPathWithRoundedRect:formSheetRect cornerRadius:formSheetController.cornerRadius].CGPath;
-
     // shadow optimalization
-    formSheetController.view.layer.shadowPath = fromPath;
-    CABasicAnimation *shadowPathAnimation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
-    shadowPathAnimation.duration = MZFormSheetControllerDefaultAnimationDuration;
-    shadowPathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    shadowPathAnimation.fromValue = (id) formSheetController.view.layer.shadowPath;
-    formSheetController.view.layer.shadowPath = toPath;
-    shadowPathAnimation.toValue = (id) formSheetController.view.layer.shadowPath;
-    [formSheetController.view.layer addAnimation:shadowPathAnimation forKey:@"shadowPath"];
+//    CGPathRef fromPath = [UIBezierPath bezierPathWithRoundedRect:formSheetController.presentedFSViewController.view.frame cornerRadius:formSheetController.cornerRadius].CGPath;
+//    CGPathRef toPath = [UIBezierPath bezierPathWithRoundedRect:formSheetRect cornerRadius:formSheetController.cornerRadius].CGPath;
+//
+//    
+//    formSheetController.view.layer.shadowPath = fromPath;
+    
+//    CABasicAnimation *shadowPathAnimation = [CABasicAnimation animationWithKeyPath:@"shadowPath"];
+//    shadowPathAnimation.duration = MZFormSheetControllerDefaultAnimationDuration;
+//    shadowPathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//    shadowPathAnimation.fromValue = (id) formSheetController.view.layer.shadowPath;
+//    formSheetController.view.layer.shadowPath = toPath;
+//    shadowPathAnimation.toValue = (id) formSheetController.view.layer.shadowPath;
+//    [formSheetController.view.layer addAnimation:shadowPathAnimation forKey:@"shadowPath"];
 
     [UIView animateWithDuration:MZFormSheetControllerDefaultAnimationDuration
                           delay:0

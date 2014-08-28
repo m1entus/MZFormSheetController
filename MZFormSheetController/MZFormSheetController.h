@@ -27,12 +27,7 @@
 #import "MZAppearance.h"
 #import "MZFormSheetBackgroundWindow.h"
 #import "MZTransition.h"
-
-#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
-#define MZ_DEPRECATED_ATTRIBUTE(message) __attribute__((deprecated(message)))
-#else
-#define MZ_DEPRECATED_ATTRIBUTE(message)
-#endif
+#import "MZMacro.h"
 
 extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
 extern CGFloat const MZFormSheetControllerWindowTag;

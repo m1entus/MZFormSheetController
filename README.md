@@ -516,6 +516,8 @@ MZFormSheetController supports autolayout.
 
 MZFormSheetController requires either iOS 5.x and above.
 
+Frameworks: 'QuartzCore', 'Accelerate'
+
 ## Special thanks
 
 I'd love a thank you tweet if you find this useful.
