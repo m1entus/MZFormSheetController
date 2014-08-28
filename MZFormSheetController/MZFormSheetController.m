@@ -30,22 +30,9 @@
 #import "MZFormSheetBackgroundWindowViewController.h"
 #import "UIViewController+TargetViewController.h"
 
-#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
-#define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
-#endif
-
-#ifndef kCFCoreFoundationVersionNumber_iOS_8_0
-#define kCFCoreFoundationVersionNumber_iOS_8_0 1129.15
-#endif
-
 #ifndef OS_OBJECT_USE_OBJC_RETAIN_RELEASE
 #define OS_OBJECT_USE_OBJC_RETAIN_RELEASE 0
 #endif
-
-#define MZSystemVersionGreaterThanOrEqualTo_iOS7() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
-
-#define MZSystemVersionGreaterThanOrEqualTo_iOS8() (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_8_0)
-#define MZSystemVersionLessThan_iOS8() (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_8_0)
 
 NSString * const MZFormSheetDidPresentNotification = @"MZFormSheetDidPresentNotification";
 NSString * const MZFormSheetDidDismissNotification = @"MZFormSheetDidDismissNotification";
@@ -75,8 +62,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) {
     if (MZSystemVersionGreaterThanOrEqualTo_iOS7()) {
         NSNumber *viewControllerBasedStatusBarAppearance = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIViewControllerBasedStatusBarAppearance"];
-        if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue])
-        || MZSystemVersionGreaterThanOrEqualTo_iOS8()) {
+        if (!viewControllerBasedStatusBarAppearance || [viewControllerBasedStatusBarAppearance boolValue]) {
             return YES;
         }
     }
@@ -110,7 +96,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         // Hack: I set rootViewController to presentingViewController because
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
-        if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance()) {
+        if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance() && MZSystemVersionLessThan_iOS8()) {
             UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController] mz_parentTargetViewController];
 			
             // find controllers responsible for status bar style and hidden state
@@ -121,6 +107,10 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
             _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:statusBarStyleResponsibleViewController.preferredStatusBarStyle prefersStatusBarHidden:statusBarHiddenResponsibleViewController.prefersStatusBarHidden];
         }
 
+        if (MZSystemVersionGreaterThanOrEqualTo_iOS8() && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
+            _instanceOfFormSheetBackgroundWindow.frame = CGRectMake(0, 0, _instanceOfFormSheetBackgroundWindow.bounds.size.height, _instanceOfFormSheetBackgroundWindow.bounds.size.width);
+        }
+        
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
 
         _instanceOfFormSheetBackgroundWindow.alpha = 0;
@@ -255,13 +245,14 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
     if (MZSystemVersionGreaterThanOrEqualTo_iOS8()) {
         return [UIApplication sharedApplication].statusBarFrame.size.height;
-    }
-    
-    if(UIInterfaceOrientationIsLandscape(orientation)) {
-        return [UIApplication sharedApplication].statusBarFrame.size.width;
     } else {
-        return [UIApplication sharedApplication].statusBarFrame.size.height;
+        if(UIInterfaceOrientationIsLandscape(orientation)) {
+            return [UIApplication sharedApplication].statusBarFrame.size.width;
+        } else {
+            return [UIApplication sharedApplication].statusBarFrame.size.height;
+        }
     }
+
 }
 
 + (BOOL)isAutoLayoutAvailable

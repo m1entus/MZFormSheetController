@@ -58,6 +58,7 @@
 		0665D3A718762A92007A55B4 /* MZTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZTableViewController.m; sourceTree = "<group>"; };
 		0685BC0917D8C394008CF534 /* UIImage+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Additional.h"; path = "../../../MZFormSheetController/UIImage+Additional.h"; sourceTree = "<group>"; };
 		0685BC0A17D8C394008CF534 /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Additional.m"; path = "../../../MZFormSheetController/UIImage+Additional.m"; sourceTree = "<group>"; };
+		1FEBA26619AF3F2F00CECA47 /* MZMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MZMacro.h; path = ../../../MZFormSheetController/MZMacro.h; sourceTree = "<group>"; };
 		D217497217BA244F00F07567 /* Xcode5Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xcode5Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D217497517BA244F00F07567 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D217497717BA244F00F07567 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -221,6 +222,7 @@
 				D27E9E9D1883D94F0065D06C /* MZFormSheetBackgroundWindowViewController.m */,
 				D2C460181887D02600A24864 /* UIViewController+TargetViewController.h */,
 				D2C460191887D02600A24864 /* UIViewController+TargetViewController.m */,
+				1FEBA26619AF3F2F00CECA47 /* MZMacro.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";

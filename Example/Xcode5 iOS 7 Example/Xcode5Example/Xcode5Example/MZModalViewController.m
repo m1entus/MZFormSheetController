@@ -58,7 +58,8 @@
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return self.showStatusBar; // your own visibility code
+//    return self.showStatusBar; // your own visibility code
+    return NO;
 }
 
 @end
