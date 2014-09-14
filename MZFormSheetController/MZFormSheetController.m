@@ -97,7 +97,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
         if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance() && MZSystemVersionLessThan_iOS8()) {
-            UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingViewController] mz_parentTargetViewController];
+            UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingFSViewController] mz_parentTargetViewController];
 			
             // find controllers responsible for status bar style and hidden state
             UIViewController* statusBarStyleResponsibleViewController = [mostTopViewController mz_childTargetViewControllerForStatusBarStyle];
@@ -219,7 +219,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 #pragma mark - MZFormSheetController
 
 @interface MZFormSheetController () <UIGestureRecognizerDelegate>
-@property (nonatomic, weak) UIViewController *presentingViewController;
+@property (nonatomic, weak) UIViewController *presentingFSViewController;
 @property (nonatomic, strong) UIViewController *presentedFSViewController;
 
 @property (nonatomic, strong) UITapGestureRecognizer *backgroundTapGestureRecognizer;
@@ -235,7 +235,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 @end
 
 @implementation MZFormSheetController
-@synthesize presentingViewController = _presentingViewController;
+@synthesize presentingFSViewController = _presentingFSViewController;
 
 #pragma mark - Helpers
 
@@ -339,10 +339,10 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 #pragma mark - Setters
 
-- (void)setPresentingViewController:(UIViewController *)presentingViewController
+- (void)setPresentingFSViewController:(UIViewController *)presentingViewController
 {
-    if (_presentingViewController != presentingViewController) {
-        _presentingViewController = presentingViewController;
+    if (_presentingFSViewController != presentingViewController) {
+        _presentingFSViewController = presentingViewController;
     }
 }
 
@@ -488,8 +488,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     
     self.applicationKeyWindow = [UIApplication sharedApplication].keyWindow;
 
-    if (!self.presentingViewController) {
-        self.presentingViewController = [self.applicationKeyWindow.rootViewController mz_parentTargetViewController];
+    if (!self.presentingFSViewController) {
+        self.presentingFSViewController = [self.applicationKeyWindow.rootViewController mz_parentTargetViewController];
     }
 
     if (![[MZFormSheetController sharedQueue] containsObject:self]) {
@@ -887,7 +887,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (void)cleanup
 {
     self.presentedFSViewController.formSheetController = nil;
-    self.presentingViewController.formSheetController = nil;
+    self.presentingFSViewController.formSheetController = nil;
 
     [self.formSheetWindow removeGestureRecognizer:self.backgroundTapGestureRecognizer];
     self.formSheetWindow.hidden = YES;
@@ -926,7 +926,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (void)mz_presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     self.formSheetController = formSheetController;
-    formSheetController.presentingViewController = self;
+    formSheetController.presentingFSViewController = self;
 
     [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
@@ -946,7 +946,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     formSheetController.transitionStyle = transitionStyle;
 
     self.formSheetController = formSheetController;
-    formSheetController.presentingViewController = self;
+    formSheetController.presentingFSViewController = self;
 
     [formSheetController presentAnimated:animated completionHandler:^(UIViewController *presentedFSViewController){
         if (completionHandler) {
