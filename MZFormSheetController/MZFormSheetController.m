@@ -804,10 +804,11 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     
     [self.formSheetWindow addGestureRecognizer:tapGesture];
 
-
-    [self addChildViewController:self.presentedFSViewController];
-    [self.view addSubview:self.presentedFSViewController.view];
-    [self.presentedFSViewController didMoveToParentViewController:self];
+    if (self.presentedFSViewController) {
+        [self addChildViewController:self.presentedFSViewController];
+        [self.view addSubview:self.presentedFSViewController.view];
+        [self.presentedFSViewController didMoveToParentViewController:self];
+    }
 
     // This fix UINavigationBar bug for iOS7 when navigationBar is translucent has a white shadow inside like in iOS6
     if ([self.presentedFSViewController isKindOfClass:[UINavigationController class]]) {
