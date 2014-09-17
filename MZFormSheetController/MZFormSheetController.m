@@ -600,6 +600,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     dispatch_release(dissmissGroup);
 #endif
 
+    self.applicationKeyWindow = [[[UIApplication sharedApplication] delegate] window];
     [self.applicationKeyWindow makeKeyWindow];
     self.applicationKeyWindow.hidden = NO;
 }
