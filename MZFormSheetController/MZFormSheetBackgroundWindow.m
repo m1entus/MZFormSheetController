@@ -304,15 +304,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 - (UIImage *)rotateImageToStatusBarOrientation:(UIImage *)image
 {
-    if (MZSystemVersionGreaterThanOrEqualTo_iOS8()) {
-        if ([self windowOrientation] == UIInterfaceOrientationLandscapeLeft) {
-            return [image imageRotatedByDegrees:-90];
-        } else if ([self windowOrientation] == UIInterfaceOrientationLandscapeRight) {
-            return [image imageRotatedByDegrees:90];
-        } else if ([self windowOrientation] == UIInterfaceOrientationPortraitUpsideDown) {
-            return [image imageRotatedByDegrees:180];
-        }
-    } else {
+    if (MZSystemVersionLessThan_iOS8()) {
         if ([self windowOrientation] == UIInterfaceOrientationLandscapeLeft) {
             return [image imageRotatedByDegrees:90];
         } else if ([self windowOrientation] == UIInterfaceOrientationLandscapeRight) {
@@ -373,9 +365,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
     CGFloat angle = UIInterfaceOrientationAngleOfOrientation([self windowOrientation]);
     CGAffineTransform transform = CGAffineTransformMakeRotation(angle);
     
-    if (MZSystemVersionLessThan_iOS8()) {
-        [self makeTransform:transform forView:self.backgroundImageView inFrame:self.bounds];
-    }
+    [self makeTransform:transform forView:self.backgroundImageView inFrame:self.bounds];
 }
 
 - (void)makeTransform:(CGAffineTransform)transform forView:(UIView *)view inFrame:(CGRect)frame
