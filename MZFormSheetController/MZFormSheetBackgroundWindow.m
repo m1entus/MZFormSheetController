@@ -57,6 +57,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 @interface MZFormSheetBackgroundWindow()
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, assign, getter = isUpdatingBlur) BOOL updatingBlur;
+@property (nonatomic, assign) UIInterfaceOrientation lastWindowOrientation;
 @end
 
 @implementation MZFormSheetBackgroundWindow
@@ -226,6 +227,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
         [self rotateWindow];
 
+        self.lastWindowOrientation = [self windowOrientation];
+        
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
 
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -261,7 +264,9 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 {
     [self rotateWindow];
 
-    if (self.backgroundBlurEffect) {
+    UIInterfaceOrientation windowOrientation = [self windowOrientation];
+    if (self.backgroundBlurEffect && windowOrientation != self.lastWindowOrientation) {
+        self.lastWindowOrientation = windowOrientation;
         [self updateBlurUsingContext:YES];
     }
 
