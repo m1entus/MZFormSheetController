@@ -1,3 +1,5 @@
+[![](http://inspace.io/github-cover.jpg)](http://inspace.io)
+
 MZFormSheetController
 ===========
 
@@ -544,4 +546,3 @@ MZFormSheetController uses ARC.
 
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/m1entus/mzformsheetcontroller/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

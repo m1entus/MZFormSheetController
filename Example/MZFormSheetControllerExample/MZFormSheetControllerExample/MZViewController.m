@@ -31,7 +31,7 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     
     // present form sheet with view controller
-    [self presentFormSheetWithViewController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+    [self mz_presentFormSheetWithViewController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
        //do sth
     }];
 }
@@ -62,7 +62,7 @@
     [MZFormSheetController registerTransitionClass:[MZCustomTransition class] forTransitionStyle:MZFormSheetTransitionStyleCustom];
 
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
-    [self presentFormSheetWithViewController:vc animated:YES transitionStyle:MZFormSheetTransitionStyleCustom completionHandler:^(MZFormSheetController *formSheetController) {
+    [self mz_presentFormSheetWithViewController:vc animated:YES transitionStyle:MZFormSheetTransitionStyleCustom completionHandler:^(MZFormSheetController *formSheetController) {
 
     }];
 
@@ -130,7 +130,7 @@
     UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"nav"];
     UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
     
-    [self presentFormSheetWithViewController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
+    [self mz_presentFormSheetWithViewController:vc animated:YES completionHandler:^(MZFormSheetController *formSheetController) {
 
         [formSheetController presentViewController:modal animated:YES completion:^{
 
@@ -170,7 +170,7 @@
     formSheet.cornerRadius = 8.0;
     formSheet.portraitTopInset = 54.0;
     formSheet.presentedFormSheetSize = CGSizeMake(280, 180);
-    formSheet.keyboardMovementStyle = MZFormSheetKeyboardMovementStyleCenterVertically;
+    formSheet.movementWhenKeyboardAppears = MZFormSheetWhenKeyboardAppearsCenterVertically;
     
     [formSheet presentAnimated:YES completionHandler:nil];
 }
