@@ -607,9 +607,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
 #pragma mark - Transitions
 
-- (void)customTransitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock {}
-- (void)customTransitionOutWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock {}
-
 - (void)transitionEntryWithCompletionBlock:(MZFormSheetTransitionCompletionHandler)completionBlock
 {
     Class transitionClass = [MZFormSheetController sharedTransitionClasses][@(self.transitionStyle)];
@@ -937,11 +934,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     }];
 }
 
-- (void)presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
-{
-    [self mz_presentFormSheetController:formSheetController animated:animated completionHandler:completionHandler];
-}
-
 - (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     MZFormSheetController *formSheetController = [[MZFormSheetController alloc] initWithViewController:viewController];
@@ -957,19 +949,10 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     }];
 }
 
-- (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
-{
-    [self mz_presentFormSheetWithViewController:viewController animated:animated transitionStyle:transitionStyle completionHandler:completionHandler];
-}
 
 - (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
 {
     [self mz_presentFormSheetWithViewController:viewController animated:animated transitionStyle:MZFormSheetTransitionStyleSlideFromTop completionHandler:completionHandler];
-}
-
-- (void)presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
-{
-    [self mz_presentFormSheetWithViewController:viewController animated:animated completionHandler:completionHandler];
 }
 
 - (void)mz_dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
@@ -989,9 +972,5 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     }];
 }
 
-- (void)dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler
-{
-    [self mz_dismissFormSheetControllerAnimated:animated completionHandler:completionHandler];
-}
 
 @end

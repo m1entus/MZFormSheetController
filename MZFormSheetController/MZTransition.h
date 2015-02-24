@@ -29,17 +29,31 @@ typedef void(^MZTransitionCompletionHandler)();
 
 @class MZFormSheetController;
 
+typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
+    MZFormSheetTransitionStyleSlideFromTop = 0,
+    MZFormSheetTransitionStyleSlideFromBottom,
+    MZFormSheetTransitionStyleSlideFromLeft,
+    MZFormSheetTransitionStyleSlideFromRight,
+    MZFormSheetTransitionStyleSlideAndBounceFromLeft,
+    MZFormSheetTransitionStyleSlideAndBounceFromRight,
+    MZFormSheetTransitionStyleFade,
+    MZFormSheetTransitionStyleBounce,
+    MZFormSheetTransitionStyleDropDown,
+    MZFormSheetTransitionStyleCustom,
+    MZFormSheetTransitionStyleNone,
+};
+
 @protocol MZFormSheetControllerTransition <NSObject>
 @required
 /**
  Subclasses must implement to add custom transition animation.
  When animation is finished you must call super method or completionHandler to keep view life cycle.
  */
-- (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
-- (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
+- (void)entryFormSheetControllerTransition:(UIViewController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
+- (void)exitFormSheetControllerTransition:(UIViewController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
 
 @end
 
 @interface MZTransition : NSObject <MZFormSheetControllerTransition>
-
+- (UIView *)contentViewControllerForController:(UIViewController *)viewController;
 @end
