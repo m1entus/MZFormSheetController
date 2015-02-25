@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EE7334CA-734A-45A0-B3F9-0BDAD6F03666</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Xcode5Example</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6C955D289CBA1732476159B45995922140378636</key>
+		<string>https://github.com/m1entus/MZFormSheetController.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Example/Xcode5 iOS 7 Example/Xcode5Example/Xcode5Example.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6C955D289CBA1732476159B45995922140378636</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/m1entus/MZFormSheetController.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6C955D289CBA1732476159B45995922140378636</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6C955D289CBA1732476159B45995922140378636</string>
+			<key>IDESourceControlWCCName</key>
+			<string>MZFormSheetController</string>
+		</dict>
+	</array>
+</dict>
+</plist>

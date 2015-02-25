@@ -101,7 +101,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)setContentViewSize:(CGSize)contentViewSize {
     if (!CGSizeEqualToSize(_contentViewSize, contentViewSize)) {
-        _contentViewSize = contentViewSize;
+        _contentViewSize = CGSizeMake(nearbyintf(contentViewSize.width), nearbyintf(contentViewSize.height));
 
         CGPoint center = self.contentViewController.view.center;
         self.contentViewController.view.frame = CGRectMake(0, 0, _contentViewSize.width, _contentViewSize.height);

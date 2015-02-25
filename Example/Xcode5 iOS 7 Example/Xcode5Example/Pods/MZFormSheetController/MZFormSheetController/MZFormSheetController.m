@@ -387,7 +387,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 - (void)setPresentedFormSheetSize:(CGSize)presentedFormSheetSize
 {
     if (!CGSizeEqualToSize(_presentedFormSheetSize, presentedFormSheetSize)) {
-        _presentedFormSheetSize = presentedFormSheetSize;
+        _presentedFormSheetSize = CGSizeMake(nearbyintf(presentedFormSheetSize.width), nearbyintf(presentedFormSheetSize.height));
         
         CGPoint presentedFormCenter = self.presentedFSViewController.view.center;
         self.presentedFSViewController.view.frame = CGRectMake(0, 0, _presentedFormSheetSize.width, _presentedFormSheetSize.height);
