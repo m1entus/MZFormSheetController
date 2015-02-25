@@ -21,6 +21,6 @@ Pod::Spec.new do |s|
     sp.dependency 'MZFormSheetController/Core'
   end
 
-  s.platform = :ios, '5.0'
+  s.platform = :ios, '6.1'
   s.frameworks = 'QuartzCore', 'Accelerate'
 end
