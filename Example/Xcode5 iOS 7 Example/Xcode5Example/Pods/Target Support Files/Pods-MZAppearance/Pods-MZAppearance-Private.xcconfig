@@ -1,0 +1,5 @@
+#include "Pods-MZAppearance.xcconfig"
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers/Build" "${PODS_ROOT}/Headers/Build/MZAppearance" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/MZAppearance" "${PODS_ROOT}/Headers/Public/MZFormSheetController"
+OTHER_LDFLAGS = ${PODS_MZAPPEARANCE_OTHER_LDFLAGS} -ObjC
+PODS_ROOT = ${SRCROOT}
