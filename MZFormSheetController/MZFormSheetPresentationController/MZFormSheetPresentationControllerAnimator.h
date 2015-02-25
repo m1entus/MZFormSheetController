@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern CGFloat const MZFormSheetPresentationControllerAnimatorDefaultTransitionDuration;
+
 @interface MZFormSheetPresentationControllerAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 @property (nonatomic, assign) CGFloat duration;
 @property (nonatomic, assign, getter=isPresenting) BOOL presenting;

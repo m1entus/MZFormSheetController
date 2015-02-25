@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6221" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="dvw-5M-KBY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Q1d-pd-DdD">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6213"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--MZFormSheetController-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
                 <viewController id="vXZ-lx-hvc" customClass="MZViewController" sceneMemberID="viewController">
@@ -14,11 +14,11 @@
                         <viewControllerLayoutGuide type="bottom" id="D3o-ir-Otf"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pas-O0-NI5">
-                                <rect key="frame" x="0.0" y="507" width="320" height="41"/>
+                                <rect key="frame" x="0.0" y="458" width="320" height="41"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="HDZ-Xn-q6a"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24h-2h-fH5">
-                                <rect key="frame" x="0.0" y="428" width="320" height="41"/>
+                                <rect key="frame" x="0.0" y="379" width="320" height="41"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="deviceRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="41" id="XpF-g7-Df7"/>
@@ -52,6 +52,12 @@
                                     <constraint firstAttribute="height" constant="228" id="KeJ-73-NNz"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This view controller (MZFormSheetPresentationController) can be used on iOS5-8" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6e-Xm-jXQ">
+                                <rect key="frame" x="0.0" y="251" width="320" height="126"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.87058830261230469" green="0.84313732385635376" blue="0.81960791349411011" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
@@ -65,11 +71,32 @@
                             <constraint firstItem="tRG-fi-zVS" firstAttribute="leading" secondItem="24h-2h-fH5" secondAttribute="leading" id="tZT-4z-rIo"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="MZFormSheetController" id="yIr-Bh-2ja"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
         </scene>
-        <!--Presentation View Controller-->
+        <!--Tab Bar Controller-->
+        <scene sceneID="gf4-vQ-FQm">
+            <objects>
+                <tabBarController id="Q1d-pd-DdD" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="SGJ-sZ-epm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="6Ew-Tr-78A"/>
+                        <segue destination="dvw-5M-KBY" kind="relationship" relationship="viewControllers" id="lHU-Iv-HTB"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6sv-PG-fJL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-538" y="503"/>
+        </scene>
+        <!--MZFormSheetPresentation (Only iOS8) !!!-->
         <scene sceneID="QhV-6T-In2">
             <objects>
                 <viewController id="dvw-5M-KBY" customClass="MZPresentationViewController" sceneMemberID="viewController">
@@ -78,25 +105,57 @@
                         <viewControllerLayoutGuide type="bottom" id="g6K-vW-Oim"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="JHj-OS-0DI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map" translatesAutoresizingMaskIntoConstraints="NO" id="ZC0-9N-PaD">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="228"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="228" id="oPd-cB-0H7"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14r-OK-uJ0">
-                                <rect key="frame" x="161" y="317" width="46" height="30"/>
-                                <state key="normal" title="Button">
+                                <rect key="frame" x="0.0" y="421" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Show form sheet using code">
+                                    <color key="titleColor" red="0.96470594409999999" green="0.0078431377190000002" blue="0.23529413339999999" alpha="1" colorSpace="deviceRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="action:" destination="dvw-5M-KBY" eventType="touchUpInside" id="1KZ-hH-2ku"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JR2-9a-w4E">
+                                <rect key="frame" x="0.0" y="351" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Show form sheet using storyboard segue">
+                                    <color key="titleColor" red="0.96470594409999999" green="0.0078431377190000002" blue="0.23529413339999999" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="MpD-Ff-cYw" kind="custom" identifier="formSheet" customClass="MZFormSheetPresentationControllerSegue" id="AMU-zi-W7N"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obu-nB-hp8">
+                                <rect key="frame" x="0.0" y="225" width="320" height="126"/>
+                                <string key="text">This view controller (MZFormSheetPresentationController) is build using iOS8 API !!! It will only work on iOS 8 ! If you want to use on iOS 5-8 compatibility use MZFormSheetController</string>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.80392156862745101" green="0.76470588235294112" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="ZC0-9N-PaD" firstAttribute="top" secondItem="JHj-OS-0DI" secondAttribute="top" id="WLd-M2-Qhy"/>
+                            <constraint firstItem="ZC0-9N-PaD" firstAttribute="leading" secondItem="JHj-OS-0DI" secondAttribute="leading" id="eWh-mu-KUN"/>
+                            <constraint firstAttribute="trailing" secondItem="ZC0-9N-PaD" secondAttribute="trailing" id="nrq-bK-nDZ"/>
+                        </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="MZFormSheetPresentation (Only iOS8) !!!" id="u09-IV-pow"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3h8-YB-8uc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="349" y="837"/>
+            <point key="canvasLocation" x="354" y="1036"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="qhq-Dw-k3I">
@@ -135,14 +194,14 @@
                                     <constraint firstAttribute="width" constant="320" id="wkq-l5-8ug"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="buttons" translatesAutoresizingMaskIntoConstraints="NO" id="13A-Yi-Htg">
-                                <rect key="frame" x="0.0" y="236" width="320" height="59"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttons" translatesAutoresizingMaskIntoConstraints="NO" id="13A-Yi-Htg">
+                                <rect key="frame" x="0.0" y="236" width="320" height="55"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="zkl-pG-SM7"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eqk-3T-gx6">
-                                <rect key="frame" x="0.0" y="236" width="320" height="59"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eqk-3T-gx6">
+                                <rect key="frame" x="0.0" y="236" width="320" height="55"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>

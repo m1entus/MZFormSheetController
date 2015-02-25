@@ -8,11 +8,13 @@
 
 #import "MZFormSheetPresentationControllerAnimator.h"
 
+CGFloat const MZFormSheetPresentationControllerAnimatorDefaultTransitionDuration = 0.35;
+
 @implementation MZFormSheetPresentationControllerAnimator
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.duration = 0.35;
+        self.duration = MZFormSheetPresentationControllerAnimatorDefaultTransitionDuration;
     }
     return self;
 }

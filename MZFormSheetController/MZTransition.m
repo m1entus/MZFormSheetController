@@ -341,6 +341,7 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
     CAKeyframeAnimation *bounceAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
     bounceAnimation.fillMode = kCAFillModeBoth;
     bounceAnimation.duration = MZTransitionDefaultBounceDuration;
+    bounceAnimation.removedOnCompletion = YES;
     bounceAnimation.values = @[
                                [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 0.01f)],
                                [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.1f)],
@@ -358,11 +359,14 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 
 - (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
 {
+    [self contentViewControllerForController:formSheetController].transform = CGAffineTransformMakeScale(0.01, 0.01);
+    
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
     animation.values = @[@(1), @(1.2), @(0.01)];
     animation.keyTimes = @[@(0), @(0.4), @(1)];
     animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
     animation.duration = MZFormSheetControllerDefaultAnimationDuration;
+    animation.removedOnCompletion = YES;
     animation.delegate = self;
     [animation setValue:completionHandler forKey:@"completionHandler"];
     [[self contentViewControllerForController:formSheetController].layer addAnimation:animation forKey:@"bounce"];
