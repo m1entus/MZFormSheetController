@@ -52,7 +52,7 @@
                                     <constraint firstAttribute="height" constant="228" id="KeJ-73-NNz"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This view controller (MZFormSheetPresentationController) can be used on iOS5-8" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e6e-Xm-jXQ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This view controller (MZFormSheetController) can be used on iOS5-8+" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="e6e-Xm-jXQ">
                                 <rect key="frame" x="0.0" y="251" width="320" height="126"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -136,7 +136,7 @@
                                     <segue destination="MpD-Ff-cYw" kind="custom" identifier="formSheet" customClass="MZFormSheetPresentationControllerSegue" id="AMU-zi-W7N"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Obu-nB-hp8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="Obu-nB-hp8">
                                 <rect key="frame" x="0.0" y="225" width="320" height="126"/>
                                 <string key="text">This view controller (MZFormSheetPresentationController) is build using iOS8 API !!! It will only work on iOS 8 ! If you want to use on iOS 5-8 compatibility use MZFormSheetController</string>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -190,36 +190,47 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="calendar" translatesAutoresizingMaskIntoConstraints="NO" id="l2I-sO-XXr">
                                 <rect key="frame" x="0.0" y="71" width="320" height="160"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="160" id="NAo-XQ-hul"/>
-                                    <constraint firstAttribute="width" constant="320" id="wkq-l5-8ug"/>
+                                    <constraint firstAttribute="height" constant="160" id="9K3-TC-KLc"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttons" translatesAutoresizingMaskIntoConstraints="NO" id="13A-Yi-Htg">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aoc-Op-P3p">
                                 <rect key="frame" x="0.0" y="236" width="320" height="55"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttons" translatesAutoresizingMaskIntoConstraints="NO" id="13A-Yi-Htg">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eqk-3T-gx6">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="NGH-3U-YiQ" kind="push" id="UqX-hv-9O2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="zkl-pG-SM7"/>
+                                    <constraint firstItem="Eqk-3T-gx6" firstAttribute="top" secondItem="Aoc-Op-P3p" secondAttribute="top" id="0OR-5s-O7J"/>
+                                    <constraint firstItem="Eqk-3T-gx6" firstAttribute="leading" secondItem="Aoc-Op-P3p" secondAttribute="leading" id="9sD-D9-46P"/>
+                                    <constraint firstAttribute="trailing" secondItem="Eqk-3T-gx6" secondAttribute="trailing" id="Bt7-sh-GC8"/>
+                                    <constraint firstAttribute="height" constant="55" id="IQX-fm-zos"/>
+                                    <constraint firstItem="13A-Yi-Htg" firstAttribute="top" secondItem="Aoc-Op-P3p" secondAttribute="top" id="SNa-eZ-Mh6"/>
+                                    <constraint firstItem="13A-Yi-Htg" firstAttribute="leading" secondItem="Aoc-Op-P3p" secondAttribute="leading" id="aXp-Vq-gil"/>
+                                    <constraint firstAttribute="bottom" secondItem="13A-Yi-Htg" secondAttribute="bottom" id="lZv-xP-WF2"/>
+                                    <constraint firstAttribute="trailing" secondItem="13A-Yi-Htg" secondAttribute="trailing" id="mUU-AA-nMp"/>
+                                    <constraint firstAttribute="bottom" secondItem="Eqk-3T-gx6" secondAttribute="bottom" id="sfb-zX-nzl"/>
                                 </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eqk-3T-gx6">
-                                <rect key="frame" x="0.0" y="236" width="320" height="55"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="NGH-3U-YiQ" kind="push" id="UqX-hv-9O2"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Eqk-3T-gx6" firstAttribute="width" secondItem="13A-Yi-Htg" secondAttribute="width" id="9Ax-YB-e4f"/>
-                            <constraint firstItem="l2I-sO-XXr" firstAttribute="top" secondItem="Fh0-SV-YWE" secondAttribute="bottom" constant="7" id="LAs-fj-KUw"/>
-                            <constraint firstItem="Eqk-3T-gx6" firstAttribute="top" secondItem="13A-Yi-Htg" secondAttribute="top" id="d9o-F3-I2H"/>
-                            <constraint firstItem="Eqk-3T-gx6" firstAttribute="leading" secondItem="13A-Yi-Htg" secondAttribute="leading" id="jSI-tW-Vg8"/>
-                            <constraint firstAttribute="centerX" secondItem="l2I-sO-XXr" secondAttribute="centerX" id="k8C-i4-8hW"/>
-                            <constraint firstItem="Eqk-3T-gx6" firstAttribute="height" secondItem="13A-Yi-Htg" secondAttribute="height" id="on0-Hc-vfJ"/>
-                            <constraint firstItem="l2I-sO-XXr" firstAttribute="leading" secondItem="13A-Yi-Htg" secondAttribute="leading" id="ri5-s9-hc0"/>
-                            <constraint firstItem="13A-Yi-Htg" firstAttribute="top" secondItem="l2I-sO-XXr" secondAttribute="bottom" constant="5" id="yhq-rW-0rN"/>
+                            <constraint firstItem="l2I-sO-XXr" firstAttribute="leading" secondItem="H8f-xo-PqN" secondAttribute="leading" id="0yJ-Qh-C4d"/>
+                            <constraint firstItem="l2I-sO-XXr" firstAttribute="top" secondItem="Fh0-SV-YWE" secondAttribute="bottom" constant="7" id="NVZ-Ux-llO"/>
+                            <constraint firstAttribute="trailing" secondItem="l2I-sO-XXr" secondAttribute="trailing" id="QbN-QA-p11"/>
+                            <constraint firstItem="Aoc-Op-P3p" firstAttribute="leading" secondItem="l2I-sO-XXr" secondAttribute="leading" id="aBB-eR-A0k"/>
+                            <constraint firstItem="Aoc-Op-P3p" firstAttribute="trailing" secondItem="l2I-sO-XXr" secondAttribute="trailing" id="b3g-7l-vCY"/>
+                            <constraint firstItem="Aoc-Op-P3p" firstAttribute="top" secondItem="l2I-sO-XXr" secondAttribute="bottom" constant="5" id="oiT-EI-0be"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Calendar" id="bAt-tj-bDm"/>

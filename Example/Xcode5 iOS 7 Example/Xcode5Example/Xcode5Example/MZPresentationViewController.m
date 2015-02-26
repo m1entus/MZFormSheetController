@@ -29,6 +29,7 @@
     UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
     MZFormSheetPresentationController *controller = [[MZFormSheetPresentationController alloc] initWithContentViewController:modal];
     controller.contentViewControllerTransitionStyle = MZFormSheetTransitionStyleDropDown;
+    controller.shouldCenterVertically = YES;
     controller.shouldDismissOnBackgroundViewTap = YES;
     controller.movementActionWhenKeyboardAppears = MZFormSheetActionWhenKeyboardAppearsMoveToTop;
     controller.shouldApplyBackgroundBlurEffect = YES;
@@ -43,6 +44,7 @@
 
     controller.didPresentContentViewControllerHandler = ^(UIViewController *content) {
         NSLog(@"DID PRESENT");
+        [self setNeedsStatusBarAppearanceUpdate];
     };
 
     controller.willPresentContentViewControllerHandler = ^(UIViewController *content) {
@@ -54,8 +56,9 @@
     navController.topViewController.title = @"PASSING DATA";
 
 
-    [self presentViewController:controller animated:YES completion:nil];
+    [self presentViewController:controller animated:YES completion:^{
 
+    }];
 }
 
 
@@ -70,7 +73,10 @@
         formSheet.contentViewControllerTransitionStyle = MZFormSheetTransitionStyleBounce;
         formSheet.portraitTopInset = 0;
         formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismissViewControllerAnimated:YES completion:^{
+                [self setNeedsStatusBarAppearanceUpdate];
+            }];
+
         };
         UINavigationController *navController = (UINavigationController *)formSheet.contentViewController;
         navController.topViewController.title = @"PASSING DATA";
@@ -79,8 +85,17 @@
 
         formSheet.didPresentContentViewControllerHandler = ^(UIViewController *presentedFSViewController) {
             NSLog(@"DID PRESENT");
+            [self setNeedsStatusBarAppearanceUpdate];
         };
     }
+}
+
+-(UIStatusBarStyle)preferredStatusBarStyle {
+    return self.presentedViewController ? UIStatusBarStyleDefault : UIStatusBarStyleLightContent; // your own style
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return NO; // your own visibility code
 }
 
 
