@@ -390,7 +390,10 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         _presentedFormSheetSize = CGSizeMake(nearbyintf(presentedFormSheetSize.width), nearbyintf(presentedFormSheetSize.height));
         
         CGPoint presentedFormCenter = self.presentedFSViewController.view.center;
-        self.presentedFSViewController.view.frame = CGRectMake(0, 0, _presentedFormSheetSize.width, _presentedFormSheetSize.height);
+        self.presentedFSViewController.view.frame = CGRectMake(presentedFormCenter.x - _presentedFormSheetSize.width / 2,
+                                                               presentedFormCenter.y - _presentedFormSheetSize.height / 2,
+                                                               _presentedFormSheetSize.width,
+                                                               _presentedFormSheetSize.height);
         self.presentedFSViewController.view.center = presentedFormCenter;
         
         // This will make sure that origin be in good position

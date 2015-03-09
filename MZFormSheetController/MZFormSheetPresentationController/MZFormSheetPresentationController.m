@@ -104,7 +104,10 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         _contentViewSize = CGSizeMake(nearbyintf(contentViewSize.width), nearbyintf(contentViewSize.height));
 
         CGPoint center = self.contentViewController.view.center;
-        self.contentViewController.view.frame = CGRectMake(0, 0, _contentViewSize.width, _contentViewSize.height);
+        self.contentViewController.view.frame = CGRectMake(center.x - _contentViewController.width / 2,
+                                                           center.y - _contentViewController.height / 2, 
+                                                           _contentViewSize.width, 
+                                                           _contentViewSize.height);
         self.contentViewController.view.center = center;
         [self setupFormSheetViewControllerFrame];
     }
