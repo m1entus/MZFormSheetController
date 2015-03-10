@@ -94,6 +94,11 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 + (NSArray *)formSheetControllersStack;
 
 /**
+ Returns a boolean if it is animating.
+ */
++ (BOOL)isAnimating;
+
+/**
  Returns the window that form sheet controller is displayed .
  */
 @property (nonatomic, readonly, strong) MZFormSheetWindow *formSheetWindow;
