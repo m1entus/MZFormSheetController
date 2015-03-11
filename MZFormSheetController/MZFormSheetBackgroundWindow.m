@@ -63,6 +63,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 @implementation MZFormSheetBackgroundWindow
 @synthesize backgroundColor = _backgroundColor;
+@synthesize windowLevel;
 
 #pragma mark - Class methods
 
