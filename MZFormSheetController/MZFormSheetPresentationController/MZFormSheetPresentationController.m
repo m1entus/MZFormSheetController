@@ -29,6 +29,8 @@
 
 CGFloat const MZFormSheetPresentationControllerDefaultAnimationDuration = 0.35;
 
+static CGFloat const MZFormSheetPresentationControllerDefaultAboveKeyboardMargin = 20;
+
 static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 @interface MZFormSheetPresentationController () <UIGestureRecognizerDelegate>
@@ -104,8 +106,8 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         _contentViewSize = CGSizeMake(nearbyintf(contentViewSize.width), nearbyintf(contentViewSize.height));
 
         CGPoint center = self.contentViewController.view.center;
-        self.contentViewController.view.frame = CGRectMake(center.x - _contentViewController.width / 2,
-                                                           center.y - _contentViewController.height / 2,
+        self.contentViewController.view.frame = CGRectMake(center.x - _contentViewController.view.frame.size.width / 2,
+                                                           center.y - _contentViewController.view.frame.size.height / 2,
                                                            _contentViewSize.width,
                                                            _contentViewSize.height);
         self.contentViewController.view.center = center;
@@ -283,7 +285,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         CGRect formSheetRect = self.contentViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
-        if (screenRect.size.height > formSheetRect.size.height) {
+        if (screenRect.size.height < CGRectGetMaxY(formSheetRect)) {
             switch (self.movementActionWhenKeyboardAppears) {
                 case MZFormSheetActionWhenKeyboardAppearsCenterVertically:
                     formSheetRect.origin.y = ([self yCoordinateBelowStatusBar] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
@@ -294,6 +296,8 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
                 case MZFormSheetActionWhenKeyboardAppearsMoveToTopInset:
                     formSheetRect.origin.y = [self topInset];
                     break;
+                case MZFormSheetActionWhenKeyboardAppearsAboveKeyboard:
+                    formSheetRect.origin.y = formSheetRect.origin.y + (screenRect.size.height - CGRectGetMaxY(formSheetRect)) - MZFormSheetPresentationControllerDefaultAboveKeyboardMargin;
                 default:
                     break;
             }
