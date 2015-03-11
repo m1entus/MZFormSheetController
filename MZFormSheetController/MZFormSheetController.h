@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, MZFormSheetWhenKeyboardAppears) {
   MZFormSheetWhenKeyboardAppearsCenterVertically,
   MZFormSheetWhenKeyboardAppearsMoveToTop,
   MZFormSheetWhenKeyboardAppearsMoveToTopInset,
+  MZFormSheetWhenKeyboardAppearsMoveAboveKeyboard
 };
 
 /**
