@@ -105,8 +105,8 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
         CGPoint center = self.contentViewController.view.center;
         self.contentViewController.view.frame = CGRectMake(center.x - _contentViewController.width / 2,
-                                                           center.y - _contentViewController.height / 2, 
-                                                           _contentViewSize.width, 
+                                                           center.y - _contentViewController.height / 2,
+                                                           _contentViewSize.width,
                                                            _contentViewSize.height);
         self.contentViewController.view.center = center;
         [self setupFormSheetViewControllerFrame];
@@ -213,7 +213,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         } else {
             transitionCompletionHandler();
         }
-        
+
     } completion:nil];
 }
 
@@ -273,7 +273,6 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)setupFormSheetViewController {
     self.contentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.contentViewController.view.layer.cornerRadius = 6.0;
     self.contentViewController.view.layer.masksToBounds = YES;
     self.contentViewController.view.frame = CGRectMake(0, 0, self.contentViewSize.width, self.contentViewSize.height);
     self.contentViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));

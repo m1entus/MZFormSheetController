@@ -270,7 +270,6 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 - (void)setupFormSheetViewController {
     self.contentViewController.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
-    self.contentViewController.view.layer.cornerRadius = 6.0;
     self.contentViewController.view.layer.masksToBounds = YES;
     self.contentViewController.view.frame = CGRectMake(0, 0, self.contentViewSize.width, self.contentViewSize.height);
     self.contentViewController.view.center = CGPointMake(CGRectGetMidX(self.view.bounds), CGRectGetMidY(self.view.bounds));

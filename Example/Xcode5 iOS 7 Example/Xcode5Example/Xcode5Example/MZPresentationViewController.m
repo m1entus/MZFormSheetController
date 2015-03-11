@@ -27,12 +27,16 @@
 }
 - (IBAction)action:(id)sender {
     UIViewController *modal = [self.storyboard instantiateViewControllerWithIdentifier:@"modal"];
+    // Set rounded corners
+    modal.view.layer.cornerRadius = 6.0;
+
     MZFormSheetPresentationController *controller = [[MZFormSheetPresentationController alloc] initWithContentViewController:modal];
     controller.contentViewControllerTransitionStyle = MZFormSheetTransitionStyleDropDown;
     controller.shouldCenterVertically = YES;
     controller.shouldDismissOnBackgroundViewTap = YES;
     controller.movementActionWhenKeyboardAppears = MZFormSheetActionWhenKeyboardAppearsMoveToTop;
     controller.shouldApplyBackgroundBlurEffect = YES;
+
 
     controller.didDismissContentViewControllerHandler = ^(UIViewController *content) {
         NSLog(@"DID DISMISS");
@@ -72,6 +76,7 @@
         MZFormSheetPresentationController *formSheet = formSheetSegue.formSheetPresentationController;
         formSheet.contentViewControllerTransitionStyle = MZFormSheetTransitionStyleBounce;
         formSheet.portraitTopInset = 0;
+        formSheet.contentViewController.view.layer.cornerRadius = 12.0;
         formSheet.didTapOnBackgroundViewCompletionHandler = ^(CGPoint location) {
             [self dismissViewControllerAnimated:YES completion:^{
                 [self setNeedsStatusBarAppearanceUpdate];
