@@ -29,6 +29,8 @@
 
 CGFloat const MZFormSheetPresentationControllerDefaultAnimationDuration = 0.35;
 
+static CGFloat const MZFormSheetPresentationControllerDefaultAboveKeyboardMargin = 20;
+
 static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 
 @interface MZFormSheetPresentationController () <UIGestureRecognizerDelegate>
@@ -294,6 +296,8 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
                 case MZFormSheetActionWhenKeyboardAppearsMoveToTopInset:
                     formSheetRect.origin.y = [self topInset];
                     break;
+                case MZFormSheetActionWhenKeyboardAppearsAboveKeyboard:
+                    formSheetRect.origin.y = formSheetRect.origin.y + (screenRect.size.height - CGRectGetMaxY(formSheetRect)) - MZFormSheetPresentationControllerDefaultAboveKeyboardMargin;
                 default:
                     break;
             }

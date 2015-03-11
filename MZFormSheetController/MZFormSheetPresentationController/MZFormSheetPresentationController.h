@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, MZFormSheetActionWhenKeyboardAppears) {
     MZFormSheetActionWhenKeyboardAppearsCenterVertically,
     MZFormSheetActionWhenKeyboardAppearsMoveToTop,
     MZFormSheetActionWhenKeyboardAppearsMoveToTopInset,
+    MZFormSheetActionWhenKeyboardAppearsAboveKeyboard
 };
 
 typedef void(^MZFormSheetPresentationControllerCompletionHandler)(UIViewController *contentViewController);
