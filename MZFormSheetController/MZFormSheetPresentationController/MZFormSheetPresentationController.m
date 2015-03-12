@@ -176,8 +176,8 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 #pragma mark - Transitions
 
 - (void)handleEntryTransitionAnimated:(BOOL)animated {
-    [self.transitionCoordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
 
+    if (self.transitionCoordinator) {
         MZFormSheetPresentationControllerTransitionHandler transitionCompletionHandler = ^(){
             if (self.didPresentContentViewControllerHandler) {
                 self.didPresentContentViewControllerHandler(self.contentViewController);
@@ -193,8 +193,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         } else {
             transitionCompletionHandler();
         }
-
-    } completion:nil];
+    }
 }
 
 - (void)handleOutTransitionAnimated:(BOOL)animated {
