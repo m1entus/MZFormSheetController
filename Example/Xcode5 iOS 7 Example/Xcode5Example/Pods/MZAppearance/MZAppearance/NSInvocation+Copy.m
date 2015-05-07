@@ -169,6 +169,10 @@ BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *encodingType) {
                 CGSize arg;
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
+            } else if (mz_areObjCTypesEqual(argumentType, @encode(CGColorRef))) {
+                CGColorRef arg;
+                [self getArgument:&arg atIndex:index];
+                [invocation setArgument:&arg atIndex:index];
             } else if (mz_areObjCTypesEqual(argumentType, @encode(CGRect))) {
                 CGRect arg;
                 [self getArgument:&arg atIndex:index];
@@ -186,8 +190,20 @@ BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *encodingType) {
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
             } else {
-                NSAssert1(false, @"Unhandled ObjC Type (%@)", argumentType);
-                return nil;
+
+                const char *argumentType = [self.methodSignature getArgumentTypeAtIndex:index];
+
+                NSUInteger argumentLength;
+                NSGetSizeAndAlignment(argumentType, &argumentLength, NULL);
+
+                void *buffer = malloc(argumentLength);
+
+                if (buffer) {
+                    [self getArgument:buffer atIndex:index];
+                    [invocation setArgument:buffer atIndex:index];
+
+                    free(buffer);
+                }
             }
 
         }

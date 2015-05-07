@@ -35,7 +35,7 @@
 + (id)appearance;
 @end
 
-@interface MZAppearance : NSProxy
+@interface MZAppearance : NSObject
 
 /** 
  Applies the appearance of all instances to the object. 
