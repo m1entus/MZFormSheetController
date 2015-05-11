@@ -271,7 +271,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 }
 
 - (void)willEnterForegroundNotification:(NSNotification *)notification {
-    if (!self.isKeyWindow) {
+    if (self.shouldUseNativeBlurEffect) {
+        self.hidden = YES;
         [self makeKeyAndVisible];
     }
 }
