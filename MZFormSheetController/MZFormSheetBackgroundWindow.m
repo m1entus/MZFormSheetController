@@ -88,7 +88,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 #pragma clang diagnostic pop
 
-+ (id)appearance
++ (instancetype)appearance
 {
     return [MZAppearance appearanceForClass:[self class]];
 }
