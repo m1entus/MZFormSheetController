@@ -284,7 +284,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
         CGRect formSheetRect = self.contentViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
 
-        if (screenRect.size.height < CGRectGetMaxY(formSheetRect)) {
+        if (screenRect.size.height > CGRectGetHeight(formSheetRect)) {
             switch (self.movementActionWhenKeyboardAppears) {
                 case MZFormSheetActionWhenKeyboardAppearsCenterVertically:
                     formSheetRect.origin.y = ([self yCoordinateBelowStatusBar] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
