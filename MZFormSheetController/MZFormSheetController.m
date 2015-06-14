@@ -674,7 +674,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         CGRect formSheetRect = self.presentedFSViewController.view.frame;
         CGRect screenRect = [self.screenFrameWhenKeyboardVisible CGRectValue];
         
-        if (screenRect.size.height < CGRectGetMaxY(formSheetRect)) {
+        if (screenRect.size.height > CGRectGetHeight(formSheetRect)) {
             switch (self.movementWhenKeyboardAppears) {
                 case MZFormSheetWhenKeyboardAppearsCenterVertically:
                     formSheetRect.origin.y = ([MZFormSheetController statusBarHeight] + screenRect.size.height - formSheetRect.size.height)/2 - screenRect.origin.y;
