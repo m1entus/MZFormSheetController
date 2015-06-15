@@ -27,11 +27,11 @@
 
 @interface UIImage (Additional)
 
-- (UIImage *)imageRotatedByRadians:(CGFloat)radians;
-- (UIImage *)imageRotatedByDegrees:(CGFloat)degrees;
+- (nonnull UIImage *)imageRotatedByRadians:(CGFloat)radians;
+- (nonnull UIImage *)imageRotatedByDegrees:(CGFloat)degrees;
 
-- (UIImage *)blurredImageWithRadius:(CGFloat)blurRadius
-                          tintColor:(UIColor *)tintColor
+- (nonnull UIImage *)blurredImageWithRadius:(CGFloat)blurRadius
+                          tintColor:(nullable UIColor *)tintColor
               saturationDeltaFactor:(CGFloat)saturationDeltaFactor
-                          maskImage:(UIImage *)maskImage;
+                          maskImage:(nullable UIImage *)maskImage;
 @end

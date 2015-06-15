@@ -871,7 +871,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     return [self.presentedFSViewController mz_childTargetViewControllerForStatusBarStyle];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return [self.presentedFSViewController supportedInterfaceOrientations];
 }

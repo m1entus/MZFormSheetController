@@ -10,6 +10,7 @@
 		06218B4B1866418C0058C1EB /* MZCustomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 06218B4A1866418C0058C1EB /* MZCustomTransition.m */; };
 		0665D3A818762A92007A55B4 /* MZTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0665D3A718762A92007A55B4 /* MZTableViewController.m */; };
 		06E8F7C61A9D11B400AB23C9 /* MZPresentationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E8F7C51A9D11B400AB23C9 /* MZPresentationViewController.m */; };
+		644600581B2F3D29009353B0 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 644600571B2F3D29009353B0 /* Launch Screen.xib */; };
 		D217497617BA244F00F07567 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497517BA244F00F07567 /* Foundation.framework */; };
 		D217497817BA244F00F07567 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497717BA244F00F07567 /* CoreGraphics.framework */; };
 		D217497A17BA244F00F07567 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497917BA244F00F07567 /* UIKit.framework */; };
@@ -48,6 +49,7 @@
 		06E8F7C41A9D11B400AB23C9 /* MZPresentationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZPresentationViewController.h; sourceTree = "<group>"; };
 		06E8F7C51A9D11B400AB23C9 /* MZPresentationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZPresentationViewController.m; sourceTree = "<group>"; };
 		378A7C32B22A5D2704CEF37F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		644600571B2F3D29009353B0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		8C26CF5724A5445FCCA1B6A0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C286B80329B1515B1BC5BECC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D217497217BA244F00F07567 /* Xcode5Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xcode5Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,7 @@
 				D217497E17BA244F00F07567 /* InfoPlist.strings */,
 				D217498117BA244F00F07567 /* main.m */,
 				D217498317BA244F00F07567 /* Xcode5Example-Prefix.pch */,
+				644600571B2F3D29009353B0 /* Launch Screen.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -243,7 +246,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = MZ;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Michał Zaborowski";
 				TargetAttributes = {
 					D217497117BA244F00F07567 = {
@@ -282,6 +285,7 @@
 				D217499117BA244F00F07567 /* Images.xcassets in Resources */,
 				D217498917BA244F00F07567 /* Main_iPhone.storyboard in Resources */,
 				D217498017BA244F00F07567 /* InfoPlist.strings in Resources */,
+				644600581B2F3D29009353B0 /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +420,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -479,6 +484,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Xcode5Example/Xcode5Example-Prefix.pch";
 				INFOPLIST_FILE = "Xcode5Example/Xcode5Example-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.michalzaborowski.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -496,6 +502,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Xcode5Example/Xcode5Example-Prefix.pch";
 				INFOPLIST_FILE = "Xcode5Example/Xcode5Example-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.michalzaborowski.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -507,7 +514,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Xcode5Example.app/Xcode5Example";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
@@ -518,6 +524,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Xcode5ExampleTests/Xcode5ExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.michalzaborowski.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -529,13 +536,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Xcode5Example.app/Xcode5Example";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Xcode5Example/Xcode5Example-Prefix.pch";
 				INFOPLIST_FILE = "Xcode5ExampleTests/Xcode5ExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.michalzaborowski.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

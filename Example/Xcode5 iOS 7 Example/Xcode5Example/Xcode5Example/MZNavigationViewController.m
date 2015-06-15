@@ -20,7 +20,7 @@
 	// Do any additional setup after loading the view.
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return [self.topViewController supportedInterfaceOrientations];
 }

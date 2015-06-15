@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, MZFormSheetActionWhenKeyboardAppears) {
     MZFormSheetActionWhenKeyboardAppearsAboveKeyboard
 };
 
-typedef void(^MZFormSheetPresentationControllerCompletionHandler)(UIViewController *contentViewController);
+typedef void(^MZFormSheetPresentationControllerCompletionHandler)(UIViewController * __nonnull contentViewController);
 typedef void(^MZFormSheetPresentationControllerTapHandler)(CGPoint location);
 typedef void(^MZFormSheetPresentationControllerTransitionHandler)();
 
@@ -50,13 +50,13 @@ NS_CLASS_AVAILABLE_IOS(8_0) @interface MZFormSheetPresentationController : UIVie
  *  @param transitionClass Custom transition class.
  *  @param transitionStyle The transition style to use when presenting the receiver.
  */
-+ (void)registerTransitionClass:(Class)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
++ (void)registerTransitionClass:(Class __nonnull)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 
-+ (Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
++ (nullable Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 /**
  *  The view controller responsible for the content portion of the popup.
  */
-@property (nonatomic, readonly, strong) UIViewController *contentViewController;
+@property (nonatomic, readonly, strong, nullable) UIViewController *contentViewController;
 
 @property (nonatomic, assign) CGSize contentViewSize MZ_APPEARANCE_SELECTOR;
 
@@ -99,33 +99,33 @@ NS_CLASS_AVAILABLE_IOS(8_0) @interface MZFormSheetPresentationController : UIVie
 /**
  The handler to call when user tap on background view.
  */
-@property (nonatomic, copy) MZFormSheetPresentationControllerTapHandler didTapOnBackgroundViewCompletionHandler;
+@property (nonatomic, copy, nullable) MZFormSheetPresentationControllerTapHandler didTapOnBackgroundViewCompletionHandler;
 
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
  */
-@property (nonatomic, copy) MZFormSheetPresentationControllerCompletionHandler willPresentContentViewControllerHandler;
+@property (nonatomic, copy, nullable) MZFormSheetPresentationControllerCompletionHandler willPresentContentViewControllerHandler;
 
 /**
  The handler to call when presented form sheet is after entry transition animation.
  */
-@property (nonatomic, copy) MZFormSheetPresentationControllerCompletionHandler didPresentContentViewControllerHandler;
+@property (nonatomic, copy, nullable) MZFormSheetPresentationControllerCompletionHandler didPresentContentViewControllerHandler;
 
 /**
  The handler to call when presented form sheet will be dismiss, this is called before out transition animation.
  */
-@property (nonatomic, copy) MZFormSheetPresentationControllerCompletionHandler willDismissContentViewControllerHandler;
+@property (nonatomic, copy, nullable) MZFormSheetPresentationControllerCompletionHandler willDismissContentViewControllerHandler;
 
 /**
  The handler to call when presented form sheet is after dismiss.
  */
-@property (nonatomic, copy) MZFormSheetPresentationControllerCompletionHandler didDismissContentViewControllerHandler;
+@property (nonatomic, copy, nullable) MZFormSheetPresentationControllerCompletionHandler didDismissContentViewControllerHandler;
 
 /**
  The background color of the background view.
  By default, this is a black at with a 0.5 alpha component
  */
-@property (nonatomic, strong) UIColor *backgroundColor MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong, nullable) UIColor *backgroundColor MZ_APPEARANCE_SELECTOR;
 
 /*
  The intensity of the blur effect. See UIBlurEffectStyle for valid options.
@@ -143,7 +143,7 @@ NS_CLASS_AVAILABLE_IOS(8_0) @interface MZFormSheetPresentationController : UIVie
  Returns an initialized popup controller object.
  @param viewController This parameter must not be nil.
  */
-- (instancetype)initWithContentViewController:(UIViewController *)viewController;
+- (nonnull instancetype)initWithContentViewController:(UIViewController * __nonnull )viewController;
 
 
 @end

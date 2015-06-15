@@ -23,7 +23,7 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-extern NSString *const MZTransitionExceptionMethodNotImplemented;
+extern NSString *const __nonnull MZTransitionExceptionMethodNotImplemented;
 
 typedef void(^MZTransitionCompletionHandler)();
 
@@ -49,11 +49,11 @@ typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
  Subclasses must implement to add custom transition animation.
  When animation is finished you must call super method or completionHandler to keep view life cycle.
  */
-- (void)entryFormSheetControllerTransition:(UIViewController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
-- (void)exitFormSheetControllerTransition:(UIViewController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
+- (void)entryFormSheetControllerTransition:(nonnull UIViewController *)formSheetController completionHandler:(nonnull MZTransitionCompletionHandler)completionHandler;
+- (void)exitFormSheetControllerTransition:(nonnull UIViewController *)formSheetController completionHandler:(nonnull MZTransitionCompletionHandler)completionHandler;
 
 @end
 
 @interface MZTransition : NSObject <MZFormSheetControllerTransition>
-- (UIView *)contentViewControllerForController:(UIViewController *)viewController;
+- (nonnull UIView *)contentViewControllerForController:(nonnull UIViewController *)viewController;
 @end

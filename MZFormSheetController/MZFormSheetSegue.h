@@ -27,5 +27,5 @@
 #import "MZFormSheetController.h"
 
 @interface MZFormSheetSegue : UIStoryboardSegue
-@property (nonatomic, strong) MZFormSheetController *formSheetController;
+@property (nonatomic, strong, nonnull) MZFormSheetController *formSheetController;
 @end

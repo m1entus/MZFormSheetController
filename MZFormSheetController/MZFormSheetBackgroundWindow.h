@@ -39,7 +39,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  *  @param formSheetBackgroundWindow Form sheet background window.
  *  @param orientation Returns the physical orientation of the device.
  */
-- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didRotateToOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated;
+- (void)formSheetBackgroundWindow:(nonnull MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didRotateToOrientation:(UIDeviceOrientation)orientation animated:(BOOL)animated;
 
 /**
  *  Called when the frame of the status bar changes.
@@ -47,7 +47,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  *  @param formSheetBackgroundWindow Form sheet background window.
  *  @param newStatusBarFrame         Expressing the location and size of the new status bar frame.
  */
-- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarFrame:(CGRect)newStatusBarFrame;
+- (void)formSheetBackgroundWindow:(nonnull MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarFrame:(CGRect)newStatusBarFrame;
 
 /**
  *  Called when the orientation of the application's user interface changes.
@@ -56,7 +56,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  *  @param formSheetBackgroundWindow Form sheet background window.
  *  @param orientation               The orientation of the application's user interface.
  */
-- (void)formSheetBackgroundWindow:(MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarToOrientation:(UIInterfaceOrientation)orientation;
+- (void)formSheetBackgroundWindow:(nonnull MZFormSheetBackgroundWindow *)formSheetBackgroundWindow didChangeStatusBarToOrientation:(UIInterfaceOrientation)orientation;
 @end
 
 @interface MZFormSheetBackgroundWindow : UIWindow <MZAppearance>
@@ -64,7 +64,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
 /**
  *  The object that acts as the delegate of the receiving form sheet background window.
  */
-@property (nonatomic, weak) id <MZFormSheetBackgroundWindowDelegate> formSheetBackgroundWindowDelegate;
+@property (nonatomic, weak, nullable) id <MZFormSheetBackgroundWindowDelegate> formSheetBackgroundWindowDelegate;
 
 /**
  The positioning of windows relative to each other.
@@ -84,7 +84,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
  By default, this is a black at with a 0.5 alpha component
  */
-@property (nonatomic, strong) UIColor *backgroundColor MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong, nullable) UIColor *backgroundColor MZ_APPEARANCE_SELECTOR;
 
 /**
  The background image of the background view, it is setter for backgroundImageView and can be set by MZAppearance proxy.
@@ -92,12 +92,12 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  If you want to set it permanently to another color use appearance proxy on MZFormSheetBackgroundWindow.
  By default, this is nil
  */
-@property (nonatomic, strong) UIImage *backgroundImage MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong, nullable) UIImage *backgroundImage MZ_APPEARANCE_SELECTOR;
 
 /**
  The background image view.
  */
-@property (nonatomic, strong, readonly) UIImageView *backgroundImageView;
+@property (nonatomic, strong, readonly, nonnull) UIImageView *backgroundImageView;
 
 /*
  Apply background blur effect
@@ -126,7 +126,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  Specifies the blur tint color used to render the blur background view
  By default, this is nil
  */
-@property (nonatomic, strong) UIColor *blurTintColor MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong, nullable) UIColor *blurTintColor MZ_APPEARANCE_SELECTOR;
 
 /*
  Specifies the blur saturation used to render the blur background view
@@ -138,7 +138,7 @@ extern UIWindowLevel const MZFormSheetBackgroundWindowLevelBelowStatusBar;
  Specifies the blur mask image used to render the blur background view
  By default, this is nil
  */
-@property (nonatomic, strong) UIImage *blurMaskImage MZ_APPEARANCE_SELECTOR;
+@property (nonatomic, strong, nullable) UIImage *blurMaskImage MZ_APPEARANCE_SELECTOR;
 
 /*
  Asynchronously recompute the display of background blur.

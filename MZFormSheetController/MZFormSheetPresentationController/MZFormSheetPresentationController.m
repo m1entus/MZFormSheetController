@@ -132,7 +132,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
 #pragma mark - View Life cycle
 
 - (instancetype)initWithContentViewController:(UIViewController *)viewController {
-    if (self = [super init]) {
+    if (self = [self init]) {
 
         NSParameterAssert(viewController);
         self.contentViewController = viewController;
@@ -442,7 +442,7 @@ static NSMutableDictionary *_instanceOfTransitionClasses = nil;
     [self.contentViewController viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     return [self.contentViewController supportedInterfaceOrientations];
 }
