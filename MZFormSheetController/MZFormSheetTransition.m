@@ -23,21 +23,17 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-#import "MZTransition.h"
+#import "MZFormSheetTransition.h"
 #import "MZFormSheetController.h"
-#import "MZFormSheetPresentationController.h"
 
 NSString *const MZTransitionExceptionMethodNotImplemented = @"MZTransitionExceptionMethodNotImplemented";
 
 CGFloat const MZTransitionDefaultBounceDuration = 0.4;
 CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 
-@implementation MZTransition
+@implementation MZFormSheetTransition
 
 - (UIView *)contentViewControllerForController:(UIViewController *)viewController {
-    if ([viewController isKindOfClass:[MZFormSheetPresentationController class]]) {
-        return ((MZFormSheetPresentationController *)viewController).contentViewController.view;
-    }
     return ((MZFormSheetController *)viewController).presentedFSViewController.view;
 }
 
@@ -60,14 +56,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 
 @end
 
-@interface MZSlideFromTopTransition : MZTransition
+@interface MZSlideFromTopTransition : MZFormSheetTransition
 @end
 
 @implementation MZSlideFromTopTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromTop];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromTop];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -99,14 +94,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZSlideFromBottomTransition : MZTransition
+@interface MZSlideFromBottomTransition : MZFormSheetTransition
 @end
 
 @implementation MZSlideFromBottomTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromBottom];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromBottom];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -140,14 +134,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZSlideFromLeftTransition : MZTransition
+@interface MZSlideFromLeftTransition : MZFormSheetTransition
 @end
 
 @implementation MZSlideFromLeftTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromLeft];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromLeft];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -179,14 +172,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZSlideFromRightTransition : MZTransition
+@interface MZSlideFromRightTransition : MZFormSheetTransition
 @end
 
 @implementation MZSlideFromRightTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromRight];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideFromRight];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -218,14 +210,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZSlideBounceFromLeftTransition : MZTransition
+@interface MZSlideBounceFromLeftTransition : MZFormSheetTransition
 @end
 
 @implementation MZSlideBounceFromLeftTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromLeft];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromLeft];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -255,14 +246,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZSlideBounceFromRightTransition : MZTransition
+@interface MZSlideBounceFromRightTransition : MZFormSheetTransition
 @end
 
 @implementation MZSlideBounceFromRightTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromRight];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleSlideAndBounceFromRight];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -292,14 +282,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZFadeTransition : MZTransition
+@interface MZFadeTransition : MZFormSheetTransition
 @end
 
 @implementation MZFadeTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleFade];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleFade];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -326,14 +315,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZBounceTransition : MZTransition
+@interface MZBounceTransition : MZFormSheetTransition
 @end
 
 @implementation MZBounceTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleBounce];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleBounce];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler
@@ -375,14 +363,13 @@ CGFloat const MZTransitionDefaultDropDownDuration = 0.4;
 }
 @end
 
-@interface MZDropDownTransition : MZTransition
+@interface MZDropDownTransition : MZFormSheetTransition
 @end
 
 @implementation MZDropDownTransition
 + (void)load
 {
     [MZFormSheetController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleDropDown];
-    [MZFormSheetPresentationController registerTransitionClass:self forTransitionStyle:MZFormSheetTransitionStyleDropDown];
 }
 
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler

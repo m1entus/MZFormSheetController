@@ -32,7 +32,7 @@
 /** 
  To customize the appearance of all instances of a class, send the relevant appearance modification messages to the appearance proxy for the class.
  */
-+ (id)appearance;
++ (instancetype)appearance;
 @end
 
 @interface MZAppearance : NSObject

@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIViewController (MZTargetViewController)
+@interface UIViewController (MZFormSheetTargetViewController)
 
 - (nullable UIViewController *)mz_parentTargetViewController;
 - (nullable UIViewController *)mz_childTargetViewControllerForStatusBarStyle;

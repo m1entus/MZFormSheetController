@@ -54,6 +54,6 @@ typedef NS_ENUM(NSInteger, MZFormSheetTransitionStyle) {
 
 @end
 
-@interface MZTransition : NSObject <MZFormSheetControllerTransition>
+@interface MZFormSheetTransition : NSObject <MZFormSheetControllerTransition>
 - (nonnull UIView *)contentViewControllerForController:(nonnull UIViewController *)viewController;
 @end

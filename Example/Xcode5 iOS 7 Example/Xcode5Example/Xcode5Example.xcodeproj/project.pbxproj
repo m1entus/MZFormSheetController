@@ -9,8 +9,14 @@
 /* Begin PBXBuildFile section */
 		06218B4B1866418C0058C1EB /* MZCustomTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 06218B4A1866418C0058C1EB /* MZCustomTransition.m */; };
 		0665D3A818762A92007A55B4 /* MZTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0665D3A718762A92007A55B4 /* MZTableViewController.m */; };
-		06E8F7C61A9D11B400AB23C9 /* MZPresentationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06E8F7C51A9D11B400AB23C9 /* MZPresentationViewController.m */; };
 		644600581B2F3D29009353B0 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 644600571B2F3D29009353B0 /* Launch Screen.xib */; };
+		64AA54441B358CA000FE1A37 /* MZFormSheetBackgroundWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA54361B358CA000FE1A37 /* MZFormSheetBackgroundWindow.m */; };
+		64AA54451B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA54381B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.m */; };
+		64AA54461B358CA000FE1A37 /* MZFormSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA543A1B358CA000FE1A37 /* MZFormSheetController.m */; };
+		64AA54471B358CA000FE1A37 /* MZFormSheetSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA543C1B358CA000FE1A37 /* MZFormSheetSegue.m */; };
+		64AA54481B358CA000FE1A37 /* MZFormSheetTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA543F1B358CA000FE1A37 /* MZFormSheetTransition.m */; };
+		64AA54491B358CA000FE1A37 /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA54411B358CA000FE1A37 /* UIImage+Additional.m */; };
+		64AA544A1B358CA000FE1A37 /* UIViewController+TargetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 64AA54431B358CA000FE1A37 /* UIViewController+TargetViewController.m */; };
 		D217497617BA244F00F07567 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497517BA244F00F07567 /* Foundation.framework */; };
 		D217497817BA244F00F07567 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497717BA244F00F07567 /* CoreGraphics.framework */; };
 		D217497A17BA244F00F07567 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D217497917BA244F00F07567 /* UIKit.framework */; };
@@ -46,10 +52,23 @@
 		06218B4A1866418C0058C1EB /* MZCustomTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZCustomTransition.m; sourceTree = "<group>"; };
 		0665D3A618762A92007A55B4 /* MZTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZTableViewController.h; sourceTree = "<group>"; };
 		0665D3A718762A92007A55B4 /* MZTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZTableViewController.m; sourceTree = "<group>"; };
-		06E8F7C41A9D11B400AB23C9 /* MZPresentationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZPresentationViewController.h; sourceTree = "<group>"; };
-		06E8F7C51A9D11B400AB23C9 /* MZPresentationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZPresentationViewController.m; sourceTree = "<group>"; };
 		378A7C32B22A5D2704CEF37F /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		644600571B2F3D29009353B0 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		64AA54351B358CA000FE1A37 /* MZFormSheetBackgroundWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetBackgroundWindow.h; sourceTree = "<group>"; };
+		64AA54361B358CA000FE1A37 /* MZFormSheetBackgroundWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetBackgroundWindow.m; sourceTree = "<group>"; };
+		64AA54371B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetBackgroundWindowViewController.h; sourceTree = "<group>"; };
+		64AA54381B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetBackgroundWindowViewController.m; sourceTree = "<group>"; };
+		64AA54391B358CA000FE1A37 /* MZFormSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetController.h; sourceTree = "<group>"; };
+		64AA543A1B358CA000FE1A37 /* MZFormSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetController.m; sourceTree = "<group>"; };
+		64AA543B1B358CA000FE1A37 /* MZFormSheetSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetSegue.h; sourceTree = "<group>"; };
+		64AA543C1B358CA000FE1A37 /* MZFormSheetSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetSegue.m; sourceTree = "<group>"; };
+		64AA543D1B358CA000FE1A37 /* MZMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZMacro.h; sourceTree = "<group>"; };
+		64AA543E1B358CA000FE1A37 /* MZFormSheetTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZFormSheetTransition.h; sourceTree = "<group>"; };
+		64AA543F1B358CA000FE1A37 /* MZFormSheetTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZFormSheetTransition.m; sourceTree = "<group>"; };
+		64AA54401B358CA000FE1A37 /* UIImage+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additional.h"; sourceTree = "<group>"; };
+		64AA54411B358CA000FE1A37 /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additional.m"; sourceTree = "<group>"; };
+		64AA54421B358CA000FE1A37 /* UIViewController+TargetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TargetViewController.h"; sourceTree = "<group>"; };
+		64AA54431B358CA000FE1A37 /* UIViewController+TargetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TargetViewController.m"; sourceTree = "<group>"; };
 		8C26CF5724A5445FCCA1B6A0 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		C286B80329B1515B1BC5BECC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D217497217BA244F00F07567 /* Xcode5Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Xcode5Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -103,6 +122,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64AA54341B358CA000FE1A37 /* MZFormSheetController */ = {
+			isa = PBXGroup;
+			children = (
+				64AA54351B358CA000FE1A37 /* MZFormSheetBackgroundWindow.h */,
+				64AA54361B358CA000FE1A37 /* MZFormSheetBackgroundWindow.m */,
+				64AA54371B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.h */,
+				64AA54381B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.m */,
+				64AA54391B358CA000FE1A37 /* MZFormSheetController.h */,
+				64AA543A1B358CA000FE1A37 /* MZFormSheetController.m */,
+				64AA543B1B358CA000FE1A37 /* MZFormSheetSegue.h */,
+				64AA543C1B358CA000FE1A37 /* MZFormSheetSegue.m */,
+				64AA543D1B358CA000FE1A37 /* MZMacro.h */,
+				64AA543E1B358CA000FE1A37 /* MZFormSheetTransition.h */,
+				64AA543F1B358CA000FE1A37 /* MZFormSheetTransition.m */,
+				64AA54401B358CA000FE1A37 /* UIImage+Additional.h */,
+				64AA54411B358CA000FE1A37 /* UIImage+Additional.m */,
+				64AA54421B358CA000FE1A37 /* UIViewController+TargetViewController.h */,
+				64AA54431B358CA000FE1A37 /* UIViewController+TargetViewController.m */,
+			);
+			name = MZFormSheetController;
+			path = ../../../../MZFormSheetController;
+			sourceTree = "<group>";
+		};
 		D217496917BA244F00F07567 = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +180,7 @@
 		D217497B17BA244F00F07567 /* Xcode5Example */ = {
 			isa = PBXGroup;
 			children = (
+				64AA54341B358CA000FE1A37 /* MZFormSheetController */,
 				06218B491866418C0058C1EB /* MZCustomTransition.h */,
 				06218B4A1866418C0058C1EB /* MZCustomTransition.m */,
 				D21ACB501817BA9D0033C19C /* MZNavigationViewController.h */,
@@ -154,8 +197,6 @@
 				D21749B517BA24A300F07567 /* MZModalViewController.m */,
 				0665D3A618762A92007A55B4 /* MZTableViewController.h */,
 				0665D3A718762A92007A55B4 /* MZTableViewController.m */,
-				06E8F7C41A9D11B400AB23C9 /* MZPresentationViewController.h */,
-				06E8F7C51A9D11B400AB23C9 /* MZPresentationViewController.m */,
 			);
 			path = Xcode5Example;
 			sourceTree = "<group>";
@@ -337,14 +378,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06E8F7C61A9D11B400AB23C9 /* MZPresentationViewController.m in Sources */,
+				64AA544A1B358CA000FE1A37 /* UIViewController+TargetViewController.m in Sources */,
 				D217498F17BA244F00F07567 /* MZViewController.m in Sources */,
+				64AA54481B358CA000FE1A37 /* MZFormSheetTransition.m in Sources */,
+				64AA54471B358CA000FE1A37 /* MZFormSheetSegue.m in Sources */,
 				D217498217BA244F00F07567 /* main.m in Sources */,
+				64AA54461B358CA000FE1A37 /* MZFormSheetController.m in Sources */,
 				D21749B617BA24A300F07567 /* MZModalViewController.m in Sources */,
 				D217498617BA244F00F07567 /* MZAppDelegate.m in Sources */,
 				D21ACB521817BA9D0033C19C /* MZNavigationViewController.m in Sources */,
 				0665D3A818762A92007A55B4 /* MZTableViewController.m in Sources */,
+				64AA54491B358CA000FE1A37 /* UIImage+Additional.m in Sources */,
+				64AA54451B358CA000FE1A37 /* MZFormSheetBackgroundWindowViewController.m in Sources */,
 				06218B4B1866418C0058C1EB /* MZCustomTransition.m in Sources */,
+				64AA54441B358CA000FE1A37 /* MZFormSheetBackgroundWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

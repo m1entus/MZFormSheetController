@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MZTransition.h"
+#import "MZFormSheetTransition.h"
 #import "MZFormSheetController.h"
 
-@interface MZCustomTransition : MZTransition
+@interface MZCustomTransition : MZFormSheetTransition
 - (void)entryFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
 - (void)exitFormSheetControllerTransition:(MZFormSheetController *)formSheetController completionHandler:(MZTransitionCompletionHandler)completionHandler;
 @end
