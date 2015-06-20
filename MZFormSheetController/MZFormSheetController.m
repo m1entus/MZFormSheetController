@@ -871,7 +871,11 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
     return [self.presentedFSViewController mz_childTargetViewControllerForStatusBarStyle];
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
+#else
+- (NSUInteger)supportedInterfaceOrientations
+#endif
 {
     return [self.presentedFSViewController supportedInterfaceOrientations];
 }
