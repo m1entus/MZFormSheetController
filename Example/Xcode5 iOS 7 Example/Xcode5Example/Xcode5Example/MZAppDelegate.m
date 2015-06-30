@@ -30,7 +30,11 @@
     return img;
 }
 
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+#else
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+#endif
 {
     NSUInteger orientations = UIInterfaceOrientationMaskAll;
     

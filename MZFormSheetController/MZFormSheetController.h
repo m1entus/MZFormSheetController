@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <MZAppearance/MZAppearance.h>
 #import "MZFormSheetBackgroundWindow.h"
-#import "MZTransition.h"
+#import "MZFormSheetTransition.h"
 #import "MZMacro.h"
 
 extern CGFloat const MZFormSheetControllerDefaultAnimationDuration;
@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, MZFormSheetWhenKeyboardAppears) {
   MZFormSheetWhenKeyboardAppearsCenterVertically,
   MZFormSheetWhenKeyboardAppearsMoveToTop,
   MZFormSheetWhenKeyboardAppearsMoveToTopInset,
+  MZFormSheetWhenKeyboardAppearsMoveAboveKeyboard
 };
 
 /**
@@ -48,16 +49,16 @@ typedef NS_ENUM(NSInteger, MZFormSheetWhenKeyboardAppears) {
  @see didPresentCompletionHandler
  @see didDismissCompletionHandler
  */
-extern NSString *const MZFormSheetWillPresentNotification;
-extern NSString *const MZFormSheetWillDismissNotification;
-extern NSString *const MZFormSheetDidPresentNotification;
-extern NSString *const MZFormSheetDidDismissNotification;
+extern NSString *const __nonnull MZFormSheetWillPresentNotification;
+extern NSString *const __nonnull MZFormSheetWillDismissNotification;
+extern NSString *const __nonnull MZFormSheetDidPresentNotification;
+extern NSString *const __nonnull MZFormSheetDidDismissNotification;
 
 @class MZFormSheetController;
 
-typedef void(^MZFormSheetCompletionHandler)(UIViewController *presentedFSViewController);
+typedef void(^MZFormSheetCompletionHandler)(UIViewController * __nonnull presentedFSViewController);
 typedef void(^MZFormSheetBackgroundViewTapCompletionHandler)(CGPoint location);
-typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController *formSheetController);
+typedef void(^MZFormSheetPresentationCompletionHandler)(MZFormSheetController * __nonnull formSheetController);
 typedef void(^MZFormSheetTransitionCompletionHandler)();
 
 @interface MZFormSheetWindow : UIWindow <MZAppearance>
@@ -79,19 +80,19 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  *  @param transitionClass Custom transition class.
  *  @param transitionStyle The transition style to use when presenting the receiver.
  */
-+ (void)registerTransitionClass:(Class)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
++ (void)registerTransitionClass:(nonnull Class)transitionClass forTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 
-+ (Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
++ (nullable Class)classForTransitionStyle:(MZFormSheetTransitionStyle)transitionStyle;
 
 /**
  Returns the background window that is displayed below form sheet controller.
  */
-+ (MZFormSheetBackgroundWindow *)sharedBackgroundWindow;
++ (nonnull MZFormSheetBackgroundWindow *)sharedBackgroundWindow;
 
 /**
  Returns copy of formSheetController stack, last object in array (form sheet controller) is on top.
  */
-+ (NSArray *)formSheetControllersStack;
++ (nonnull NSArray *)formSheetControllersStack;
 
 /**
  Returns a boolean if it is animating.
@@ -101,20 +102,20 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 /**
  Returns the window that form sheet controller is displayed .
  */
-@property (nonatomic, readonly, strong) MZFormSheetWindow *formSheetWindow;
+@property (nonatomic, readonly, strong, null_resettable) MZFormSheetWindow *formSheetWindow;
 
 /**
  The view controller that is presented by this form sheet controller.
  MZFormSheetController (self) --> presentedFSViewController
  */
-@property (nonatomic, readonly, strong) UIViewController *presentedFSViewController;
+@property (nonatomic, readonly, strong, nullable) UIViewController *presentedFSViewController;
 
 /**
  The view controller that is presenting this form sheet controller.
  This is only set up if you use UIViewController (MZFormSheet) category to present form sheet controller.
  presentingFSViewController --> MZFormSheetController (self) --> presentedFSViewController
  */
-@property (nonatomic, readonly, weak) UIViewController *presentingFSViewController;
+@property (nonatomic, readonly, weak, nullable) UIViewController *presentingFSViewController;
 
 /**
  The transition style to use when presenting the receiver.
@@ -125,27 +126,27 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 /**
  The handler to call when presented form sheet is before entry transition and its view will show on window.
  */
-@property (nonatomic, copy) MZFormSheetCompletionHandler willPresentCompletionHandler;
+@property (nonatomic, copy, nullable) MZFormSheetCompletionHandler willPresentCompletionHandler;
 
 /**
  The handler to call when presented form sheet will be dismiss, this is called before out transition animation.
  */
-@property (nonatomic, copy) MZFormSheetCompletionHandler willDismissCompletionHandler;
+@property (nonatomic, copy, nullable) MZFormSheetCompletionHandler willDismissCompletionHandler;
 
 /**
  The handler to call when presented form sheet is after entry transition animation.
  */
-@property (nonatomic, copy) MZFormSheetCompletionHandler didPresentCompletionHandler;
+@property (nonatomic, copy, nullable) MZFormSheetCompletionHandler didPresentCompletionHandler;
 
 /**
  The handler to call when presented form sheet is after dismiss.
  */
-@property (nonatomic, copy) MZFormSheetCompletionHandler didDismissCompletionHandler;
+@property (nonatomic, copy, nullable) MZFormSheetCompletionHandler didDismissCompletionHandler;
 
 /**
  The handler to call when user tap on background view.
  */
-@property (nonatomic, copy) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
+@property (nonatomic, copy, nullable) MZFormSheetBackgroundViewTapCompletionHandler didTapOnBackgroundViewCompletionHandler;
 
 /**
  Distance that the presented form sheet view is inset from the status bar in landscape orientation.
@@ -206,7 +207,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  
  @param presentedFormSheetViewController The view controller that is presented by form sheet controller.
  */
-- (instancetype)initWithViewController:(UIViewController *)presentedFormSheetViewController;
+- (nonnull instancetype)initWithViewController:(UIViewController * __nonnull )presentedFormSheetViewController;
 
 /**
  Initializes and returns a newly created form sheet controller.
@@ -214,7 +215,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  @param formSheetSize The size, in points, for the form sheet controller.
  @param presentedFormSheetViewController The view controller that is presented by form sheet controller.
  */
-- (instancetype)initWithSize:(CGSize)formSheetSize viewController:(UIViewController *)presentedFormSheetViewController;
+- (nonnull instancetype)initWithSize:(CGSize)formSheetSize viewController:(UIViewController * __nonnull )presentedFormSheetViewController;
 
 /**
  Presents a form sheet controller.
@@ -222,7 +223,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  @param animated Pass YES to animate the transition.
  @param completionHandler A completion handler (didPresentCompletionHandler) or NULL.
  */
-- (void)presentAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler;
+- (void)presentAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler __nullable)completionHandler;
 
 /**
  Dismisses a form sheet controller.
@@ -230,7 +231,7 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  @param animated Pass YES to animate the transition.
  @param completionHandler A completion handler (didDismissCompletionHandler) or NULL.
  */
-- (void)dismissAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler)completionHandler;
+- (void)dismissAnimated:(BOOL)animated completionHandler:(MZFormSheetCompletionHandler __nullable)completionHandler;
 
 @end
 
@@ -238,14 +239,14 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  Category on UIViewController to provide access to the formSheetController.
  */
 @interface UIViewController (MZFormSheet)
-@property (nonatomic, readonly) MZFormSheetController *formSheetController;
+@property (nonatomic, readonly, nullable) MZFormSheetController *formSheetController;
 
 /**
  Presents a form sheet cotnroller
  @param formSheetController The form sheet controller or a subclass of MZFormSheetController.
  @param completionHandler A completion handler or NULL.
  */
-- (void)mz_presentFormSheetController:(MZFormSheetController *)formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
+- (void)mz_presentFormSheetController:(MZFormSheetController * __nonnull )formSheetController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler __nullable)completionHandler;
 
 /**
  Creates a new form sheet controller and presents it.
@@ -254,15 +255,15 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
  @param transitionStyle he transition style to use when presenting the receiver.
  @param completionHandler A completion handler or NULL.
  */
-- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
+- (void)mz_presentFormSheetWithViewController:(UIViewController * __nonnull )viewController animated:(BOOL)animated transitionStyle:(MZFormSheetTransitionStyle)transitionStyle completionHandler:(MZFormSheetPresentationCompletionHandler __nullable)completionHandler;
 
-- (void)mz_presentFormSheetWithViewController:(UIViewController *)viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
+- (void)mz_presentFormSheetWithViewController:(UIViewController * __nonnull )viewController animated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler __nullable)completionHandler;
 
 /**
  Dismisses the form sheet controller that was presented by the receiver. If not find, last form sheet will be dismissed.
  @param animated Pass YES to animate the transition.
  @param completionHandler A completion handler (didDismissCompletionHandler) or NULL.
  */
-- (void)mz_dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler)completionHandler;
+- (void)mz_dismissFormSheetControllerAnimated:(BOOL)animated completionHandler:(MZFormSheetPresentationCompletionHandler __nullable)completionHandler;
 
 @end

@@ -25,7 +25,7 @@
 
 #import "UIViewController+TargetViewController.h"
 
-@implementation UIViewController (MZTargetViewController)
+@implementation UIViewController (MZFormSheetTargetViewController)
 
 - (UIViewController *)mz_parentTargetViewController
 {

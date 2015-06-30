@@ -63,6 +63,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 @implementation MZFormSheetBackgroundWindow
 @synthesize backgroundColor = _backgroundColor;
+@synthesize windowLevel;
 
 #pragma mark - Class methods
 
@@ -87,7 +88,7 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 
 #pragma clang diagnostic pop
 
-+ (id)appearance
++ (instancetype)appearance
 {
     return [MZAppearance appearanceForClass:[self class]];
 }
@@ -261,8 +262,19 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
                                                      name:UIDeviceOrientationDidChangeNotification
                                                    object:nil];
 
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(willEnterForegroundNotification:)
+                                                     name:UIApplicationWillEnterForegroundNotification object:nil];
+
     }
     return self;
+}
+
+- (void)willEnterForegroundNotification:(NSNotification *)notification {
+    if (self.shouldUseNativeBlurEffect) {
+        self.hidden = YES;
+        [self makeKeyAndVisible];
+    }
 }
 
 #pragma mark - Notification handlers
@@ -452,7 +464,8 @@ static UIInterfaceOrientationMask const UIInterfaceOrientationMaskFromOrientatio
 - (void)dealloc
 {
     [self.backgroundImageView removeObserver:self forKeyPath:@"image"];
-    
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
