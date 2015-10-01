@@ -98,7 +98,8 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         // Hack: I set rootViewController to presentingViewController because
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
-        if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance() && MZSystemVersionLessThan_iOS8()) {
+        // Hack2: iOS9 requires a rootViewController on each UIWindow otherwise it could crash the app
+        if (MZSystemVersionGreaterThanOrEqualTo_iOS9() || (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance() && MZSystemVersionLessThan_iOS8())) {
             UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingFSViewController] mz_parentTargetViewController];
 			
             // find controllers responsible for status bar style and hidden state

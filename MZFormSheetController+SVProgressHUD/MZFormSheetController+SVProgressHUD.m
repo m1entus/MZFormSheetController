@@ -7,7 +7,7 @@
 //
 
 #import "MZFormSheetController+SVProgressHUD.h"
-#import <SVProgressHUD.h>
+#import "SVProgressHUD.h"
 
 @interface SVProgressHUD ()
 + (SVProgressHUD*)sharedView;
