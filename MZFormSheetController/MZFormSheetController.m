@@ -98,7 +98,7 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
         // Hack: I set rootViewController to presentingViewController because
         // if View controller-based status bar appearance is YES and background window was hiding animated,
         // there was problem with preferredStatusBarStyle (half second always black status bar)
-        if (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance() && MZSystemVersionLessThan_iOS8()) {
+        if (MZSystemVersionGreaterThanOrEqualTo_iOS9() || (MZFromSheetControllerIsViewControllerBasedStatusBarAppearance() && MZSystemVersionLessThan_iOS8())) {
             UIViewController *mostTopViewController = [[[[MZFormSheetController formSheetControllersStack] firstObject] presentingFSViewController] mz_parentTargetViewController];
 			
             // find controllers responsible for status bar style and hidden state
@@ -111,10 +111,6 @@ static BOOL MZFromSheetControllerIsViewControllerBasedStatusBarAppearance(void) 
 
         if (MZSystemVersionGreaterThanOrEqualTo_iOS8() && UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)) {
             _instanceOfFormSheetBackgroundWindow.frame = CGRectMake(0, 0, _instanceOfFormSheetBackgroundWindow.bounds.size.height, _instanceOfFormSheetBackgroundWindow.bounds.size.width);
-        }
-
-        if (MZSystemVersionGreaterThanOrEqualTo_iOS9()) {
-            _instanceOfFormSheetBackgroundWindow.rootViewController = [MZFormSheetBackgroundWindowViewController viewControllerWithPreferredStatusBarStyle:statusBarStyleResponsibleViewController.preferredStatusBarStyle prefersStatusBarHidden:statusBarHiddenResponsibleViewController.prefersStatusBarHidden];
         }
         
         [_instanceOfFormSheetBackgroundWindow makeKeyAndVisible];
