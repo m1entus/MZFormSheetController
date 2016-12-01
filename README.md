@@ -205,13 +205,15 @@ You can easly create your own custom compose view controllers on storyboard, and
 ``` objective-c
 UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"facebook"];
 
-MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
+// Set the desired size of the controller during the form initialization and not by using 
+// the `presentedFormSheetSize` property directly, otherwise it won't be taken into account, 
+// and only the value set through the `UIAppearance` proxy will be used
+MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithSize:CGSizeMake(320, 200) viewController:vc];
 formSheet.shouldDismissOnBackgroundViewTap = YES;
 formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromBottom;
 formSheet.cornerRadius = 8.0;
 formSheet.portraitTopInset = 6.0;
 formSheet.landscapeTopInset = 6.0;
-formSheet.presentedFormSheetSize = CGSizeMake(320, 200);
 
 
 formSheet.willPresentCompletionHandler = ^(UIViewController *presentedFSViewController){

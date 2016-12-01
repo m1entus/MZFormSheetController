@@ -181,6 +181,10 @@ typedef void(^MZFormSheetTransitionCompletionHandler)();
 /**
  Size for presented form sheet controller
  By default, this is CGSizeMake(284.0,284.0)
+
+ NB: Do not set this property directly on an `MZFormSheetController` instance
+     it won't have any effect on the presented form size. Use the UIAppearance proxy, 
+     or set the size during initialization through `initWithSize:viewController:`
  */
 @property (nonatomic, assign) CGSize presentedFormSheetSize MZ_APPEARANCE_SELECTOR;
 
